@@ -1,10 +1,13 @@
 var express = require('express')
 var app = express();
-var port = process.env.PORT || 7777
+var port = process.env.PORT || 3000
 
 var bodyParser = require('body-parser');
+var OAuth = require('oauth')
 
 var gitRepo = require('./get-repo')
+var credential = require('./credential')
+var API = require('./API')
 
 // parse application/json
 app.use(bodyParser.json());
@@ -13,9 +16,10 @@ app.use(bodyParser.urlencoded({
 }));
 
 app.get('/', function (req, res) {
-  gitRepo.getUserData("b5710546232", function(result){
-      res.send(result);
-  })
+  // gitRepo.getUserData("b5710546232", function(result){
+  //     res.send(result);
+  // })
+  res.redirect(`${API.authorization_base_url}?client_id=${credential.client_id}&scope=user:email`)
 });
 
 app.post('/newuser', function (req, res) {
@@ -23,6 +27,10 @@ app.post('/newuser', function (req, res) {
     gitRepo.getUserData(json.name, function(result){
         res.send(result);
     })
+});
+
+app.get('/user', function (req,res) {
+  res.send("<h1>HELLO</h1>")
 });
 
 app.listen(port, function() {
