@@ -1,0 +1,13 @@
+h1 Hello Jade
+
+p Lorem ipsum dolor sit amet,
+  | consectetur adipiscing elit.
+  | Integer nec odio. Praesent libero.
+  | Sed cursus ante dapibus diam. Sed nisi.
+
+h2 สูตรคูณ
+ul
+  - for (var i = 2; i <= 12; i++)
+    - for (var j = 1; j <= 12; j++)
+      li #{i} x #{j} = #{i * j}
+    hr

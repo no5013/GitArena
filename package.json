@@ -13,6 +13,7 @@
     "express": "^4.15.3"
   },
   "devDependencies": {
-    "oauth": "^0.9.15"
+    "oauth": "^0.9.15",
+    "pug": "^2.0.0-rc.2"
   }
 }

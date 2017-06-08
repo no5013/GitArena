@@ -4,6 +4,8 @@ var port = process.env.PORT || 3000
 
 var bodyParser = require('body-parser');
 var OAuth = require('oauth')
+var pug = require('pug');
+var path = require('path');
 
 var gitRepo = require('./get-repo')
 var credential = require('./credential')
@@ -14,6 +16,13 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
     extended: true
 }));
+app.use(express.static(path.join(__dirname, 'public')));
+app.set('views', './views');
+app.set('view engine', 'pug');
+
+app.get('/', function(req,res){
+  res.render('main')
+})
 
 app.get('/newuser', function (req, res) {
   res.redirect(API.getGithubIdentityLink())
