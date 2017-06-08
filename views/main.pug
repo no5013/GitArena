@@ -1,15 +1,10 @@
-link(type='text/css', rel='stylesheet', href='/css/styles.css')
-
-h1.head Hello Jade
-
-p Lorem ipsum dolor sit amet,
-  | consectetur adipiscing elit.
-  | Integer nec odio. Praesent libero.
-  | Sed cursus ante dapibus diam. Sed nisi.
-
-h2 สูตรคูณ
-ul
-  - for (var i = 2; i <= 12; i++)
-    - for (var j = 1; j <= 12; j++)
-      li #{i} x #{j} = #{i * j}
-    hr
+doctype html
+html(lang='en')
+  head
+    meta(charset='UTF-8')
+    title Phaser - Making your first game, part 1
+    script(type='text/javascript', src='/js/phaser.min.js')
+    link(type='text/css', rel="stylesheet", href='/css/styles.css')
+  body
+    p.head HELLOWORLD
+    script(type='text/javascript', src='/js/mainGame.js')
