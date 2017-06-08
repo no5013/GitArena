@@ -15,11 +15,8 @@ app.use(bodyParser.urlencoded({
     extended: true
 }));
 
-app.get('/', function (req, res) {
-  // gitRepo.getUserData("b5710546232", function(result){
-  //     res.send(result);
-  // })
-  res.redirect(`${API.authorization_base_url}?client_id=${credential.client_id}&scope=user:email`)
+app.get('/newuser', function (req, res) {
+  res.redirect(API.getGithubIdentityLink())
 });
 
 app.post('/newuser', function (req, res) {
@@ -30,7 +27,7 @@ app.post('/newuser', function (req, res) {
 });
 
 app.get('/user', function (req,res) {
-  res.send("<h1>HELLO</h1>")
+  res.send(`<h1>${req.param('code')}</h1>`)
 });
 
 app.listen(port, function() {
