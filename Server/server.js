@@ -63,7 +63,7 @@ passport.use(new GitHubStrategy({
 ));
 
 app.get('/', function(req,res){
-  res.render('main')
+  res.render('main', { user: req.user })
 })
 
 app.get('/auth/github',
@@ -78,6 +78,7 @@ app.get('/auth/github/callback',
   function(req, res) {
     res.redirect('/');
   });
+
 // app.get('/auth/github/callback', function (req,res) {
 //   res.render('register', {code: req.param('code'), api_access_token:API.getAccessTokenLink() })
 //   request.post(
