@@ -11,12 +11,14 @@
   "dependencies": {
     "body-parser": "^1.17.2",
     "cors": "^2.8.3",
+    "db-migrate-pg": "^0.1.11",
     "express": "^4.15.3",
     "express-partials": "^0.3.0",
     "express-session": "^1.15.3",
     "method-override": "^2.3.9",
     "passport": "^0.3.2",
     "passport-github2": "^0.1.10",
+    "pg": "^6.2.4",
     "request": "^2.81.0"
   },
   "devDependencies": {

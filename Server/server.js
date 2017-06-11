@@ -18,6 +18,8 @@ var gitRepo = require('./get-repo')
 var credential = require('./credential')
 var API = require('./API')
 
+var users = require('./models/users')
+
 var GITHUB_CLIENT_ID = "3542efee6daf562d4b08";
 var GITHUB_CLIENT_SECRET = "635368358955fded95d64de4eae008cae6952dba";
 
@@ -97,6 +99,12 @@ app.get('/user/:name', function(req,res){
   gitRepo.getUserData(req.params.name, function(data){
     res.send(data)
   });
+})
+
+app.get('/users', function(req,res){
+  users.getAllUsers(function(result){
+    res.send(result)
+  })
 })
 
 app.get('/user/:name/repos', function(req,res){
