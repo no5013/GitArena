@@ -17,11 +17,14 @@ class Game extends Phaser.Game {
 
     super(width, height, Phaser.CANVAS, 'content', null)
 
-    // this.state.add('Boot', BootState, false)
+    this.state.add('Boot', BootState, false)
     // this.state.add('Splash', SplashState, false)
     this.state.add('Game', MainState, false)
 
-    this.state.start('Game')
+    this.state.start('Boot')
+
+    this.greet = "HAHAHA"
+    console.log(this.greet)
   }
 }
 

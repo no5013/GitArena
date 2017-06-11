@@ -12,7 +12,6 @@ const stat = require('./libs/features/stats')
 function GitGetter() {
 
   this.getUserData = function(userName, callback){
-    var data = {}
 
     let githubCli = new GitHubClient({
       baseUri:"https://api.github.com",
@@ -21,28 +20,34 @@ function GitGetter() {
 
     githubCli.fetchUserRepositories({handle: userName})
     .then(repos => {
-      n = 10
-      repo_name = repos[n]['name']
-      login = repos[n]['owner']['login']
-      data['repo_name'] = repo_name
-      // githubCli.fetchUser({handle: login})
-      //   .then(owner => {
-      //   console.log(owner);
-      //   })
-      //   .catch(error => {
-      //     console.log("error", error)
-      //   });
-      // githubCli.fetchAllCommit({owner: login, repository: repos[0]['name']})
-      //   .then(commits => {
-      //     console.log(commits[0])
-      //   })
-      githubCli.fetchUserStats({owner: login, repository: repo_name})
-      .then(stats => {
-        console.log(stats[0])
-        data['stat'] = stats[0]
+      repos_name = []
+      repos.forEach(function(repo){
+        repos_name.push(repo['name'])
       })
 
-      callback(data)
+      callback(repos_name)
+      // n = 10
+      // repo_name = repos[n]['name']
+      // login = repos[n]['owner']['login']
+      // data['repo_name'] = repo_name
+      // // githubCli.fetchUser({handle: login})
+      // //   .then(owner => {
+      // //   console.log(owner);
+      // //   })
+      // //   .catch(error => {
+      // //     console.log("error", error)
+      // //   });
+      // // githubCli.fetchAllCommit({owner: login, repository: repos[0]['name']})
+      // //   .then(commits => {
+      // //     console.log(commits[0])
+      // //   })
+      // githubCli.fetchUserStats({owner: login, repository: repo_name})
+      // .then(stats => {
+      //   console.log(stats[0])
+      //   data['stat'] = stats[0]
+      // })
+      //
+      // callback(data)
     })
   }
 }

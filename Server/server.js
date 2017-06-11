@@ -1,10 +1,12 @@
 var express = require('express')
 var app = express();
-var port = process.env.PORT || 3000
+var port = process.env.PORT || 8000
 
 var bodyParser = require('body-parser');
 var pug = require('pug');
 var path = require('path');
+var cors = require('cors')
+var request = require('request')
 
 var passport = require('passport');
 var GitHubStrategy = require('passport-github2').Strategy;
@@ -32,6 +34,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.set('views', './views');
 app.set('view engine', 'pug');
+app.use(cors())
 
 passport.serializeUser(function(user, done) {
   done(null, user);
@@ -73,14 +76,31 @@ app.get('/auth/github',
     // function will not be called.
   });
 
+// app.get('/auth/github', function(req, res){
+//   res.redirect(API.getGithubIdentityLink())
+// })
+
 app.get('/auth/github/callback',
   passport.authenticate('github', { failureRedirect: '/login' }),
   function(req, res) {
     res.redirect('/');
   });
 
+app.get('/user/:name', function(req,res){
+  console.log(req.params.name)
+  gitRepo.getUserData(req.params.name, function(data){
+    res.send(data)
+  });
+})
+
+app.get('/user/:name/repos', function(req,res){
+  console.log(req.params.name)
+  gitRepo.fetchUserRepositories(req.params.name, function(data){
+    res.send(data)
+  });
+})
+
 // app.get('/auth/github/callback', function (req,res) {
-//   res.render('register', {code: req.param('code'), api_access_token:API.getAccessTokenLink() })
 //   request.post(
 //     API.getAccessTokenLink(),
 //     {json: {
@@ -96,13 +116,6 @@ app.get('/auth/github/callback',
 //
 //   )
 // });
-
-app.post('/newuser', function (req, res) {
-  var json = req.body;
-  gitRepo.getUserData(json.name, function(result){
-    res.send(result);
-  })
-});
 
 app.listen(port, function() {
   console.log('Starting node.js on port ' + port);

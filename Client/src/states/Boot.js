@@ -1,35 +1,27 @@
 import Phaser from 'phaser'
 import WebFont from 'webfontloader'
 
+var $ = require("jquery");
+var player_name = "Guest"
+var loadReady = false
+
 export default class extends Phaser.State {
   init () {
-    this.stage.backgroundColor = '#EDEEC9'
-    this.fontsReady = false
-    this.fontsLoaded = this.fontsLoaded.bind(this)
+    var game = this;
   }
 
   preload () {
-    WebFont.load({
-      google: {
-        families: ['Bangers']
-      },
-      active: this.fontsLoaded
+    $.get("http://localhost:8000/user/no5013", function(data, status){
+      console.log(data)
+      game.players = data
+      loadReady = true
     })
-
-    let text = this.add.text(this.world.centerX, this.world.centerY, 'loading fonts', { font: '16px Arial', fill: '#dddddd', align: 'center' })
-    text.anchor.setTo(0.5, 0.5)
-
-    this.load.image('loaderBg', './assets/images/loader-bg.png')
-    this.load.image('loaderBar', './assets/images/loader-bar.png')
   }
 
-  render () {
-    if (this.fontsReady) {
-      this.state.start('Splash')
+  update () {
+    console.log(this.loadReady)
+    if (loadReady) {
+      this.state.start('Game')
     }
-  }
-
-  fontsLoaded () {
-    this.fontsReady = true
   }
 }
