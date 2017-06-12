@@ -50,19 +50,7 @@ export default class extends Phaser.State {
 
 
 
-		this.player = game.add.sprite(32, game.world.height - 150, 'chara')
-		let player = this.player
 
-		game.physics.arcade.enable(player)
-
-		player.body.bounce.y = 0.2
-		// player.body.gravity.y = 300
-		player.body.collideWorldBounds = true;
-
-		player.animations.add('down', [0, 1, 2, 1], 5, true)
-		player.animations.add('left', [12, 13, 14, 13], 5, true)
-		player.animations.add('right', [24, 25, 26, 25], 5, true)
-		player.animations.add('top', [36, 37, 38, 37], 5, true)
 
 		//Control
 		this.cursors = game.input.keyboard.createCursorKeys()
@@ -81,45 +69,24 @@ export default class extends Phaser.State {
 		//score ui
 		this.scoreText = game.add.text(16, 16, 'score: 0', { fontSize: '32px', fill: '#000' });
 
-		// this.hero = new RepoHero({
-		// 	game: this,
-		// 	x: 200,
-		// 	y: 200,
-		// 	asset: 'chara',
-		// 	name: this.game.player_name,
-		// })
-    //
-		// this.enemy = new RepoHero({
-		// 	game: this,
-		// 	x: 400,
-		// 	y: 200,
-		// 	asset: 'chara',
-		// 	name: 'Enemy',
-		// })
-    var runner = 0
     var start_x = 50
     var start_y = 50
-    var ore = this
 
-    this.game.players.forEach(function(player) {
-      let new_player = new RepoHero({
-        game: ore,
-        x: start_x,
-        y: start_y,
-        asset: 'chara',
-        name: player
-      })
-      start_x+=50
-      start_y+=50
-      ore.game.add.existing(new_player)
+    this.game.player = new RepoHero({
+      game: this,
+      x: start_x,
+      y: start_y,
+      asset: 'chara',
+      name: this.game.user.username
     })
+    this.game.add.existing(this.game.player)
 
 		// this.game.add.existing(this.hero)
 		// this.game.add.existing(this.enemy)
   }
 
 	update () {
-		let player = this.player
+		let player = this.game.player
 		let platforms = this.platforms
 		let stars = this.stars
 		let cursors = this.cursors
@@ -129,31 +96,6 @@ export default class extends Phaser.State {
 		game.physics.arcade.collide(stars, platforms)
 
 		game.physics.arcade.overlap(player, stars, collectStar, null, this)
-
-		player.body.velocity.x = 0
-		player.body.velocity.y = 0
-
-		if(cursors.left.isDown){
-			player.body.velocity.x = -150
-			player.animations.play('left')
-		}
-		else if (cursors.right.isDown) {
-			player.body.velocity.x = 150
-			player.animations.play('right')
-		}
-		else if (cursors.up.isDown) {
-			player.body.velocity.y = -150
-			player.animations.play('top')
-		}
-		else if (cursors.down.isDown) {
-			// player.body.velocity.y = 150
-			// player.animations.play('down')
-			// this.hero.attack(this.enemy)
-		}
-		else {
-			player.animations.stop()
-			player.frame = 2
-		}
 
 		function collectStar (player, star) {
 			star.kill()
@@ -165,6 +107,5 @@ export default class extends Phaser.State {
 
   render () {
 		game.debug.cameraInfo(game.camera, 32, 32);
-    game.debug.spriteCoords(this.player, 32, 500);
   }
 }

@@ -17,6 +17,8 @@ export default class extends Phaser.Sprite {
 
 		game.physics.arcade.enable(this)
 
+    this.body.collideWorldBounds = true;
+
 		this.animations.add('down', [0, 1, 2, 1], 5, true)
 		this.animations.add('left', [12, 13, 14, 13], 5, true)
 		this.animations.add('right', [24, 25, 26, 25], 5, true)

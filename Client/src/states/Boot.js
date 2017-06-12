@@ -11,9 +11,9 @@ export default class extends Phaser.State {
   }
 
   preload () {
-    $.get("http://localhost:8000/user/no5013", function(data, status){
+    $.get("http://localhost:8000/users/no5013", function(data, status){
       console.log(data)
-      game.players = data
+      game.user = data
       loadReady = true
     })
   }
