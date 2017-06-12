@@ -10,44 +10,61 @@ const commit = require('./libs/features/commits')
 const stat = require('./libs/features/stats')
 
 function GitGetter() {
+  let githubCli = new GitHubClient({
+    baseUri:"https://api.github.com",
+    token: process.env.TOKEN_GITHUB_DOT_COM
+  }, users, octocat, repo, commit, stat);
 
-  this.getUserData = function(userName, callback){
+  this.getGithubUser = function(username, callback){
+    githubCli.fetchUser({handle: username})
+    .then(result => {
+      userData = {
+        username: result['login'],
+        avatar_url: result['avatar_url'],
+        public_repos: result['public_repos'],
+        followers: result['followers']
+      }
+      callback(userData)
+    })
+  }
 
-    let githubCli = new GitHubClient({
-      baseUri:"https://api.github.com",
-      token: process.env.TOKEN_GITHUB_DOT_COM
-    }, users, octocat, repo, commit, stat);
+  this.getGithubUserRepos = function(username, callback){
+    githubCli.fetchUserRepositories({handle: username})
+    .then(result => {
+      repos = []
+      // var itemsProcessed = 0;
+      result.forEach(function(repo, index, array){
+        // itemsProcessed++;
+        // console.log(itemsProcessed)
+        // githubCli.getRepositoryLanguages({owner: username, repository: repo['name']})
+        // .then(result2 => {
+        //   repoData = {
+        //     repo_name: repo['name'],
+        //     fork: repo['fork'],
+        //     stargazers_count: repo['stargazers_count'],
+        //     watchers_count: repo['watchers_count'],
+        //     language: result2,
+        //     open_issue_count: ['open_issue_count']
+        //   }
+        //   repos.push(repoData)
+        // })
 
-    githubCli.fetchUserRepositories({handle: userName})
-    .then(repos => {
-      repos_name = []
-      repos.forEach(function(repo){
-        repos_name.push(repo['name'])
+        // if(itemsProcessed === array.length) {
+        //   callback(repos);
+        // }
+
+        repoData = {
+          repo_name: repo['name'],
+          fork: repo['fork'],
+          stargazers_count: repo['stargazers_count'],
+          watchers_count: repo['watchers_count'],
+          language: repo['language'],
+          open_issue_count: ['open_issue_count']
+        }
+        repos.push(repoData)
       })
 
-      callback(repos_name)
-      // n = 10
-      // repo_name = repos[n]['name']
-      // login = repos[n]['owner']['login']
-      // data['repo_name'] = repo_name
-      // // githubCli.fetchUser({handle: login})
-      // //   .then(owner => {
-      // //   console.log(owner);
-      // //   })
-      // //   .catch(error => {
-      // //     console.log("error", error)
-      // //   });
-      // // githubCli.fetchAllCommit({owner: login, repository: repos[0]['name']})
-      // //   .then(commits => {
-      // //     console.log(commits[0])
-      // //   })
-      // githubCli.fetchUserStats({owner: login, repository: repo_name})
-      // .then(stats => {
-      //   console.log(stats[0])
-      //   data['stat'] = stats[0]
-      // })
-      //
-      // callback(data)
+      callback(repos)
     })
   }
 }

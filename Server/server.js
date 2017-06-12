@@ -94,9 +94,9 @@ app.get('/auth/github/callback',
     res.redirect('/');
   });
 
-app.get('/user/:name', function(req,res){
+app.get('/users/:name', function(req,res){
   console.log(req.params.name)
-  gitRepo.getUserData(req.params.name, function(data){
+  gitRepo.getGithubUser(req.params.name, function(data){
     res.send(data)
   });
 })
@@ -107,9 +107,9 @@ app.get('/users', function(req,res){
   })
 })
 
-app.get('/user/:name/repos', function(req,res){
+app.get('/users/:name/repos', function(req,res){
   console.log(req.params.name)
-  gitRepo.fetchUserRepositories(req.params.name, function(data){
+  gitRepo.getGithubUserRepos(req.params.name, function(data){
     res.send(data)
   });
 })

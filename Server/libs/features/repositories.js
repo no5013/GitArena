@@ -33,6 +33,20 @@ function fetchUserRepositories({handle}) {
     });
 }
 
+function fetchUserRepositoryContributors({owner, repository}) {
+  return this.getData({path:`/repos/${owner}/${repository}/contributors`})
+    .then(response => {
+      return response.data;
+    })
+}
+
+function getRepositoryLanguages({owner, repository}){
+  return this.getData({path: `/repos/${owner}/${repository}/languages`})
+    .then(response => {
+      return response.data;
+    })
+}
+
 /*
 ## fetchOrganizationRepositories
 
@@ -147,12 +161,13 @@ function createPrivateOrganizationRepository({name, description, organization}) 
   });
 }
 
-
 module.exports = {
   fetchUserRepositories: fetchUserRepositories,
   fetchOrganizationRepositories: fetchOrganizationRepositories,
   createPublicRepository: createPublicRepository,
   createPrivateRepository: createPrivateRepository,
   createPublicOrganizationRepository: createPublicOrganizationRepository,
-  createPrivateOrganizationRepository: createPrivateOrganizationRepository
+  createPrivateOrganizationRepository: createPrivateOrganizationRepository,
+  fetchUserRepositoryContributors: fetchUserRepositoryContributors,
+  getRepositoryLanguages: getRepositoryLanguages,
 };
