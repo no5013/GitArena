@@ -141,8 +141,9 @@ export default class extends Phaser.State {
     var x = layer.getTileX(game.input.activePointer.worldX);
     var y = layer.getTileY(game.input.activePointer.worldY);
     var tile = map.getTile(x, y, layer);
+    var owner = tile.properties['owner']
 
-    if(moving['isSelected']){
+    if(moving['isSelected'] && !owner){
       if(tile===moving['fromTile'])
         return;
       this.moveCharacter(moving['character'], x, y)
@@ -151,9 +152,7 @@ export default class extends Phaser.State {
       this.clearMoving()
       return;
     }
-
-    var owner = tile.properties['owner']
-    if(owner){
+    else if(owner){
       moving['character'] = owner
       moving['fromTile'] = tile
       moving['isSelected'] = true
