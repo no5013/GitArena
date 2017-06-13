@@ -8,6 +8,7 @@ var marker;
 var layer;
 var map;
 var moving = {}
+var players = []
 
 export default class extends Phaser.State {
 
@@ -76,37 +77,40 @@ export default class extends Phaser.State {
     cursors = game.input.keyboard.createCursorKeys();
     this.cursors = cursors
 
-    this.player = new RepoHero({
-      game: this,
-      x: spawn_points[0].x*32,
-      y: spawn_points[0].y*32,
-      asset: 'chara',
-      name: this.game.user.username
+    let self = this
+    let runner = 0
+    spawn_points.forEach(function(spawn_point){
+      players.push(new RepoHero({
+        game: self,
+        x: spawn_points[runner].x*32,
+        y: spawn_points[runner].y*32,
+        asset: 'chara',
+        name: self.game.repos[runner].repo_name
+      }))
+      self.game.add.existing(players[runner])
+      let tile = map.getTile(spawn_points[runner].x, spawn_points[runner].y)
+      tile.properties['owner'] = players[runner++];
     })
-    this.game.add.existing(this.player)
 
-    let tile = map.getTile(spawn_points[0].x, spawn_points[0].y)
-    tile.properties['owner'] = this.player;
+
   }
 
   update () {
     if (cursors.left.isDown)
     {
-      this.moveCharacter(this.player,5,10)
+      game.camera.x-=camera_speed;
     }
     else if (cursors.right.isDown)
     {
-      this.moveCharacter(this.player,15,10)
+      game.camera.x+=camera_speed;
     }
     else if (cursors.up.isDown)
     {
-      // game.camera.y-=camera_speed;
-      // this.player.move("up",1)
-      this.moveCharacter(this.player,10,5)
+      game.camera.y-=camera_speed;
     }
     else if (cursors.down.isDown)
     {
-      this.moveCharacter(this.player,10,15)
+      game.camera.y+=camera_speed;
     }
   }
 
@@ -123,14 +127,15 @@ export default class extends Phaser.State {
       return false;
     }
     this.isMoving = true;
+    game.camera.follow(sprite)
 
     var characterMovement = game.add.tween(sprite);
-    characterMovement.to({x:cell_x*32, y: cell_y*32},diff_x*speed);
+    characterMovement.to({x:cell_x*32, y: cell_y*32},1000);
     characterMovement.onComplete.add(function(){
       this.isMoving = false
+      game.camera.follow(null)
     }, this)
     characterMovement.start();
-
   }
 
   getTileProperties() {

@@ -18,6 +18,7 @@ export default class extends Phaser.State {
       loadUserReady = true
     })
     $.get("http://localhost:8000/users/no5013/repos", function(data, status){
+      console.log(data)
       game.repos = data
       loadRepoReady = true
     })
