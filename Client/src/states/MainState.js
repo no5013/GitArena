@@ -10,6 +10,8 @@ export default class extends Phaser.State {
 
   init () {
 		this.score = 0;
+    this.game.repo_heroes = []
+    this.game.count = 0;
     console.log("HOORAY")
 	}
   preload () {
@@ -21,6 +23,8 @@ export default class extends Phaser.State {
     // this.game.players.forEach(function(player) {
     //   console.log(player)
     // })
+
+    console.log(this.game.repos)
 	}
 
   create () {
@@ -103,6 +107,19 @@ export default class extends Phaser.State {
 			this.score += 10;
 			this.scoreText.text = 'score:' + this.score;
 		}
+
+    // if(cursors.down.isDown){
+    //   console.log("fuck")
+    //   this.game.repo_heroes.push(new RepoHero({
+    //     game: this,
+    //     x: 100,
+    //     y: 100,
+    //     asset: 'chara',
+    //     name: this.game.repos[this.game.count].repo_name
+    //   }))
+    //   this.game.add.existing(this.game.repo_heroes[this.game.count])
+    //   this.game.count++
+    // }
 	}
 
   render () {

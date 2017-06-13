@@ -4,7 +4,7 @@ export default class extends Phaser.Sprite {
   constructor ({ game, x, y, asset, name, cursors}) {
     super(game.game, x, y, asset)
     this.state = game
-    this.anchor.setTo(0.5)
+    this.anchor.setTo(0,0.5)
     // this.game.add.existing(this);
     this.textname = this.game.make.text(0, 40, name);
     this.textname.fill = '#FFFFFF'
@@ -12,7 +12,7 @@ export default class extends Phaser.Sprite {
     this.textname.font = '10px Barrio'
     this.textname.stroke = '#000000';
     this.textname.strokeThickness = 2;
-    this.textname.anchor.setTo(0.5)
+    this.textname.anchor.setTo(0.5,0.5)
     this.addChild(this.textname);
 
 		game.physics.arcade.enable(this)
@@ -27,32 +27,25 @@ export default class extends Phaser.Sprite {
   }
 
   update () {
-    this.body.velocity.x = 0
-		this.body.velocity.y = 0
 
-		if(this.state.cursors.left.isDown){
-			this.body.velocity.x = -150
-			this.animations.play('left')
-		}
-		else if (this.state.cursors.right.isDown) {
-			this.body.velocity.x = 150
-			this.animations.play('right')
-		}
-		else if (this.state.cursors.up.isDown) {
-			this.body.velocity.y = -150
-			this.animations.play('top')
-		}
-		else if (this.state.cursors.down.isDown) {
-			this.body.velocity.y = 150
-			this.animations.play('down')
-		}
-		else {
-			this.animations.stop()
-			this.frame = 2
-		}
   }
 
   attack (player) {
     player.textname.text = "fuck"
+  }
+
+  move (direction, range){
+    if(direction == "right"){
+      this.x += range*32
+    }
+    if(direction == "left"){
+      this.x -= range*32
+    }
+    if(direction == "down"){
+      this.y += range*32
+    }
+    if(direction == "up"){
+      this.y -= range*32
+    }
   }
 }
