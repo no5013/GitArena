@@ -25,7 +25,6 @@ export default class extends Phaser.State {
   }
 
   update () {
-    console.log(this.loadReady)
     if (loadUserReady&&loadRepoReady) {
       this.state.start('Game')
     }

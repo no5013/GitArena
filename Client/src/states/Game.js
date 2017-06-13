@@ -1,5 +1,6 @@
 /* globals __DEV__ */
 import Phaser from 'phaser'
+import Util from '../util/Util'
 import RepoHero from '../sprites/RepoHero'
 
 var cursors
@@ -118,9 +119,7 @@ export default class extends Phaser.State {
     let currenctCell_x = sprite.x/32
     let currenctCell_y = sprite.y/32
 
-    let diff_x = Math.abs(currenctCell_x - cell_x)
-    let diff_y = Math.abs(currenctCell_y - cell_y)
-
+    let distance = Util.distanceBetweenPoint(cell_x,cell_y,currenctCell_x,currenctCell_y)
     let speed = 100
 
     if(this.isMoving){
@@ -130,7 +129,7 @@ export default class extends Phaser.State {
     game.camera.follow(sprite)
 
     var characterMovement = game.add.tween(sprite);
-    characterMovement.to({x:cell_x*32, y: cell_y*32},1000);
+    characterMovement.to({x:cell_x*32, y: cell_y*32}, distance*speed);
     characterMovement.onComplete.add(function(){
       this.isMoving = false
       game.camera.follow(null)
@@ -144,6 +143,8 @@ export default class extends Phaser.State {
     var tile = map.getTile(x, y, layer);
 
     if(moving['isSelected']){
+      if(tile===moving['fromTile'])
+        return;
       this.moveCharacter(moving['character'], x, y)
       tile.properties['owner'] = moving['character']
       moving['fromTile'].properties['owner'] = null
@@ -156,7 +157,7 @@ export default class extends Phaser.State {
       moving['character'] = owner
       moving['fromTile'] = tile
       moving['isSelected'] = true
-      console.log(`SELECT ${owner.name}`)
+      console.log(`SELECT ${owner.textname.text}`)
     }
   }
 
