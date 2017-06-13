@@ -109,7 +109,7 @@ export default class extends Phaser.State {
     let diff_x = Math.abs(currenctCell_x - cell_x)
     let diff_y = Math.abs(currenctCell_y - cell_y)
 
-    let speed = 200
+    let speed = 100
 
     if(this.isMoving){
       return false;
