@@ -1,6 +1,7 @@
 import Phaser from 'phaser'
 
 export default class extends Phaser.Sprite {
+
   constructor ({ game, x, y, asset, name, cursors}) {
     super(game.game, x, y, asset)
     this.state = game

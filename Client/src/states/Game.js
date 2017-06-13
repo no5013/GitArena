@@ -4,6 +4,10 @@ import RepoHero from '../sprites/RepoHero'
 
 var cursors
 var camera_speed = 5;
+var marker;
+var layer;
+var map;
+var moving = {}
 
 export default class extends Phaser.State {
 
@@ -51,54 +55,58 @@ export default class extends Phaser.State {
       }
     }
     game.cache.addTilemap('dynamicMap', null, data, Phaser.Tilemap.CSV);
-
     //  Create our map (the 16x16 is the tile size)
-    let map = game.add.tilemap('dynamicMap', 32, 32);
-
+    map = game.add.tilemap('dynamicMap', 32, 32);
     //  'tiles' = cache image key, 16x16 = tile size
     map.addTilesetImage('tiles', 'tiles', 32, 32);
-
     //  0 is important
-    let layer = map.createLayer(0);
-
+    layer = map.createLayer(0);
     //  Scroll it
     layer.resizeWorld();
+
+    // mouse input
+    marker = game.add.graphics();
+    marker.lineStyle(2, 0xffffff, 1);
+    marker.drawRect(0, 0, 32, 32);
+    game.input.addMoveCallback(this.updateMarker, this);
+    game.input.onDown.add(this.getTileProperties, this);
 
     game.physics.startSystem(Phaser.Physics.ARCADE);
 
     cursors = game.input.keyboard.createCursorKeys();
     this.cursors = cursors
 
-    this.game.player = new RepoHero({
+    this.player = new RepoHero({
       game: this,
       x: spawn_points[0].x*32,
       y: spawn_points[0].y*32,
       asset: 'chara',
       name: this.game.user.username
     })
-    this.game.add.existing(this.game.player)
+    this.game.add.existing(this.player)
+
+    let tile = map.getTile(spawn_points[0].x, spawn_points[0].y)
+    tile.properties['owner'] = this.player;
   }
 
   update () {
-
-    console.log(game.isMoving)
     if (cursors.left.isDown)
     {
-      this.moveCharacter(game.player,5,10)
+      this.moveCharacter(this.player,5,10)
     }
     else if (cursors.right.isDown)
     {
-      this.moveCharacter(game.player,15,10)
+      this.moveCharacter(this.player,15,10)
     }
     else if (cursors.up.isDown)
     {
       // game.camera.y-=camera_speed;
-      // this.game.player.move("up",1)
-      this.moveCharacter(game.player,10,5)
+      // this.player.move("up",1)
+      this.moveCharacter(this.player,10,5)
     }
     else if (cursors.down.isDown)
     {
-      this.moveCharacter(game.player,10,15)
+      this.moveCharacter(this.player,10,15)
     }
   }
 
@@ -123,6 +131,37 @@ export default class extends Phaser.State {
     }, this)
     characterMovement.start();
 
+  }
+
+  getTileProperties() {
+    var x = layer.getTileX(game.input.activePointer.worldX);
+    var y = layer.getTileY(game.input.activePointer.worldY);
+    var tile = map.getTile(x, y, layer);
+
+    if(moving['isSelected']){
+      this.moveCharacter(moving['character'], x, y)
+      tile.properties['owner'] = moving['character']
+      moving['fromTile'].properties['owner'] = null
+      this.clearMoving()
+      return;
+    }
+
+    var owner = tile.properties['owner']
+    if(owner){
+      moving['character'] = owner
+      moving['fromTile'] = tile
+      moving['isSelected'] = true
+      console.log(`SELECT ${owner.name}`)
+    }
+  }
+
+  clearMoving() {
+    moving['isSelected'] = false
+  }
+
+  updateMarker() {
+    marker.x = layer.getTileX(game.input.activePointer.worldX) * 32;
+    marker.y = layer.getTileY(game.input.activePointer.worldY) * 32;
   }
   // moveCharacter(sprite, cell_x, cell_y) {
   //   let currenctCell_x = sprite.x/32
