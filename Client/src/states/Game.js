@@ -3,6 +3,9 @@ import Phaser from 'phaser'
 import Util from '../util/Util'
 import RepoHero from '../sprites/RepoHero'
 
+const tile_size_x = 32
+const tile_size_y = 32
+
 var cursors
 var camera_speed = 5;
 var marker;
@@ -37,9 +40,9 @@ export default class extends Phaser.State {
 
   }
   preload () {
-    // I think it 32x32
+    // I think it tile_size_xxtile_size_x
     game.load.image('tiles', '../assets/tiles/gridtiles.png')
-    game.load.spritesheet('chara', '../assets/images/vx_chara01.png', 32, 48);
+    game.load.spritesheet('chara', '../assets/images/vx_chara01.png', tile_size_x, 48);
   }
 
   create () {
@@ -75,8 +78,8 @@ export default class extends Phaser.State {
   }
 
   moveCharacter(sprite, cell_x, cell_y) {
-    let currenctCell_x = sprite.x/32
-    let currenctCell_y = sprite.y/32
+    let currenctCell_x = sprite.x/tile_size_x
+    let currenctCell_y = sprite.y/tile_size_y
 
     let distance = Util.distanceBetweenPoint(cell_x,cell_y,currenctCell_x,currenctCell_y)
 
@@ -87,11 +90,11 @@ export default class extends Phaser.State {
     game.camera.follow(sprite)
 
     var characterMovement = game.add.tween(sprite);
-    characterMovement.to({x:cell_x*32, y: cell_y*32}, distance/move_speed);
+    characterMovement.to({x:cell_x*tile_size_x, y: cell_y*tile_size_y}, distance/move_speed);
     characterMovement.onComplete.add(function(){
       this.isMoving = false
-      sprite.properties['selected'] = false
       game.camera.follow(null)
+      sprite.properties['active'] = false
     }, this)
     characterMovement.start();
   }
@@ -102,19 +105,24 @@ export default class extends Phaser.State {
     var tile = map.getTile(x, y, layer);
     var owner = tile.properties['owner']
 
-    if(owner && !moving['isSelected']){
+    if(owner && !moving['character']){
+      if(!owner.properties.active){
+        console.log("INACTIVE")
+        return;
+      }
       moving['character'] = owner
       moving['fromTile'] = tile
-      moving['isSelected'] = true
       owner.selected()
       console.log(`SELECT ${owner.textname.text}`)
     }
-    else if(owner && moving['isSelected']){
+    else if(owner && moving['character']){
       moving['character'].attack(owner)
       moving['character'].unselected()
+      moving['character'].properties['active'] = false
       this.clearMoving()
     }
-    else if(moving['isSelected']){
+    else if(moving['character']){
+      console.log(moving['character'])
       moving['character'].unselected()
       this.moveCharacter(moving['character'], x, y)
       tile.properties['owner'] = moving['character']
@@ -124,19 +132,19 @@ export default class extends Phaser.State {
   }
 
   clearMoving() {
-    moving['isSelected'] = false
+    moving['character'] = null
   }
 
   updateMarker() {
-    marker.x = layer.getTileX(game.input.activePointer.worldX) * 32;
-    marker.y = layer.getTileY(game.input.activePointer.worldY) * 32;
+    marker.x = layer.getTileX(game.input.activePointer.worldX) * tile_size_x;
+    marker.y = layer.getTileY(game.input.activePointer.worldY) * tile_size_y;
   }
 
   initMarker() {
     // mouse input
     marker = game.add.graphics();
     marker.lineStyle(2, 0xffffff, 1);
-    marker.drawRect(0, 0, 32, 32);
+    marker.drawRect(0, 0, tile_size_x, tile_size_y);
     game.input.addMoveCallback(this.updateMarker, this);
     game.input.onDown.add(this.getTileProperties, this);
   }
@@ -164,9 +172,9 @@ export default class extends Phaser.State {
     }
     game.cache.addTilemap('dynamicMap', null, data, Phaser.Tilemap.CSV);
     //  Create our map (the 16x16 is the tile size)
-    map = game.add.tilemap('dynamicMap', 32, 32);
+    map = game.add.tilemap('dynamicMap', tile_size_x, tile_size_y);
     //  'tiles' = cache image key, 16x16 = tile size
-    map.addTilesetImage('tiles', 'tiles', 32, 32);
+    map.addTilesetImage('tiles', 'tiles', tile_size_x, tile_size_y);
     //  0 is important
     layer = map.createLayer(0);
     //  Scroll it
@@ -179,8 +187,8 @@ export default class extends Phaser.State {
     spawn_points.forEach(function(spawn_point){
       players.push(new RepoHero({
         game: self,
-        x: spawn_points[runner].x*32,
-        y: spawn_points[runner].y*32,
+        x: spawn_points[runner].x*tile_size_x,
+        y: spawn_points[runner].y*tile_size_y,
         asset: 'chara',
         name: self.game.repos[runner].repo_name,
         health: 10,

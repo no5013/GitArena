@@ -33,7 +33,7 @@ export default class extends Phaser.Sprite {
     this.health = health;
     this.num = num;
     this.properties = {};
-    this.properties.selected = false;
+    this.properties.active = true;
 
     this.damage_text = this.game.make.text(0, -40, "");
     this.damage_text.fill = '#FF0000'
@@ -45,13 +45,7 @@ export default class extends Phaser.Sprite {
   }
 
   update () {
-    // console.log(`selected ${this.properties.selected}`)
-    if(this.properties.selected == true){
 
-    }
-    else {
-
-    }
   }
 
   move (direction, range){
@@ -104,5 +98,13 @@ export default class extends Phaser.Sprite {
   unselected () {
     this.animations.stop()
     this.frame = 1+this.num*3
+  }
+
+  setDeactive () {
+    this.properties['active'] = false
+  }
+
+  setActive () {
+    this.properties['active'] = true
   }
 }
