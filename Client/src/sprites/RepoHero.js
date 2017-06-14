@@ -16,19 +16,29 @@ export default class extends Phaser.Sprite {
     this.textname.anchor.setTo(0.5,0.5)
     this.addChild(this.textname);
 
-		game.physics.arcade.enable(this)
+    game.physics.arcade.enable(this)
 
     this.body.collideWorldBounds = true;
 
-		this.animations.add('down', [0, 1, 2, 1], 5, true)
-		this.animations.add('left', [12, 13, 14, 13], 5, true)
-		this.animations.add('right', [24, 25, 26, 25], 5, true)
-		this.animations.add('top', [36, 37, 38, 37], 5, true)
+    this.animations.add('down', [0, 1, 2, 1], 5, true)
+    this.animations.add('left', [12, 13, 14, 13], 5, true)
+    this.animations.add('right', [24, 25, 26, 25], 5, true)
+    this.animations.add('top', [36, 37, 38, 37], 5, true)
     this.animations.play('down')
+    this.name = name;
+    this.properties = {};
+    this.properties.selected = false;
   }
 
   update () {
-
+    // console.log(`selected ${this.properties.selected}`)
+    if(this.properties.selected == true){
+      this.animations.play('down')
+    }
+    else {
+      this.animations.stop()
+      this.frame = 1
+    }
   }
 
   attack (player) {

@@ -81,6 +81,7 @@ export default class extends Phaser.State {
     characterMovement.to({x:cell_x*32, y: cell_y*32}, distance*speed);
     characterMovement.onComplete.add(function(){
       this.isMoving = false
+      sprite.properties['selected'] = false
       game.camera.follow(null)
     }, this)
     characterMovement.start();
@@ -96,16 +97,14 @@ export default class extends Phaser.State {
       moving['character'] = owner
       moving['fromTile'] = tile
       moving['isSelected'] = true
+      owner.properties['selected'] = true
       console.log(`SELECT ${owner.textname.text}`)
     }
     else if(moving['isSelected']){
-      if(tile===moving['fromTile'])
-      return;
       this.moveCharacter(moving['character'], x, y)
       tile.properties['owner'] = moving['character']
       moving['fromTile'].properties['owner'] = null
       this.clearMoving()
-      return;
     }
   }
 
