@@ -43,6 +43,9 @@ export default class extends Phaser.State {
     // I think it tile_size_xxtile_size_x
     game.load.image('tiles', '../assets/tiles/gridtiles.png')
     game.load.spritesheet('chara', '../assets/images/vx_chara01.png', tile_size_x, 48);
+
+    // Load temp button
+    game.load.spritesheet('button', 'assets/images/button_sprite_sheet.png', 193, 71);
   }
 
   create () {
@@ -55,7 +58,16 @@ export default class extends Phaser.State {
     game.physics.startSystem(Phaser.Physics.ARCADE);
 
     cursors = game.input.keyboard.createCursorKeys();
-    this.cursors = cursors
+
+    var turn_button = game.make.button(50, 50, 'button', this.actionOnClick, this, 2, 1, 0);
+    game.add.existing(turn_button)
+  }
+
+  actionOnClick () {
+    console.log("nextTurn")
+    players.forEach(function(player){
+      player.setActive();
+    })
   }
 
   update () {
