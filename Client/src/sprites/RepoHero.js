@@ -2,7 +2,7 @@ import Phaser from 'phaser'
 
 export default class extends Phaser.Sprite {
 
-  constructor ({ game, x, y, asset, name, cursors}) {
+  constructor ({ game, x, y, asset, name, num}) {
     super(game.game, x, y, asset)
     this.state = game
     this.anchor.setTo(0,0.5)
@@ -20,12 +20,17 @@ export default class extends Phaser.Sprite {
 
     this.body.collideWorldBounds = true;
 
-    this.animations.add('down', [0, 1, 2, 1], 5, true)
-    this.animations.add('left', [12, 13, 14, 13], 5, true)
-    this.animations.add('right', [24, 25, 26, 25], 5, true)
-    this.animations.add('top', [36, 37, 38, 37], 5, true)
+    // this.animations.add('down', [0, 1, 2, 1], 5, true)
+    // this.animations.add('left', [12, 13, 14, 13], 5, true)
+    // this.animations.add('right', [24, 25, 26, 25], 5, true)
+    // this.animations.add('top', [36, 37, 38, 37], 5, true)
+    this.animations.add('down', [0+num*3, 1+num*3, 2+num*3, 1+num*3], 5, true)
+    this.animations.add('left', [12+num*3, 13+num*3, 14+num*3, 13+num*3], 5, true)
+    this.animations.add('right', [24+num*3, 25+num*3, 26+num*3, 25+num*3], 5, true)
+    this.animations.add('top', [36+num*3, 37+num*3, 38+num*3, 37+num*3], 5, true)
     this.animations.play('down')
     this.name = name;
+    this.num = num;
     this.properties = {};
     this.properties.selected = false;
   }
@@ -37,7 +42,8 @@ export default class extends Phaser.Sprite {
     }
     else {
       this.animations.stop()
-      this.frame = 1
+      // this.frame = 1
+      this.frame = 1+this.num*3
     }
   }
 
@@ -58,5 +64,12 @@ export default class extends Phaser.Sprite {
     if(direction == "up"){
       this.y -= range*32
     }
+  }
+
+  pickedUp(){
+
+  }
+  pickedDown(){
+
   }
 }

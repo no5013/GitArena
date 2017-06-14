@@ -10,16 +10,26 @@ var layer;
 var map;
 var moving = {}
 var players = []
-var spawn_points = [
+
+const spawn_points = [
   {
-    x: 10,
-    y: 10
+    x: 5,
+    y: 5
   },
   {
-    x: 10,
-    y: 12
+    x: 5,
+    y: 7
+  },
+  {
+    x: 5,
+    y: 9
+  },
+  {
+    x: 5,
+    y: 11
   }
 ]
+const move_speed = 0.01
 
 export default class extends Phaser.State {
 
@@ -69,7 +79,6 @@ export default class extends Phaser.State {
     let currenctCell_y = sprite.y/32
 
     let distance = Util.distanceBetweenPoint(cell_x,cell_y,currenctCell_x,currenctCell_y)
-    let speed = 100
 
     if(this.isMoving){
       return false;
@@ -78,7 +87,7 @@ export default class extends Phaser.State {
     game.camera.follow(sprite)
 
     var characterMovement = game.add.tween(sprite);
-    characterMovement.to({x:cell_x*32, y: cell_y*32}, distance*speed);
+    characterMovement.to({x:cell_x*32, y: cell_y*32}, distance/move_speed);
     characterMovement.onComplete.add(function(){
       this.isMoving = false
       sprite.properties['selected'] = false
@@ -98,9 +107,11 @@ export default class extends Phaser.State {
       moving['fromTile'] = tile
       moving['isSelected'] = true
       owner.properties['selected'] = true
+      owner.pickedUp()
       console.log(`SELECT ${owner.textname.text}`)
     }
     else if(moving['isSelected']){
+      moving['character'].pickedDown()
       this.moveCharacter(moving['character'], x, y)
       tile.properties['owner'] = moving['character']
       moving['fromTile'].properties['owner'] = null
@@ -135,9 +146,7 @@ export default class extends Phaser.State {
       for (var x = 0; x < size_x; x++)
       {
         // data += game.rnd.between(0, 47).toString();
-
         data += "0"
-
         if (x < size_x-1)
         {
           data += ',';
@@ -169,7 +178,8 @@ export default class extends Phaser.State {
         x: spawn_points[runner].x*32,
         y: spawn_points[runner].y*32,
         asset: 'chara',
-        name: self.game.repos[runner].repo_name
+        name: self.game.repos[runner].repo_name,
+        num: runner,
       }))
       self.game.add.existing(players[runner])
       let tile = map.getTile(spawn_points[runner].x, spawn_points[runner].y)
@@ -178,5 +188,6 @@ export default class extends Phaser.State {
   }
 
   render () {
+
   }
 }
