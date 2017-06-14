@@ -33,7 +33,7 @@ export default class extends Phaser.Sprite {
     this.health = health;
     this.num = num;
     this.properties = {};
-    this.properties.active = true;
+    this.properties.active = false;
 
     this.damage_text = this.game.make.text(0, -40, "");
     this.damage_text.fill = '#FF0000'

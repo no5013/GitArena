@@ -61,13 +61,17 @@ export default class extends Phaser.State {
 
     var turn_button = game.make.button(50, 50, 'button', this.actionOnClick, this, 2, 1, 0);
     game.add.existing(turn_button)
+
+    this.current_unit = this.next_turn();
   }
 
   actionOnClick () {
-    console.log("nextTurn")
-    players.forEach(function(player){
-      player.setActive();
-    })
+    console.log("next_turn")
+    this.next_turn();
+    console.log(this.current_unit.name)
+    // players.forEach(function(player){
+    //   player.setActive();
+    // })
   }
 
   update () {
@@ -210,6 +214,12 @@ export default class extends Phaser.State {
       let tile = map.getTile(spawn_points[runner].x, spawn_points[runner].y)
       tile.properties['owner'] = players[runner++];
     })
+  }
+
+  next_turn() {
+    this.current_unit = players.shift();
+    this.current_unit.setActive()
+    players.push(this.current_unit)
   }
 
   render () {
