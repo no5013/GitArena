@@ -143,7 +143,13 @@ export default class extends Phaser.State {
     var tile = map.getTile(x, y, layer);
     var owner = tile.properties['owner']
 
-    if(moving['isSelected'] && !owner){
+    if(owner){
+      moving['character'] = owner
+      moving['fromTile'] = tile
+      moving['isSelected'] = true
+      console.log(`SELECT ${owner.textname.text}`)
+    }
+    else if(moving['isSelected']){
       if(tile===moving['fromTile'])
         return;
       this.moveCharacter(moving['character'], x, y)
@@ -151,12 +157,6 @@ export default class extends Phaser.State {
       moving['fromTile'].properties['owner'] = null
       this.clearMoving()
       return;
-    }
-    else if(owner){
-      moving['character'] = owner
-      moving['fromTile'] = tile
-      moving['isSelected'] = true
-      console.log(`SELECT ${owner.textname.text}`)
     }
   }
 
