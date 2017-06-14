@@ -77,9 +77,9 @@ export default class extends Phaser.Sprite {
       this.damage_text.y = -40
     }, this)
     damage_float.start();
+    this.addQuake()
     if(this.health <= 0)
       this.die()
-
   }
 
   die () {
@@ -106,5 +106,36 @@ export default class extends Phaser.Sprite {
 
   setActive () {
     this.properties['active'] = true
+  }
+
+  addQuake () {
+    // define the camera offset for the quake
+    var rumbleOffset = 10;
+
+    // we need to move according to the camera's current position
+    var properties = {
+      x: this.x - rumbleOffset
+    };
+
+    // we make it a relly fast movement
+    var duration = 100;
+    // because it will repeat
+    var repeat = 4;
+    // we use bounce in-out to soften it a little bit
+    var ease = Phaser.Easing.Bounce.InOut;
+    var autoStart = false;
+    // a little delay because we will run it indefinitely
+    var delay = 0;
+    // we want to go back to the original position
+    var yoyo = true;
+
+    var quake = game.add.tween(this)
+    .to(properties, duration, ease, autoStart, delay, 4, yoyo);
+
+    // we're using this line for the example to run indefinitely
+    // quake.onComplete.addOnce(this.addQuake);
+
+    // let the earthquake begins
+    quake.start();
   }
 }
