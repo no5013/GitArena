@@ -102,16 +102,20 @@ export default class extends Phaser.State {
     var tile = map.getTile(x, y, layer);
     var owner = tile.properties['owner']
 
-    if(owner){
+    if(owner && !moving['isSelected']){
       moving['character'] = owner
       moving['fromTile'] = tile
       moving['isSelected'] = true
-      owner.properties['selected'] = true
-      owner.pickedUp()
+      owner.selected()
       console.log(`SELECT ${owner.textname.text}`)
     }
+    else if(owner && moving['isSelected']){
+      moving['character'].attack(owner)
+      moving['character'].unselected()
+      this.clearMoving()
+    }
     else if(moving['isSelected']){
-      moving['character'].pickedDown()
+      moving['character'].unselected()
       this.moveCharacter(moving['character'], x, y)
       tile.properties['owner'] = moving['character']
       moving['fromTile'].properties['owner'] = null
@@ -179,6 +183,7 @@ export default class extends Phaser.State {
         y: spawn_points[runner].y*32,
         asset: 'chara',
         name: self.game.repos[runner].repo_name,
+        health: 10,
         num: runner,
       }))
       self.game.add.existing(players[runner])

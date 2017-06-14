@@ -2,7 +2,7 @@ import Phaser from 'phaser'
 
 export default class extends Phaser.Sprite {
 
-  constructor ({ game, x, y, asset, name, num}) {
+  constructor ({ game, x, y, asset, name, health, num}) {
     super(game.game, x, y, asset)
     this.state = game
     this.anchor.setTo(0,0.5)
@@ -30,25 +30,28 @@ export default class extends Phaser.Sprite {
     this.animations.add('top', [36+num*3, 37+num*3, 38+num*3, 37+num*3], 5, true)
     this.animations.play('down')
     this.name = name;
+    this.health = health;
     this.num = num;
     this.properties = {};
     this.properties.selected = false;
+
+    this.damage_text = this.game.make.text(0, -40, "");
+    this.damage_text.fill = '#FF0000'
+    this.damage_text.align = 'center'
+    this.damage_text.stroke = '#000000';
+    this.damage_text.strokeThickness = 5;
+    this.damage_text.anchor.setTo(0.25,0.5)
+    this.addChild(this.damage_text);
   }
 
   update () {
     // console.log(`selected ${this.properties.selected}`)
     if(this.properties.selected == true){
-      this.animations.play('down')
+
     }
     else {
-      this.animations.stop()
-      // this.frame = 1
-      this.frame = 1+this.num*3
-    }
-  }
 
-  attack (player) {
-    player.textname.text = "fuck"
+    }
   }
 
   move (direction, range){
@@ -66,10 +69,40 @@ export default class extends Phaser.Sprite {
     }
   }
 
-  pickedUp(){
+  takeDamage (damage){
+    console.log(this.x + " " + this.y)
+    this.health-=damage
+    this.damage_text.text = damage
+    console.log(`Receive ${damage}, remaining ${this.health}`)
+
+    var damage_float = game.add.tween(this.damage_text);
+    damage_float.to({x: 0, y: -60}, 1000);
+    damage_float.onComplete.add(function(){
+      this.damage_text.text = ""
+      this.damage_text.x = 0
+      this.damage_text.y = -40
+    }, this)
+    damage_float.start();
+    if(this.health <= 0)
+      this.die()
 
   }
-  pickedDown(){
 
+  die () {
+    this.angle = 90
+    this.animations.stop()
+  }
+
+  attack (player) {
+    player.takeDamage(2)
+  }
+
+  selected () {
+    this.animations.play('down')
+  }
+
+  unselected () {
+    this.animations.stop()
+    this.frame = 1+this.num*3
   }
 }
