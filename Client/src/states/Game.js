@@ -13,6 +13,7 @@ var layer;
 var map;
 var moving = {}
 var players = []
+var current_unit
 
 const spawn_points = [
   {
@@ -62,13 +63,13 @@ export default class extends Phaser.State {
     var turn_button = game.make.button(50, 50, 'button', this.actionOnClick, this, 2, 1, 0);
     game.add.existing(turn_button)
 
-    this.current_unit = this.next_turn();
+    this.next_turn();
   }
 
   actionOnClick () {
     console.log("next_turn")
     this.next_turn();
-    console.log(this.current_unit.name)
+    console.log(current_unit.name)
     // players.forEach(function(player){
     //   player.setActive();
     // })
@@ -91,6 +92,11 @@ export default class extends Phaser.State {
     {
       game.camera.y+=camera_speed;
     }
+
+    if(!current_unit.properties['active']){
+      this.next_turn()
+      console.log("NEXT_TURN")
+    }
   }
 
   moveCharacter(sprite, cell_x, cell_y) {
@@ -110,7 +116,7 @@ export default class extends Phaser.State {
     characterMovement.onComplete.add(function(){
       this.isMoving = false
       game.camera.follow(null)
-      sprite.properties['active'] = false
+      sprite.setDeactive();
     }, this)
     characterMovement.start();
   }
@@ -133,13 +139,13 @@ export default class extends Phaser.State {
     }
     else if(owner && moving['character']){
       moving['character'].attack(owner)
-      moving['character'].unselected()
-      moving['character'].properties['active'] = false
+      // moving['character'].unselected()
+      // moving['character'].properties['active'] = false
+      moving['character'].setDeactive();
       this.clearMoving()
     }
     else if(moving['character']){
       console.log(moving['character'])
-      moving['character'].unselected()
       this.moveCharacter(moving['character'], x, y)
       tile.properties['owner'] = moving['character']
       moving['fromTile'].properties['owner'] = null
@@ -217,9 +223,9 @@ export default class extends Phaser.State {
   }
 
   next_turn() {
-    this.current_unit = players.shift();
-    this.current_unit.setActive()
-    players.push(this.current_unit)
+    current_unit = players.shift();
+    current_unit.setActive()
+    players.push(current_unit)
   }
 
   render () {

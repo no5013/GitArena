@@ -28,12 +28,13 @@ export default class extends Phaser.Sprite {
     this.animations.add('left', [12+num*3, 13+num*3, 14+num*3, 13+num*3], 5, true)
     this.animations.add('right', [24+num*3, 25+num*3, 26+num*3, 25+num*3], 5, true)
     this.animations.add('top', [36+num*3, 37+num*3, 38+num*3, 37+num*3], 5, true)
-    this.animations.play('down')
+    this.animations.add('idle', [0+num*3, 1+num*3, 2+num*3, 1+num*3], 5, true)
+
     this.name = name;
     this.health = health;
     this.num = num;
     this.properties = {};
-    this.properties.active = false;
+    this.setDeactive();
 
     this.damage_text = this.game.make.text(0, -40, "");
     this.damage_text.fill = '#FF0000'
@@ -67,6 +68,7 @@ export default class extends Phaser.Sprite {
     console.log(this.x + " " + this.y)
     this.health-=damage
     this.damage_text.text = damage
+    this.tint = 0xff0000;
     console.log(`Receive ${damage}, remaining ${this.health}`)
 
     var damage_float = game.add.tween(this.damage_text);
@@ -75,6 +77,7 @@ export default class extends Phaser.Sprite {
       this.damage_text.text = ""
       this.damage_text.x = 0
       this.damage_text.y = -40
+      this.tint = 0xa0a0a0;
     }, this)
     damage_float.start();
     this.addQuake()
@@ -92,20 +95,25 @@ export default class extends Phaser.Sprite {
   }
 
   selected () {
-    this.animations.play('down')
+    // this.animations.play('idle')
   }
 
   unselected () {
-    this.animations.stop()
-    this.frame = 1+this.num*3
+    // this.animations.stop()
+    // this.frame = 1+this.num*3
   }
 
   setDeactive () {
+    this.animations.stop()
+    this.frame = 1+this.num*3
     this.properties['active'] = false
+    this.tint = 0xa0a0a0;
   }
 
   setActive () {
+    this.animations.play('idle')
     this.properties['active'] = true
+    this.tint = 0xffffff;
   }
 
   addQuake () {
