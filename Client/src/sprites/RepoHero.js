@@ -1,12 +1,33 @@
 import Phaser from 'phaser'
+import Util from '../util/Util'
+
+const move_speed = 0.25;
 
 export default class extends Phaser.Sprite {
 
   constructor ({ game, x, y, asset, name, health, num}) {
     super(game.game, x, y, asset)
+
+    this.game = game;
+    this.name = name;
+    this.health = health;
+    this.num = num;
+    this.properties = {};
     this.state = game
+
     this.anchor.setTo(0,0.5)
     // this.game.add.existing(this);
+    game.physics.arcade.enable(this)
+
+    this.body.collideWorldBounds = true;
+
+    this.initAnimations();
+    this.setDeactive();
+    this.initDamageText();
+    this.initNameTag();
+  }
+
+  initNameTag(){
     this.textname = this.game.make.text(0, 40, name);
     this.textname.fill = '#FFFFFF'
     this.textname.align = 'center'
@@ -15,27 +36,8 @@ export default class extends Phaser.Sprite {
     this.textname.strokeThickness = 2;
     this.textname.anchor.setTo(0.5,0.5)
     this.addChild(this.textname);
-
-    game.physics.arcade.enable(this)
-
-    this.body.collideWorldBounds = true;
-
-    // this.animations.add('down', [0, 1, 2, 1], 5, true)
-    // this.animations.add('left', [12, 13, 14, 13], 5, true)
-    // this.animations.add('right', [24, 25, 26, 25], 5, true)
-    // this.animations.add('top', [36, 37, 38, 37], 5, true)
-    this.animations.add('down', [0+num*3, 1+num*3, 2+num*3, 1+num*3], 5, true)
-    this.animations.add('left', [12+num*3, 13+num*3, 14+num*3, 13+num*3], 5, true)
-    this.animations.add('right', [24+num*3, 25+num*3, 26+num*3, 25+num*3], 5, true)
-    this.animations.add('top', [36+num*3, 37+num*3, 38+num*3, 37+num*3], 5, true)
-    this.animations.add('idle', [0+num*3, 1+num*3, 2+num*3, 1+num*3], 5, true)
-
-    this.name = name;
-    this.health = health;
-    this.num = num;
-    this.properties = {};
-    this.setDeactive();
-
+  }
+  initDamageText(){
     this.damage_text = this.game.make.text(0, -40, "");
     this.damage_text.fill = '#FF0000'
     this.damage_text.align = 'center'
@@ -64,6 +66,27 @@ export default class extends Phaser.Sprite {
     }
   }
 
+  moveTo (dest_x, dest_y, callback){
+    let distance = Util.distanceBetweenPoint(this.x,this.y, dest_x, dest_y)
+    let direction = Util.directionOfVector(this.x, this.y, dest_x, dest_y)
+    console.log(direction)
+
+    if(this.isMoving){
+      return false;
+    }
+    this.isMoving = true;
+    this.animations.play(direction)
+
+    var characterMovement = game.add.tween(this);
+    characterMovement.to({x: dest_x, y: dest_y}, distance/move_speed);
+    characterMovement.onComplete.add(function(){
+      this.isMoving = false
+      this.setDeactive();
+      callback()
+    }, this)
+    characterMovement.start();
+  }
+
   takeDamage (damage){
     console.log(this.x + " " + this.y)
     this.health-=damage
@@ -82,12 +105,13 @@ export default class extends Phaser.Sprite {
     damage_float.start();
     this.addQuake()
     if(this.health <= 0)
-      this.die()
+    this.die()
   }
 
   die () {
     this.angle = 90
     this.animations.stop()
+    this.tint = 0xff0000
   }
 
   attack (player) {
@@ -140,10 +164,15 @@ export default class extends Phaser.Sprite {
     var quake = game.add.tween(this)
     .to(properties, duration, ease, autoStart, delay, 4, yoyo);
 
-    // we're using this line for the example to run indefinitely
-    // quake.onComplete.addOnce(this.addQuake);
-
     // let the earthquake begins
     quake.start();
+  }
+
+  initAnimations(){
+    this.animations.add('down', [0+this.num*3, 1+this.num*3, 2+this.num*3, 1+this.num*3], 5, true)
+    this.animations.add('left', [12+this.num*3, 13+this.num*3, 14+this.num*3, 13+this.num*3], 5, true)
+    this.animations.add('right', [24+this.num*3, 25+this.num*3, 26+this.num*3, 25+this.num*3], 5, true)
+    this.animations.add('up', [36+this.num*3, 37+this.num*3, 38+this.num*3, 37+this.num*3], 5, true)
+    this.animations.add('idle', [0+this.num*3, 1+this.num*3, 2+this.num*3, 1+this.num*3], 5, true)
   }
 }

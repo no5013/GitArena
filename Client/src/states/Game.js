@@ -100,25 +100,31 @@ export default class extends Phaser.State {
   }
 
   moveCharacter(sprite, cell_x, cell_y) {
-    let currenctCell_x = sprite.x/tile_size_x
-    let currenctCell_y = sprite.y/tile_size_y
-
-    let distance = Util.distanceBetweenPoint(cell_x,cell_y,currenctCell_x,currenctCell_y)
-
-    if(this.isMoving){
-      return false;
-    }
-    this.isMoving = true;
+    // let currenctCell_x = sprite.x/tile_size_x
+    // let currenctCell_y = sprite.y/tile_size_y
+    //
+    // let distance = Util.distanceBetweenPoint(cell_x,cell_y,currenctCell_x,currenctCell_y)
+    //
+    // if(this.isMoving){
+    //   return false;
+    // }
+    // this.isMoving = true;
+    // game.camera.follow(sprite)
+    //
+    // var characterMovement = game.add.tween(sprite);
+    // characterMovement.to({x:cell_x*tile_size_x, y: cell_y*tile_size_y}, distance/move_speed);
+    // characterMovement.onComplete.add(function(){
+    //   this.isMoving = false
+    //   game.camera.follow(null)
+    //   sprite.setDeactive();
+    // }, this)
+    // characterMovement.start();
     game.camera.follow(sprite)
+    sprite.moveTo(cell_x*tile_size_x, cell_y*tile_size_y, this.cameraUnfollow)
+  }
 
-    var characterMovement = game.add.tween(sprite);
-    characterMovement.to({x:cell_x*tile_size_x, y: cell_y*tile_size_y}, distance/move_speed);
-    characterMovement.onComplete.add(function(){
-      this.isMoving = false
-      game.camera.follow(null)
-      sprite.setDeactive();
-    }, this)
-    characterMovement.start();
+  cameraUnfollow(unit) {
+    game.camera.follow(null)
   }
 
   getTileProperties() {
