@@ -28,7 +28,7 @@ export default class extends Phaser.Sprite {
   }
 
   initNameTag(){
-    this.textname = this.game.make.text(0, 40, name);
+    this.textname = this.game.make.text(0, 40, this.name);
     this.textname.fill = '#FFFFFF'
     this.textname.align = 'center'
     this.textname.font = '10px Barrio'
