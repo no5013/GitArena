@@ -130,9 +130,10 @@ export default class extends Phaser.State {
   }
 
   getTileProperties() {
-    var x = layer2.getTileX(game.input.activePointer.worldX);
-    var y = layer2.getTileY(game.input.activePointer.worldY);
+    var x = layer.getTileX(game.input.activePointer.worldX);
+    var y = layer.getTileY(game.input.activePointer.worldY);
     var tile = map.getTile(x, y, layer);
+    var moveTile = map2.getTile(x, y, layer2);
     var owner = tile.properties['owner']
 
     if(owner && !moving['character']){
@@ -147,13 +148,14 @@ export default class extends Phaser.State {
       console.log(`SELECT ${owner.textname.text}`)
     }
     else if(owner && moving['character']){
+      this.removeMovingRange(moving['character'])
       moving['character'].attack(owner)
       // moving['character'].unselected()
       // moving['character'].properties['active'] = false
       moving['character'].setDeactive();
       this.clearMoving()
     }
-    else if(moving['character']){
+    else if(moving['character'] && moveTile){
       console.log(moving['character'])
       this.removeMovingRange(moving['character'])
       this.moveCharacter(moving['character'], x, y)
@@ -180,15 +182,37 @@ export default class extends Phaser.State {
   }
 
   getMovingRangeCoordinate(unit){
+    let walkingRange = 5
+
     let x = unit.x/tile_size_x
     let y = unit.y/tile_size_y
-    return [
-      {x: x,y: y},
-      {x: x+1,y: y},
-      {x: x-1,y: y},
-      {x: x,y: y+1},
-      {x: x,y: y-1}
-    ]
+
+    var possibleMove = []
+
+    for(let j=0; j<=walkingRange; j++){
+      for(let i=0; i<=walkingRange-j; i++){
+        possibleMove.push(
+          {
+            x:x+i,
+            y:y+j
+          },
+          {
+            x:x+i,
+            y:y-j
+          },
+          {
+            x:x-i,
+            y:y+j
+          },
+          {
+            x:x-i,
+            y:y-j
+          }
+        )
+      }
+    }
+
+    return possibleMove
   }
 
   clearMovingRange(unit){
