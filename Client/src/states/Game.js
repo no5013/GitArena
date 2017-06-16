@@ -166,9 +166,7 @@ export default class extends Phaser.State {
   }
 
   showMovingRange(unit){
-    let walkingRange = 5
     var tileToPush = this.getMovingRangeCoordinate(unit);
-
     tileToPush.forEach(function(coordinate){
       map2.putTile(new Phaser.Tile(layer2,35,0,0,tile_size_x,tile_size_y),coordinate.x, coordinate.y, layer2)
     })
@@ -182,15 +180,13 @@ export default class extends Phaser.State {
   }
 
   getMovingRangeCoordinate(unit){
-    let walkingRange = 5
-
     let x = unit.x/tile_size_x
     let y = unit.y/tile_size_y
 
     var possibleMove = []
 
-    for(let j=0; j<=walkingRange; j++){
-      for(let i=0; i<=walkingRange-j; i++){
+    for(let j=0; j<=unit.movingRange; j++){
+      for(let i=0; i<=unit.movingRange-j; i++){
         possibleMove.push(
           {
             x:x+i,

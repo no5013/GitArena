@@ -14,6 +14,7 @@ export default class extends Phaser.Sprite {
     this.num = num;
     this.properties = {};
     this.state = game
+    this.movingRange = 10
 
     this.anchor.setTo(0,0.5)
     // this.game.add.existing(this);
