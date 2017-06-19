@@ -3,16 +3,15 @@ import Phaser from 'phaser'
 import Util from '../util/Util'
 import RepoHero from '../sprites/RepoHero'
 
+import UnitSelectState from '../StateMachine/ActionState/UnitSelectState'
+import WalkState from '../StateMachine/ActionState/WalkState'
+
 const tile_size_x = 32
 const tile_size_y = 32
 
 var cursors
 var camera_speed = 5;
 var marker;
-var layer;
-var layer2;
-var map;
-var map2;
 var moving = {}
 var players = []
 var current_unit
@@ -40,8 +39,18 @@ const move_speed = 0.01
 export default class extends Phaser.State {
 
   init () {
+    let self = this;
+    this.ActionState = {
+      UnitSelectState: new UnitSelectState(self),
+      WalkState: new WalkState(self)
+    }
+    this.properties = {
+      ActionStateVar: {}
+    }
 
+    this.currentState = this.ActionState.UnitSelectState
   }
+
   preload () {
     // I think it tile_size_xxtile_size_x
     game.load.image('tiles', '../assets/tiles/gridtiles.png')
@@ -72,9 +81,6 @@ export default class extends Phaser.State {
     console.log("next_turn")
     this.next_turn();
     console.log(current_unit.name)
-    // players.forEach(function(player){
-    //   player.setActive();
-    // })
   }
 
   update () {
@@ -101,81 +107,76 @@ export default class extends Phaser.State {
     }
   }
 
-  moveCharacter(sprite, cell_x, cell_y) {
-    // let currenctCell_x = sprite.x/tile_size_x
-    // let currenctCell_y = sprite.y/tile_size_y
-    //
-    // let distance = Util.distanceBetweenPoint(cell_x,cell_y,currenctCell_x,currenctCell_y)
-    //
-    // if(this.isMoving){
-    //   return false;
-    // }
-    // this.isMoving = true;
-    // game.camera.follow(sprite)
-    //
-    // var characterMovement = game.add.tween(sprite);
-    // characterMovement.to({x:cell_x*tile_size_x, y: cell_y*tile_size_y}, distance/move_speed);
-    // characterMovement.onComplete.add(function(){
-    //   this.isMoving = false
-    //   game.camera.follow(null)
-    //   sprite.setDeactive();
-    // }, this)
-    // characterMovement.start();
-    game.camera.follow(sprite)
-    sprite.moveTo(cell_x*tile_size_x, cell_y*tile_size_y, this.cameraUnfollow)
+  moveCharacter(unit, fromTile, toTile, callback) {
+    game.camera.follow(unit)
+    unit.moveTo(toTile.x*tile_size_x, toTile.y*tile_size_y, this.finishAction)
+    toTile.properties['owner'] = unit
+    fromTile.properties['owner'] = null
   }
 
-  cameraUnfollow(unit) {
+  finishAction() {
     game.camera.follow(null)
+
+    //get the current game state
+    let self = game.state.states.Game
+    self.currentState.nextState();
   }
+  
+  // getTileProperties() {
+  //   var x = this.layer.getTileX(game.input.activePointer.worldX);
+  //   var y = this.layer.getTileY(game.input.activePointer.worldY);
+  //   var tile = this.map.getTile(x, y, this.layer);
+  //   var moveTile = this.rangeMap.getTile(x, y, this.rangeLayer);
+  //   var owner = tile.properties['owner']
+  //
+  //   if(owner && !moving['character']){
+  //     if(!owner.properties.active){
+  //       console.log("INACTIVE")
+  //       return;
+  //     }
+  //     moving['character'] = owner
+  //     moving['fromTile'] = tile
+  //     owner.selected()
+  //     this.showMovingRange(owner)
+  //     console.log(`SELECT ${owner.textname.text}`)
+  //   }
+  //   else if(owner && moving['character']){
+  //     this.removeMovingRange(moving['character'])
+  //     moving['character'].attack(owner)
+  //     // moving['character'].unselected()
+  //     // moving['character'].properties['active'] = false
+  //     moving['character'].setDeactive();
+  //     this.clearMoving()
+  //   }
+  //   else if(moving['character'] && moveTile){
+  //     console.log(moving['character'])
+  //     this.removeMovingRange(moving['character'])
+  //     this.moveCharacter(moving['character'], moving['fromTile'], tile)
+  //     this.clearMoving()
+  //   }
+  // }
 
   getTileProperties() {
-    var x = layer.getTileX(game.input.activePointer.worldX);
-    var y = layer.getTileY(game.input.activePointer.worldY);
-    var tile = map.getTile(x, y, layer);
-    var moveTile = map2.getTile(x, y, layer2);
-    var owner = tile.properties['owner']
+    var x = this.layer.getTileX(game.input.activePointer.worldX);
+    var y = this.layer.getTileY(game.input.activePointer.worldY);
 
-    if(owner && !moving['character']){
-      if(!owner.properties.active){
-        console.log("INACTIVE")
-        return;
-      }
-      moving['character'] = owner
-      moving['fromTile'] = tile
-      owner.selected()
-      this.showMovingRange(owner)
-      console.log(`SELECT ${owner.textname.text}`)
-    }
-    else if(owner && moving['character']){
-      this.removeMovingRange(moving['character'])
-      moving['character'].attack(owner)
-      // moving['character'].unselected()
-      // moving['character'].properties['active'] = false
-      moving['character'].setDeactive();
-      this.clearMoving()
-    }
-    else if(moving['character'] && moveTile){
-      console.log(moving['character'])
-      this.removeMovingRange(moving['character'])
-      this.moveCharacter(moving['character'], x, y)
-      tile.properties['owner'] = moving['character']
-      moving['fromTile'].properties['owner'] = null
-      this.clearMoving()
-    }
+    this.currentState.selectTile(x, y)
+
   }
 
   showMovingRange(unit){
+    let self = this
     var tileToPush = this.getMovingRangeCoordinate(unit);
     tileToPush.forEach(function(coordinate){
-      map2.putTile(new Phaser.Tile(layer2,35,0,0,tile_size_x,tile_size_y),coordinate.x, coordinate.y, layer2)
+      self.rangeMap.putTile(new Phaser.Tile(self.rangeLayer,35,0,0,tile_size_x,tile_size_y),coordinate.x, coordinate.y, self.rangeLayer)
     })
   }
 
   removeMovingRange(unit){
+    let self = this
     var tileToPush = this.getMovingRangeCoordinate(unit);
     tileToPush.forEach(function(coordinate){
-      map2.removeTile(coordinate.x, coordinate.y, layer2)
+      self.rangeMap.removeTile(coordinate.x, coordinate.y, self.rangeLayer)
     })
   }
 
@@ -215,11 +216,11 @@ export default class extends Phaser.State {
     let walkingRange = 5
     let x = unit.x/tile_size_x
     let y = unit.y/tile_size_y
-    map2.putTile(new Phaser.Tile(layer2,35,0,0,tile_size_x,tile_size_y),x, y, layer2)
-    map2.putTile(new Phaser.Tile(layer2,35,0,0,tile_size_x,tile_size_y),x+1, y, layer2)
-    map2.putTile(new Phaser.Tile(layer2,35,0,0,tile_size_x,tile_size_y),x-1, y, layer2)
-    map2.putTile(new Phaser.Tile(layer2,35,0,0,tile_size_x,tile_size_y),x, y+1, layer2)
-    map2.putTile(new Phaser.Tile(layer2,35,0,0,tile_size_x,tile_size_y),x, y-1, layer2)
+    this.rangeMap.putTile(new Phaser.Tile(this.rangeLayer,35,0,0,tile_size_x,tile_size_y),x, y, this.rangeLayer)
+    this.rangeMap.putTile(new Phaser.Tile(this.rangeLayer,35,0,0,tile_size_x,tile_size_y),x+1, y, this.rangeLayer)
+    this.rangeMap.putTile(new Phaser.Tile(this.rangeLayer,35,0,0,tile_size_x,tile_size_y),x-1, y, this.rangeLayer)
+    this.rangeMap.putTile(new Phaser.Tile(this.rangeLayer,35,0,0,tile_size_x,tile_size_y),x, y+1, this.rangeLayer)
+    this.rangeMap.putTile(new Phaser.Tile(this.rangeLayer,35,0,0,tile_size_x,tile_size_y),x, y-1, this.rangeLayer)
   }
 
   clearMoving() {
@@ -227,8 +228,8 @@ export default class extends Phaser.State {
   }
 
   updateMarker() {
-    marker.x = layer.getTileX(game.input.activePointer.worldX) * tile_size_x;
-    marker.y = layer.getTileY(game.input.activePointer.worldY) * tile_size_y;
+    marker.x = this.layer.getTileX(game.input.activePointer.worldX) * tile_size_x;
+    marker.y = this.layer.getTileY(game.input.activePointer.worldY) * tile_size_y;
   }
 
   initMarker() {
@@ -286,25 +287,25 @@ export default class extends Phaser.State {
 
     game.cache.addTilemap('dynamicMap2', null, data2, Phaser.Tilemap.CSV);
     //  Create our map (the 16x16 is the tile size)
-    map = game.add.tilemap('dynamicMap', tile_size_x, tile_size_y);
+    this.map = game.add.tilemap('dynamicMap', tile_size_x, tile_size_y);
 
-    map2 = game.add.tilemap('dynamicMap2', tile_size_x, tile_size_y);
+    this.rangeMap = game.add.tilemap('dynamicMap2', tile_size_x, tile_size_y);
     //  'tiles' = cache image key, 16x16 = tile size
-    map.addTilesetImage('tiles', 'tiles', tile_size_x, tile_size_y);
-    map2.addTilesetImage('tiles', 'tiles', tile_size_x, tile_size_y);
+    this.map.addTilesetImage('tiles', 'tiles', tile_size_x, tile_size_y);
+    this.rangeMap.addTilesetImage('tiles', 'tiles', tile_size_x, tile_size_y);
     //  0 is important
-    layer = map.createLayer(0);
-    // layer2 = map2.createLayer(0);
-    layer2 = map2.createBlankLayer("AttackLayer", 30, 30, tile_size_x, tile_size_y)
+    this.layer = this.map.createLayer(0);
+    // this.rangeLayer = this.rangeMap.createLayer(0);
+    this.rangeLayer = this.rangeMap.createBlankLayer("RangeLayer", 30, 30, tile_size_x, tile_size_y)
 
-    layer.alpha = 1
-    layer2.alpha = 0.5
+    this.layer.alpha = 1
+    this.rangeLayer.alpha = 0.5
 
-    // let xxx = map2.getTile(10,10)
+    // let xxx = this.rangeMap.getTile(10,10)
     // console.log(xxx)
     //  Scroll it
-    layer.resizeWorld();
-    layer2.resizeWorld();
+    this.layer.resizeWorld();
+    this.rangeLayer.resizeWorld();
   }
 
   initCharacters() {
@@ -321,7 +322,7 @@ export default class extends Phaser.State {
         num: runner,
       }))
       self.game.add.existing(players[runner])
-      let tile = map.getTile(spawn_points[runner].x, spawn_points[runner].y)
+      let tile = self.map.getTile(spawn_points[runner].x, spawn_points[runner].y)
       tile.properties['owner'] = players[runner++];
     })
   }
@@ -330,6 +331,11 @@ export default class extends Phaser.State {
     current_unit = players.shift();
     current_unit.setActive()
     players.push(current_unit)
+  }
+
+  setActionState(state) {
+    this.currentState = state;
+    this.currentState.enterState();
   }
 
   render () {

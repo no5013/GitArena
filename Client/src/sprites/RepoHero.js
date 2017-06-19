@@ -48,6 +48,10 @@ export default class extends Phaser.Sprite {
     this.addChild(this.damage_text);
   }
 
+  log() {
+    console.log("repo hero")
+  }
+
   update () {
 
   }
