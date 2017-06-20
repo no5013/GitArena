@@ -15,9 +15,11 @@ export default class extends ActionState {
     var currentTile = this.game.properties.ActionStateVar['currentTile']
     var nextTile = this.game.map.getTile(x, y, this.game.layer)
     var rangeTile = this.game.rangeMap.getTile(x, y, this.game.rangeLayer)
-    if(rangeTile){
-      this.game.moveCharacter(this.unit, currentTile, nextTile)
+    var owner = nextTile.properties['owner']
+
+    if(!owner && rangeTile){
       this.game.removeMovingRange(this.unit)
+      this.game.moveCharacter(this.unit, currentTile, nextTile)
       this.game.clearMoving()
     }else{
       console.log('exceed range')

@@ -14,7 +14,8 @@ export default class extends Phaser.Sprite {
     this.num = num;
     this.properties = {};
     this.state = game
-    this.movingRange = 10
+    this.movingRange = 5
+    this.attackRange = 3
 
     this.anchor.setTo(0,0.5)
     // this.game.add.existing(this);
@@ -121,6 +122,7 @@ export default class extends Phaser.Sprite {
 
   attack (player) {
     player.takeDamage(2)
+    this.setDeactive();
   }
 
   selected () {

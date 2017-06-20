@@ -17,7 +17,7 @@ export default class extends ActionState {
       console.log(unit.name)
       this.game.properties.ActionStateVar['unit'] = unit
       this.game.properties.ActionStateVar['currentTile'] = tile
-      this.game.setActionState(this.game.ActionState.WalkState)
+      this.nextState();
     }
     else if(unit&&!unit.properties['active']){
       console.log("not active")
@@ -25,5 +25,8 @@ export default class extends ActionState {
     else {
       console.log("PLEASE SELECT UNIT")
     }
+  }
+  nextState () {
+    this.game.setActionState(this.game.ActionState.ActionSelectState)
   }
 }

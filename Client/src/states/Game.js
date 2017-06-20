@@ -5,6 +5,9 @@ import RepoHero from '../sprites/RepoHero'
 
 import UnitSelectState from '../StateMachine/ActionState/UnitSelectState'
 import WalkState from '../StateMachine/ActionState/WalkState'
+import SkillState from '../StateMachine/ActionState/SkillState'
+import ActionSelectState from '../StateMachine/ActionState/ActionSelectState'
+import EndTurnState from '../StateMachine/ActionState/EndTurnState'
 
 const tile_size_x = 32
 const tile_size_y = 32
@@ -42,7 +45,10 @@ export default class extends Phaser.State {
     let self = this;
     this.ActionState = {
       UnitSelectState: new UnitSelectState(self),
-      WalkState: new WalkState(self)
+      WalkState: new WalkState(self),
+      SkillState: new SkillState(self),
+      ActionSelectState: new ActionSelectState(self),
+      EndTurnState: new EndTurnState(self)
     }
     this.properties = {
       ActionStateVar: {}
@@ -71,16 +77,39 @@ export default class extends Phaser.State {
 
     cursors = game.input.keyboard.createCursorKeys();
 
-    var turn_button = game.make.button(50, 50, 'button', this.actionOnClick, this, 2, 1, 0);
-    game.add.existing(turn_button)
+    this.walk_button = game.make.button(500, 50, 'button', this.actionOnClick, this, 2, 1, 0);
+    game.add.existing(this.walk_button)
+    this.walk_button.fixedToCamera = true
+    this.walk_button.visible = false;
+
+    this.attack_button = game.make.button(500, 150, 'button', this.actionOnClick2, this, 2, 1, 0);
+    game.add.existing(this.attack_button)
+    this.attack_button.fixedToCamera = true
+    this.attack_button.visible = false;
 
     this.next_turn();
   }
 
+  enableActionCommandHud(){
+    this.walk_button.visible = true;
+    this.attack_button.visible = true;
+  }
+
+  disableActionCommandHud(){
+    this.walk_button.visible = false;
+    this.attack_button.visible = false;
+  }
+
   actionOnClick () {
-    console.log("next_turn")
-    this.next_turn();
-    console.log(current_unit.name)
+    console.log("walk")
+    this.currentState.setNextState(this.ActionState.WalkState)
+    this.currentState.nextState();
+  }
+
+  actionOnClick2 () {
+    console.log("attack")
+    this.currentState.setNextState(this.ActionState.SkillState)
+    this.currentState.nextState();
   }
 
   update () {
@@ -116,12 +145,10 @@ export default class extends Phaser.State {
 
   finishAction() {
     game.camera.follow(null)
-
-    //get the current game state
     let self = game.state.states.Game
     self.currentState.nextState();
   }
-  
+
   // getTileProperties() {
   //   var x = this.layer.getTileX(game.input.activePointer.worldX);
   //   var y = this.layer.getTileY(game.input.activePointer.worldY);
@@ -161,20 +188,35 @@ export default class extends Phaser.State {
     var y = this.layer.getTileY(game.input.activePointer.worldY);
 
     this.currentState.selectTile(x, y)
-
   }
 
   showMovingRange(unit){
     let self = this
     var tileToPush = this.getMovingRangeCoordinate(unit);
     tileToPush.forEach(function(coordinate){
-      self.rangeMap.putTile(new Phaser.Tile(self.rangeLayer,35,0,0,tile_size_x,tile_size_y),coordinate.x, coordinate.y, self.rangeLayer)
+      self.rangeMap.putTile(new Phaser.Tile(self.rangeLayer,34,0,0,tile_size_x,tile_size_y),coordinate.x, coordinate.y, self.rangeLayer)
+    })
+  }
+
+  showAttackRange(unit){
+    let self = this
+    var tileToPush = this.getAttackRangeCoordinate(unit);
+    tileToPush.forEach(function(coordinate){
+      self.rangeMap.putTile(new Phaser.Tile(self.rangeLayer,104,0,0,tile_size_x,tile_size_y),coordinate.x, coordinate.y, self.rangeLayer)
     })
   }
 
   removeMovingRange(unit){
     let self = this
     var tileToPush = this.getMovingRangeCoordinate(unit);
+    tileToPush.forEach(function(coordinate){
+      self.rangeMap.removeTile(coordinate.x, coordinate.y, self.rangeLayer)
+    })
+  }
+
+  removeAttackRange(unit){
+    let self = this
+    var tileToPush = this.getAttackRangeCoordinate(unit);
     tileToPush.forEach(function(coordinate){
       self.rangeMap.removeTile(coordinate.x, coordinate.y, self.rangeLayer)
     })
@@ -212,15 +254,36 @@ export default class extends Phaser.State {
     return possibleMove
   }
 
-  clearMovingRange(unit){
-    let walkingRange = 5
+  getAttackRangeCoordinate(unit){
     let x = unit.x/tile_size_x
     let y = unit.y/tile_size_y
-    this.rangeMap.putTile(new Phaser.Tile(this.rangeLayer,35,0,0,tile_size_x,tile_size_y),x, y, this.rangeLayer)
-    this.rangeMap.putTile(new Phaser.Tile(this.rangeLayer,35,0,0,tile_size_x,tile_size_y),x+1, y, this.rangeLayer)
-    this.rangeMap.putTile(new Phaser.Tile(this.rangeLayer,35,0,0,tile_size_x,tile_size_y),x-1, y, this.rangeLayer)
-    this.rangeMap.putTile(new Phaser.Tile(this.rangeLayer,35,0,0,tile_size_x,tile_size_y),x, y+1, this.rangeLayer)
-    this.rangeMap.putTile(new Phaser.Tile(this.rangeLayer,35,0,0,tile_size_x,tile_size_y),x, y-1, this.rangeLayer)
+
+    var possibleAttack = []
+
+    for(let j=0; j<=unit.attackRange; j++){
+      for(let i=0; i<=unit.attackRange-j; i++){
+        possibleAttack.push(
+          {
+            x:x+i,
+            y:y+j
+          },
+          {
+            x:x+i,
+            y:y-j
+          },
+          {
+            x:x-i,
+            y:y+j
+          },
+          {
+            x:x-i,
+            y:y-j
+          }
+        )
+      }
+    }
+
+    return possibleAttack
   }
 
   clearMoving() {
@@ -334,6 +397,7 @@ export default class extends Phaser.State {
   }
 
   setActionState(state) {
+    this.currentState.leaveState();
     this.currentState = state;
     this.currentState.enterState();
   }
