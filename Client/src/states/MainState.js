@@ -2,7 +2,7 @@
 
 import Phaser from 'phaser'
 
-import RepoHero from '../sprites/RepoHero'
+import RepoHero from '../prefabs/units/RepoHero'
 
 var $ = require("jquery");
 

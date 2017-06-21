@@ -1,7 +1,7 @@
 /* globals __DEV__ */
 import Phaser from 'phaser'
 import Util from '../util/Util'
-import RepoHero from '../sprites/RepoHero'
+import RepoHero from '../prefabs/units/RepoHero'
 
 import UnitSelectState from '../StateMachine/ActionState/UnitSelectState'
 import WalkState from '../StateMachine/ActionState/WalkState'

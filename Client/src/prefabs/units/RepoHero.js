@@ -1,5 +1,5 @@
 import Phaser from 'phaser'
-import Util from '../util/Util'
+import Util from '../../util/Util'
 
 const move_speed = 0.25;
 
