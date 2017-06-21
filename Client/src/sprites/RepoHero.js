@@ -8,6 +8,8 @@ export default class extends Phaser.Sprite {
   constructor ({ game, x, y, asset, name, health, num}) {
     super(game.game, x, y, asset)
 
+    let self = this;
+
     this.game = game;
     this.name = name;
     this.health = health;
@@ -27,6 +29,12 @@ export default class extends Phaser.Sprite {
     this.setDeactive();
     this.initDamageText();
     this.initNameTag();
+
+    this.attacked_animation = this.game.add.tween(this);
+    this.attacked_animation.to({tint: 0xFF0000}, 200);
+    this.attacked_animation.onComplete.add(function(){
+      self.restoreTint();
+    }, this)
   }
 
   initNameTag(){
@@ -39,6 +47,7 @@ export default class extends Phaser.Sprite {
     this.textname.anchor.setTo(0.5,0.5)
     this.addChild(this.textname);
   }
+
   initDamageText(){
     this.damage_text = this.game.make.text(0, -40, "");
     this.damage_text.fill = '#FF0000'
@@ -87,7 +96,6 @@ export default class extends Phaser.Sprite {
     characterMovement.to({x: dest_x, y: dest_y}, distance/move_speed);
     characterMovement.onComplete.add(function(){
       this.isMoving = false
-      this.setDeactive();
       callback()
     }, this)
     characterMovement.start();
@@ -96,28 +104,41 @@ export default class extends Phaser.Sprite {
   takeDamage (damage){
     console.log(this.x + " " + this.y)
     this.health-=damage
-    this.damage_text.text = damage
+
     this.tint = 0xff0000;
     console.log(`Receive ${damage}, remaining ${this.health}`)
 
+    this.damage_text.text = damage
     var damage_float = game.add.tween(this.damage_text);
     damage_float.to({x: 0, y: -60}, 1000);
     damage_float.onComplete.add(function(){
       this.damage_text.text = ""
       this.damage_text.x = 0
       this.damage_text.y = -40
-      this.tint = 0xa0a0a0;
     }, this)
     damage_float.start();
-    this.addQuake()
-    if(this.health <= 0)
-    this.die()
+
+    this.attacked_animation.start();
+
+    if(this.health <= 0){
+      this.die()
+    }
+    else{
+      this.addQuake()
+    }
+  }
+
+  restoreTint () {
+    if(this.properties['active']){
+      this.tint = 0xFFFFFF;
+    }
+    else {
+      this.tint = 0xa0a0a0;
+    }
   }
 
   die () {
-    this.angle = 90
-    this.animations.stop()
-    this.tint = 0xff0000
+    this.kill();
   }
 
   attack (player) {
@@ -138,13 +159,14 @@ export default class extends Phaser.Sprite {
     this.animations.stop()
     this.frame = 1+this.num*3
     this.properties['active'] = false
-    this.tint = 0xa0a0a0;
+    this.restoreTint();
+
   }
 
   setActive () {
     this.animations.play('idle')
     this.properties['active'] = true
-    this.tint = 0xffffff;
+    this.restoreTint();
   }
 
   addQuake () {
@@ -159,7 +181,7 @@ export default class extends Phaser.Sprite {
     // we make it a relly fast movement
     var duration = 100;
     // because it will repeat
-    var repeat = 4;
+    var repeat = 1;
     // we use bounce in-out to soften it a little bit
     var ease = Phaser.Easing.Bounce.InOut;
     var autoStart = false;
@@ -169,7 +191,7 @@ export default class extends Phaser.Sprite {
     var yoyo = true;
 
     var quake = game.add.tween(this)
-    .to(properties, duration, ease, autoStart, delay, 4, yoyo);
+    .to(properties, duration, ease, autoStart, delay, repeat, yoyo);
 
     // let the earthquake begins
     quake.start();

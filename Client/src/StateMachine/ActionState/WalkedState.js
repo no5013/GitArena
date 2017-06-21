@@ -6,7 +6,7 @@ export default class extends ActionState {
   }
 
   enterState () {
-    console.log("ActionSelectState")
+    console.log("WalkedState")
     this.unit = this.game.properties.ActionStateVar['unit']
     this.game.enableActionCommandHud();
   }

@@ -11,6 +11,10 @@ export default class extends ActionState {
     this.game.showMovingRange(this.unit)
   }
 
+  leaveState () {
+    this.unit = this.game.properties.ActionStateVar['walked'] = true
+  }
+
   selectTile (x, y) {
     var currentTile = this.game.properties.ActionStateVar['currentTile']
     var nextTile = this.game.map.getTile(x, y, this.game.layer)
@@ -27,6 +31,6 @@ export default class extends ActionState {
   }
 
   nextState () {
-    this.game.setActionState(this.game.ActionState.UnitSelectState)
+    this.game.setActionState(this.game.ActionState.WalkedState)
   }
 }

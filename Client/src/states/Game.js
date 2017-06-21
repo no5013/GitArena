@@ -8,6 +8,7 @@ import WalkState from '../StateMachine/ActionState/WalkState'
 import SkillState from '../StateMachine/ActionState/SkillState'
 import ActionSelectState from '../StateMachine/ActionState/ActionSelectState'
 import EndTurnState from '../StateMachine/ActionState/EndTurnState'
+import WalkedState from '../StateMachine/ActionState/WalkedState'
 
 const tile_size_x = 32
 const tile_size_y = 32
@@ -48,7 +49,8 @@ export default class extends Phaser.State {
       WalkState: new WalkState(self),
       SkillState: new SkillState(self),
       ActionSelectState: new ActionSelectState(self),
-      EndTurnState: new EndTurnState(self)
+      EndTurnState: new EndTurnState(self),
+      WalkedState: new WalkedState(self)
     }
     this.properties = {
       ActionStateVar: {}
@@ -80,12 +82,16 @@ export default class extends Phaser.State {
     this.walk_button = game.make.button(500, 50, 'button', this.actionOnClick, this, 2, 1, 0);
     game.add.existing(this.walk_button)
     this.walk_button.fixedToCamera = true
-    this.walk_button.visible = false;
 
     this.attack_button = game.make.button(500, 150, 'button', this.actionOnClick2, this, 2, 1, 0);
     game.add.existing(this.attack_button)
     this.attack_button.fixedToCamera = true
-    this.attack_button.visible = false;
+
+    this.end_button = game.make.button(500, 250, 'button', this.actionOnClick3, this, 2, 1, 0);
+    game.add.existing(this.end_button)
+    this.end_button.fixedToCamera = true
+
+    this.disableActionCommandHud();
 
     this.next_turn();
   }
@@ -93,22 +99,35 @@ export default class extends Phaser.State {
   enableActionCommandHud(){
     this.walk_button.visible = true;
     this.attack_button.visible = true;
+    this.end_button.visible = true;
   }
 
   disableActionCommandHud(){
     this.walk_button.visible = false;
     this.attack_button.visible = false;
+    this.end_button.visible = false;
   }
 
   actionOnClick () {
     console.log("walk")
-    this.currentState.setNextState(this.ActionState.WalkState)
-    this.currentState.nextState();
+    if(!this.properties.ActionStateVar['walked']){
+      this.currentState.setNextState(this.ActionState.WalkState)
+      this.currentState.nextState();
+    }
+    else {
+      console.log("walked")
+    }
   }
 
   actionOnClick2 () {
     console.log("attack")
     this.currentState.setNextState(this.ActionState.SkillState)
+    this.currentState.nextState();
+  }
+
+  actionOnClick3 () {
+    console.log("end turn")
+    this.currentState.setNextState(this.ActionState.EndTurnState)
     this.currentState.nextState();
   }
 
@@ -128,11 +147,6 @@ export default class extends Phaser.State {
     else if (cursors.down.isDown)
     {
       game.camera.y+=camera_speed;
-    }
-
-    if(!current_unit.properties['active']){
-      this.next_turn()
-      console.log("NEXT_TURN")
     }
   }
 
@@ -391,9 +405,15 @@ export default class extends Phaser.State {
   }
 
   next_turn() {
+    this.clearTurn();
+
     current_unit = players.shift();
     current_unit.setActive()
     players.push(current_unit)
+  }
+
+  clearTurn () {
+    this.properties.ActionStateVar = {}
   }
 
   setActionState(state) {
