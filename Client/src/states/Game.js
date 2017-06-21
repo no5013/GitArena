@@ -406,10 +406,14 @@ export default class extends Phaser.State {
 
   next_turn() {
     this.clearTurn();
-
     current_unit = players.shift();
-    current_unit.setActive()
-    players.push(current_unit)
+    if(current_unit.alive){
+      current_unit.setActive()
+      players.push(current_unit)
+    }
+    else{
+    this.next_turn();
+    }
   }
 
   clearTurn () {
