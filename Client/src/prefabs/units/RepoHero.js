@@ -5,7 +5,7 @@ const move_speed = 0.25;
 
 export default class extends Phaser.Sprite {
 
-  constructor ({ game, x, y, asset, name, health, num}) {
+  constructor ({game, x, y, asset, name, health, num}) {
     super(game.game, x, y, asset)
 
     let self = this;
@@ -147,12 +147,11 @@ export default class extends Phaser.Sprite {
   }
 
   selected () {
-    // this.animations.play('idle')
+
   }
 
   unselected () {
-    // this.animations.stop()
-    // this.frame = 1+this.num*3
+
   }
 
   setDeactive () {

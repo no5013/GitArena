@@ -2,6 +2,8 @@
 import Phaser from 'phaser'
 import Util from '../util/Util'
 import RepoHero from '../prefabs/units/RepoHero'
+import PlayerUnit from '../prefabs/units/PlayerUnit'
+import EnemyUnit from '../prefabs/units/EnemyUnit'
 
 import UnitSelectState from '../StateMachine/ActionState/UnitSelectState'
 import WalkState from '../StateMachine/ActionState/WalkState'
@@ -387,21 +389,46 @@ export default class extends Phaser.State {
 
   initCharacters() {
     let self = this
-    let runner = 0
-    spawn_points.forEach(function(spawn_point){
-      players.push(new RepoHero({
-        game: self,
-        x: spawn_points[runner].x*tile_size_x,
-        y: spawn_points[runner].y*tile_size_y,
-        asset: 'chara',
-        name: self.game.repos[runner].repo_name,
-        health: 10,
-        num: runner,
-      }))
-      self.game.add.existing(players[runner])
-      let tile = self.map.getTile(spawn_points[runner].x, spawn_points[runner].y)
-      tile.properties['owner'] = players[runner++];
-    })
+    // let runner = 0
+    // spawn_points.forEach(function(spawn_point){
+    //   players.push(new RepoHero({
+    //     game: self,
+    //     x: spawn_points[runner].x*tile_size_x,
+    //     y: spawn_points[runner].y*tile_size_y,
+    //     asset: 'chara',
+    //     name: self.game.repos[runner].repo_name,
+    //     health: 10,
+    //     num: runner,
+    //   }))
+    //   self.game.add.existing(players[runner])
+    //   let tile = self.map.getTile(spawn_points[runner].x, spawn_points[runner].y)
+    //   tile.properties['owner'] = players[runner++];
+    // })
+    players.push(new PlayerUnit({
+      game: this,
+      x: spawn_points[0].x*tile_size_x,
+      y: spawn_points[0].y*tile_size_y,
+      asset: 'chara',
+      name: self.game.repos[0].repo_name,
+      health: 10,
+      num: 0,
+    }))
+    self.game.add.existing(players[0])
+    let tile = self.map.getTile(spawn_points[0].x, spawn_points[0].y)
+    tile.properties['owner'] = players[0];
+
+    players.push(new EnemyUnit({
+      game: this,
+      x: spawn_points[1].x*tile_size_x,
+      y: spawn_points[1].y*tile_size_y,
+      asset: 'chara',
+      name: self.game.repos[1].repo_name,
+      health: 10,
+      num: 1,
+    }))
+    self.game.add.existing(players[1])
+    tile = self.map.getTile(spawn_points[1].x, spawn_points[1].y)
+    tile.properties['owner'] = players[1];
   }
 
   next_turn() {
@@ -409,10 +436,11 @@ export default class extends Phaser.State {
     current_unit = players.shift();
     if(current_unit.alive){
       current_unit.setActive()
+      current_unit.act()
       players.push(current_unit)
     }
     else{
-    this.next_turn();
+      this.next_turn();
     }
   }
 
