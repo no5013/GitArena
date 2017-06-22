@@ -11,6 +11,7 @@ import SkillState from '../StateMachine/ActionState/SkillState'
 import ActionSelectState from '../StateMachine/ActionState/ActionSelectState'
 import EndTurnState from '../StateMachine/ActionState/EndTurnState'
 import WalkedState from '../StateMachine/ActionState/WalkedState'
+import EnemyActionState from '../StateMachine/ActionState/EnemyActionState'
 
 const tile_size_x = 32
 const tile_size_y = 32
@@ -20,7 +21,6 @@ var camera_speed = 5;
 var marker;
 var moving = {}
 var players = []
-var current_unit
 
 const spawn_points = [
   {
@@ -52,13 +52,12 @@ export default class extends Phaser.State {
       SkillState: new SkillState(self),
       ActionSelectState: new ActionSelectState(self),
       EndTurnState: new EndTurnState(self),
-      WalkedState: new WalkedState(self)
+      WalkedState: new WalkedState(self),
+      EnemyActionState: new EnemyActionState(self)
     }
     this.properties = {
       ActionStateVar: {}
     }
-
-    this.currentState = this.ActionState.UnitSelectState
   }
 
   preload () {
@@ -96,6 +95,7 @@ export default class extends Phaser.State {
     this.disableActionCommandHud();
 
     this.next_turn();
+    this.setActionState(this.ActionState.UnitSelectState)
   }
 
   enableActionCommandHud(){
@@ -433,11 +433,11 @@ export default class extends Phaser.State {
 
   next_turn() {
     this.clearTurn();
-    current_unit = players.shift();
-    if(current_unit.alive){
-      current_unit.setActive()
-      current_unit.act()
-      players.push(current_unit)
+    this.current_unit = players.shift();
+    if(this.current_unit.alive){
+      this.current_unit.setActive()
+      // this.current_unit.act()
+      players.push(this.current_unit)
     }
     else{
       this.next_turn();
@@ -449,7 +449,9 @@ export default class extends Phaser.State {
   }
 
   setActionState(state) {
-    this.currentState.leaveState();
+    if(this.currentState){
+      this.currentState.leaveState();
+    }
     this.currentState = state;
     this.currentState.enterState();
   }

@@ -1,4 +1,5 @@
 import ActionState from './ActionState'
+import PlayerUnit from '../../prefabs/units/PlayerUnit'
 
 export default class extends ActionState {
   constructor (game) {
@@ -7,11 +8,22 @@ export default class extends ActionState {
 
   enterState () {
     console.log("select state")
+    console.log(this.game.current_unit.name)
+    if(this.game.current_unit instanceof PlayerUnit){
+      console.log("HEY THIS IS PLAYER")
+      this.setNextState(this.game.ActionState.ActionSelectState)
+    }
+    else {
+      console.log("HEY THIS IS ENEMY")
+      this.setNextState(this.game.ActionState.EnemyActionState)
+      this.nextState()
+    }
   }
 
   selectTile (x, y) {
     let tile = this.game.map.getTile(x, y, game.layer)
     let unit = tile.properties['owner']
+    console.log(tile)
     if(unit&&unit.properties['active']){
       console.log("UNIT SELECTED")
       console.log(unit.name)
@@ -26,7 +38,17 @@ export default class extends ActionState {
       console.log("PLEASE SELECT UNIT")
     }
   }
+
+  setNextState(next_state){
+    this.next_state = next_state
+  }
+
   nextState () {
-    this.game.setActionState(this.game.ActionState.ActionSelectState)
+    if(!this.next_state){
+      this.game.setActionState(this.game.ActionState.ActionSelectState)
+    }else
+    {
+      this.game.setActionState(this.next_state)
+    }
   }
 }

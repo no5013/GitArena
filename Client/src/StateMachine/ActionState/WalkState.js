@@ -31,6 +31,6 @@ export default class extends ActionState {
   }
 
   nextState () {
-    this.game.setActionState(this.game.ActionState.WalkedState)
+    this.game.setActionState(this.game.ActionState.ActionSelectState)
   }
 }
