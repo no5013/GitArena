@@ -8,6 +8,8 @@ export default class extends Phaser.Sprite {
   constructor ({game, x, y, asset, name, health, num}) {
     super(game.game, x, y, asset)
 
+    this.game.add.existing(this)
+
     let self = this;
 
     this.game = game;
@@ -20,10 +22,6 @@ export default class extends Phaser.Sprite {
     this.attackRange = 3
 
     this.anchor.setTo(0,0.5)
-    // this.game.add.existing(this);
-    game.physics.arcade.enable(this)
-
-    this.body.collideWorldBounds = true;
 
     this.initAnimations();
     this.setDeactive();
@@ -66,21 +64,6 @@ export default class extends Phaser.Sprite {
 
   }
 
-  move (direction, range){
-    if(direction == "right"){
-      this.x += range*32
-    }
-    if(direction == "left"){
-      this.x -= range*32
-    }
-    if(direction == "down"){
-      this.y += range*32
-    }
-    if(direction == "up"){
-      this.y -= range*32
-    }
-  }
-
   moveTo (dest_x, dest_y, callback){
     let distance = Util.distanceBetweenPoint(this.x,this.y, dest_x, dest_y)
     let direction = Util.directionOfVector(this.x, this.y, dest_x, dest_y)
@@ -92,7 +75,7 @@ export default class extends Phaser.Sprite {
     this.isMoving = true;
     this.animations.play(direction)
 
-    var characterMovement = game.add.tween(this);
+    var characterMovement = this.game.add.tween(this);
     characterMovement.to({x: dest_x, y: dest_y}, distance/move_speed);
     characterMovement.onComplete.add(function(){
       this.isMoving = false
@@ -109,7 +92,7 @@ export default class extends Phaser.Sprite {
     console.log(`Receive ${damage}, remaining ${this.health}`)
 
     this.damage_text.text = damage
-    var damage_float = game.add.tween(this.damage_text);
+    var damage_float = this.game.add.tween(this.damage_text);
     damage_float.to({x: 0, y: -60}, 1000);
     damage_float.onComplete.add(function(){
       this.damage_text.text = ""
@@ -189,7 +172,7 @@ export default class extends Phaser.Sprite {
     // we want to go back to the original position
     var yoyo = true;
 
-    var quake = game.add.tween(this)
+    var quake = this.game.add.tween(this)
     .to(properties, duration, ease, autoStart, delay, repeat, yoyo);
 
     // let the earthquake begins

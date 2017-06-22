@@ -5,6 +5,8 @@ import RepoHero from '../prefabs/units/RepoHero'
 import PlayerUnit from '../prefabs/units/PlayerUnit'
 import EnemyUnit from '../prefabs/units/EnemyUnit'
 
+import TextPrefab from '../prefabs/TextPrefab'
+
 import UnitSelectState from '../StateMachine/ActionState/UnitSelectState'
 import WalkState from '../StateMachine/ActionState/WalkState'
 import SkillState from '../StateMachine/ActionState/SkillState'
@@ -12,6 +14,12 @@ import ActionSelectState from '../StateMachine/ActionState/ActionSelectState'
 import EndTurnState from '../StateMachine/ActionState/EndTurnState'
 import WalkedState from '../StateMachine/ActionState/WalkedState'
 import EnemyActionState from '../StateMachine/ActionState/EnemyActionState'
+
+import Menu from '../prefabs/huds/Menu'
+
+import AttackMenuItem from '../prefabs/huds/AttackMenuItem'
+import WalkMenuItem from '../prefabs/huds/WalkMenuItem'
+import EndTurnMenuItem from '../prefabs/huds/EndTurnMenuItem'
 
 const tile_size_x = 32
 const tile_size_y = 32
@@ -58,6 +66,11 @@ export default class extends Phaser.State {
     this.properties = {
       ActionStateVar: {}
     }
+
+    this.groups = {
+      hud: this.game.add.group()
+    }
+    this.prefabs = {}
   }
 
   preload () {
@@ -70,6 +83,7 @@ export default class extends Phaser.State {
   }
 
   create () {
+
     this.initMap()
 
     this.initMarker()
@@ -80,34 +94,62 @@ export default class extends Phaser.State {
 
     cursors = game.input.keyboard.createCursorKeys();
 
-    this.walk_button = game.make.button(500, 50, 'button', this.actionOnClick, this, 2, 1, 0);
-    game.add.existing(this.walk_button)
-    this.walk_button.fixedToCamera = true
+    // this.walk_button = game.make.button(500, 50, 'button', this.actionOnClick, this, 2, 1, 0);
+    // game.add.existing(this.walk_button)
+    // this.walk_button.fixedToCamera = true
+    //
+    // this.attack_button = game.make.button(500, 150, 'button', this.actionOnClick2, this, 2, 1, 0);
+    // game.add.existing(this.attack_button)
+    // this.attack_button.fixedToCamera = true
+    //
+    // this.end_button = game.make.button(500, 250, 'button', this.actionOnClick3, this, 2, 1, 0);
+    // game.add.existing(this.end_button)
+    // this.end_button.fixedToCamera = true
 
-    this.attack_button = game.make.button(500, 150, 'button', this.actionOnClick2, this, 2, 1, 0);
-    game.add.existing(this.attack_button)
-    this.attack_button.fixedToCamera = true
-
-    this.end_button = game.make.button(500, 250, 'button', this.actionOnClick3, this, 2, 1, 0);
-    game.add.existing(this.end_button)
-    this.end_button.fixedToCamera = true
-
-    this.disableActionCommandHud();
+    // this.disableActionCommandHud();
 
     this.next_turn();
     this.setActionState(this.ActionState.UnitSelectState)
+
+    this.TEXT_STYLE = {font: "30px Arial", fill: "#FFFFFF"}
+    this.show_player_actions({x:400, y:100});
+    this.disableActionCommandHud();
+
+    // this.test_text = new TextPrefab(
+    //   {
+    //     game_state: this,
+    //     name: "TEST",
+    //     position: {
+    //       x: 100,
+    //       y:100
+    //     },
+    //     properties: {
+    //       text: "test",
+    //       style: "this.TEXT_STYLE",
+    //       group: "hud"
+    //     }
+    //   }
+    // )
+    // this.test_text = new TextPrefab(this, "test", {x: 100, y: 100}, {text: "test", style: this.TEXT_STYLE, group: "hud"})
+    // game.add.existing(this.test_text)
+
+
   }
 
   enableActionCommandHud(){
-    this.walk_button.visible = true;
-    this.attack_button.visible = true;
-    this.end_button.visible = true;
+    // this.walk_button.visible = true;
+    // this.attack_button.visible = true;
+    // this.end_button.visible = true;
+    this.prefabs['actions_menu'].enable();
+    this.prefabs['actions_menu'].show();
   }
 
   disableActionCommandHud(){
-    this.walk_button.visible = false;
-    this.attack_button.visible = false;
-    this.end_button.visible = false;
+    // this.walk_button.visible = false;
+    // this.attack_button.visible = false;
+    // this.end_button.visible = false;
+    this.prefabs['actions_menu'].disable();
+    this.prefabs['actions_menu'].hide();
   }
 
   actionOnClick () {
@@ -153,10 +195,11 @@ export default class extends Phaser.State {
   }
 
   moveCharacter(unit, fromTile, toTile, callback) {
+    console.log("movemove yo yo")
     game.camera.follow(unit)
     unit.moveTo(toTile.x*tile_size_x, toTile.y*tile_size_y, this.finishAction)
-    toTile.properties['owner'] = unit
     fromTile.properties['owner'] = null
+    toTile.properties['owner'] = unit
   }
 
   finishAction() {
@@ -413,11 +456,11 @@ export default class extends Phaser.State {
       health: 10,
       num: 0,
     }))
-    self.game.add.existing(players[0])
+    // self.game.add.existing(players[0])
     let tile = self.map.getTile(spawn_points[0].x, spawn_points[0].y)
     tile.properties['owner'] = players[0];
 
-    players.push(new EnemyUnit({
+    players.push(new PlayerUnit({
       game: this,
       x: spawn_points[1].x*tile_size_x,
       y: spawn_points[1].y*tile_size_y,
@@ -426,7 +469,7 @@ export default class extends Phaser.State {
       health: 10,
       num: 1,
     }))
-    self.game.add.existing(players[1])
+    // self.game.add.existing(players[1])
     tile = self.map.getTile(spawn_points[1].x, spawn_points[1].y)
     tile.properties['owner'] = players[1];
   }
@@ -454,6 +497,28 @@ export default class extends Phaser.State {
     }
     this.currentState = state;
     this.currentState.enterState();
+  }
+
+  show_player_actions (position) {
+    var self = this
+
+    var actions, actions_menu_items, action_index, actions_menu
+
+    // Available Action
+    actions = [
+      {text: "Attack", item_constructor: AttackMenuItem.prototype.constructor},
+      {text: "Walk", item_constructor: WalkMenuItem.prototype.constructor},
+      {text: "Endturn", item_constructor: EndTurnMenuItem.prototype.constructor}
+    ]
+    actions_menu_items = []
+    action_index = 0;
+
+    // Create a menu item for each action
+    actions.forEach(function (action) {
+      actions_menu_items.push(new action.item_constructor(this, action.text+"_menu_item", {x: position.x, y:position.y + action_index * 35}, {group: "hud", text: action.text, style: Object.create(self.TEXT_STYLE)}));
+      action_index++;
+    }, this);
+    actions_menu = new Menu(this, "actions_menu", position, {group: "hud", menu_items: actions_menu_items})
   }
 
   render () {

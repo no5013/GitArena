@@ -15,10 +15,6 @@ export default class extends ActionState {
     this.game.disableActionCommandHud();
   }
 
-  selectTile (x, y) {
-    console.log('fuck')
-  }
-
   setNextState(state) {
     this.next_state = state
   }

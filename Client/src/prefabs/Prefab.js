@@ -1,9 +1,13 @@
 import Phaser from 'phaser'
 
 export default class extends Phaser.Sprite {
-  constructor ({ game_state, name, position, properties }) {
-    super(game_state, position.x, position.y, properties.texture)
+  constructor (game_state, name, position, properties) {
+    super(game_state.game, position.x, position.y, properties.texture)
+
     this.game_state = game_state;
+
+      game_state.game.add.existing(this)
+
     this.name = name;
 
     this.game_state.groups[properties.group].add(this);
