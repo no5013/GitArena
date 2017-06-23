@@ -6,19 +6,30 @@ export default class extends TextPrefab{
     super(game_state, name, position, properties)
     this.inputEnabled = true
     this.events.onInputDown.add(this.select, game_state)
+    this.events.onInputOver.add(this.selectionOver, game_state)
+    this.events.onInputOut.add(this.selectionOut, game_state)
   }
 
-  selectionOver () {
-    this.fill = "#FFFF00"
+  selectionOver (item) {
+    if(item){
+      item.fill = "#FFFF00"
+    }
+    else {
+      this.fill = "#FFFF00"
+    }
   }
 
-  selectionOut () {
-    this.fill ="#FFFFFF"
+  selectionOut (item) {
+    if(item){
+      item.fill = "#FFFFFF"
+    }
+    else {
+      this.fill ="#FFFFFF"
+    }
   }
 
   select(){
     console.log("CLICK ITEM")
   }
-
 
 }

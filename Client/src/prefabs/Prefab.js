@@ -6,11 +6,11 @@ export default class extends Phaser.Sprite {
 
     this.game_state = game_state;
 
-      game_state.game.add.existing(this)
+    game_state.game.add.existing(this)
 
     this.name = name;
 
-    this.game_state.groups[properties.group].add(this);
+    // this.game_state.groups[properties.group].add(this);
     this.frame = +properties.frame;
 
     if (properties.scale) {
