@@ -9,7 +9,8 @@ export default class extends MenuItem{
 
   select () {
     console.log("select walk command")
-    this.game_state.currentState.setNextState(this.game_state.ActionState.WalkState)
-    this.game_state.currentState.nextState();
+    let game_state = game.state.states.Game
+    game_state.currentState.setNextState(game_state.ActionState.WalkState)
+    game_state.currentState.nextState();
   }
 }

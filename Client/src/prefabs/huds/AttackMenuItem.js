@@ -8,8 +8,8 @@ export default class extends MenuItem{
   }
 
   select () {
-    console.log("select attack command")
-    this.game_state.currentState.setNextState(this.game_state.ActionState.SkillState)
-    this.game_state.currentState.nextState();
+    let game_state = game.state.states.Game
+    game_state.currentState.setNextState(game_state.ActionState.SkillState)
+    game_state.currentState.nextState();
   }
 }

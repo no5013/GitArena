@@ -4,6 +4,8 @@ import TextPrefab from '../TextPrefab'
 export default class extends TextPrefab{
   constructor (game_state, name, position, properties) {
     super(game_state, name, position, properties)
+    this.inputEnabled = true
+    this.events.onInputDown.add(this.select, game_state)
   }
 
   selectionOver () {
@@ -13,4 +15,10 @@ export default class extends TextPrefab{
   selectionOut () {
     this.fill ="#FFFFFF"
   }
+
+  select(){
+    console.log("CLICK ITEM")
+  }
+
+
 }
