@@ -35,8 +35,8 @@ const spawn_points = [
     y: 5
   },
   {
-    x: 5,
-    y: 7
+    x: 20,
+    y: 5
   },
   {
     x: 5,
@@ -149,7 +149,7 @@ export default class extends Phaser.State {
     let to_tile = this.map.getTile(to_tile_x, to_tile_y, this.layer)
 
     game.camera.follow(unit)
-    unit.moveTo(to_tile_x*tile_size_x, to_tile_y*tile_size_y, this.finishAction)
+    unit.moveTo(to_tile_x*tile_size_x, to_tile_y*tile_size_y, callback)
     from_tile.properties['owner'] = null
     to_tile.properties['owner'] = unit
   }
@@ -239,6 +239,8 @@ export default class extends Phaser.State {
 
     for(let j=0; j<=unit.attackRange; j++){
       for(let i=0; i<=unit.attackRange-j; i++){
+        if(i==0 && j==0)
+        continue;
         possibleAttack.push(
           {
             x:x+i,
@@ -395,6 +397,12 @@ export default class extends Phaser.State {
   next_turn() {
     this.clearTurn();
     this.current_unit = this.players.shift();
+
+    if(this.players.length<=0){
+      console.log("GAME OVER")
+      return;
+    }
+
     if(this.current_unit.alive){
       this.current_unit.setActive()
       // this.current_unit.act()
