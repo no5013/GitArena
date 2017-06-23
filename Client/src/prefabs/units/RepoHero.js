@@ -107,7 +107,9 @@ export default class extends Phaser.Sprite {
       this.die()
     }
     else{
-      this.addQuake()
+
+      // BUG when 2 tween run at the same time
+      // this.addQuake()
     }
   }
 

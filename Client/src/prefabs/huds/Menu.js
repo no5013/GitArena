@@ -57,18 +57,7 @@ export default class extends Prefab{
       this.moveSelection(0)
     }
     this.game_state.game.input.keyboard.addCallbacks(this, this.processInput)
-    // this.inputEnabled = true
-    // this.events.onInputOver.add(this.logIn, this.game_state)
-    // this.events.onInputOut.add(this.logOut, this.game_state)
     console.log(this.x, this.y)
-  }
-
-  logIn(){
-    console.log("in")
-  }
-
-  logOut(){
-    console.log("out")
   }
 
   disable () {

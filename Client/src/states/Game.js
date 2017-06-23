@@ -28,7 +28,6 @@ var cursors
 var camera_speed = 5;
 var marker;
 var moving = {}
-var players = []
 
 const spawn_points = [
   {
@@ -71,6 +70,7 @@ export default class extends Phaser.State {
       hud: this.game.add.group()
     }
     this.prefabs = {}
+    this.players = []
   }
 
   preload () {
@@ -94,85 +94,22 @@ export default class extends Phaser.State {
 
     cursors = game.input.keyboard.createCursorKeys();
 
-    // this.walk_button = game.make.button(500, 50, 'button', this.actionOnClick, this, 2, 1, 0);
-    // game.add.existing(this.walk_button)
-    // this.walk_button.fixedToCamera = true
-    //
-    // this.attack_button = game.make.button(500, 150, 'button', this.actionOnClick2, this, 2, 1, 0);
-    // game.add.existing(this.attack_button)
-    // this.attack_button.fixedToCamera = true
-    //
-    // this.end_button = game.make.button(500, 250, 'button', this.actionOnClick3, this, 2, 1, 0);
-    // game.add.existing(this.end_button)
-    // this.end_button.fixedToCamera = true
-
-    // this.disableActionCommandHud();
-
     this.next_turn();
     this.setActionState(this.ActionState.UnitSelectState)
 
     this.TEXT_STYLE = {font: "30px Arial", fill: "#FFFFFF"}
     this.show_player_actions({x:400, y:100});
     this.disableActionCommandHud();
-
-    // this.test_text = new TextPrefab(
-    //   {
-    //     game_state: this,
-    //     name: "TEST",
-    //     position: {
-    //       x: 100,
-    //       y:100
-    //     },
-    //     properties: {
-    //       text: "test",
-    //       style: "this.TEXT_STYLE",
-    //       group: "hud"
-    //     }
-    //   }
-    // )
-    // this.test_text = new TextPrefab(this, "test", {x: 100, y: 100}, {text: "test", style: this.TEXT_STYLE, group: "hud"})
-    // game.add.existing(this.test_text)
-
-
   }
 
   enableActionCommandHud(){
-    // this.walk_button.visible = true;
-    // this.attack_button.visible = true;
-    // this.end_button.visible = true;
     this.prefabs['actions_menu'].enable();
     this.prefabs['actions_menu'].show();
   }
 
   disableActionCommandHud(){
-    // this.walk_button.visible = false;
-    // this.attack_button.visible = false;
-    // this.end_button.visible = false;
     this.prefabs['actions_menu'].disable();
     this.prefabs['actions_menu'].hide();
-  }
-
-  actionOnClick () {
-    console.log("walk")
-    if(!this.properties.ActionStateVar['walked']){
-      this.currentState.setNextState(this.ActionState.WalkState)
-      this.currentState.nextState();
-    }
-    else {
-      console.log("walked")
-    }
-  }
-
-  actionOnClick2 () {
-    console.log("attack")
-    this.currentState.setNextState(this.ActionState.SkillState)
-    this.currentState.nextState();
-  }
-
-  actionOnClick3 () {
-    console.log("end turn")
-    this.currentState.setNextState(this.ActionState.EndTurnState)
-    this.currentState.nextState();
   }
 
   update () {
@@ -195,11 +132,26 @@ export default class extends Phaser.State {
   }
 
   moveCharacter(unit, fromTile, toTile, callback) {
-    console.log("movemove yo yo")
+    var x = this.layer.getTileX(game.input.activePointer.worldX);
+    var y = this.layer.getTileY(game.input.activePointer.worldY);
+
     game.camera.follow(unit)
     unit.moveTo(toTile.x*tile_size_x, toTile.y*tile_size_y, this.finishAction)
     fromTile.properties['owner'] = null
     toTile.properties['owner'] = unit
+  }
+
+  moveUnit(unit, to_tile_x, to_tile_y, callback) {
+    var from_tile_x = this.layer.getTileX(unit.x);
+    var from_tile_y = this.layer.getTileY(unit.y);
+    let from_tile = this.map.getTile(from_tile_x, from_tile_y, this.layer)
+
+    let to_tile = this.map.getTile(to_tile_x, to_tile_y, this.layer)
+
+    game.camera.follow(unit)
+    unit.moveTo(to_tile_x*tile_size_x, to_tile_y*tile_size_y, this.finishAction)
+    from_tile.properties['owner'] = null
+    to_tile.properties['owner'] = unit
   }
 
   finishAction() {
@@ -207,40 +159,6 @@ export default class extends Phaser.State {
     let self = game.state.states.Game
     self.currentState.nextState();
   }
-
-  // getTileProperties() {
-  //   var x = this.layer.getTileX(game.input.activePointer.worldX);
-  //   var y = this.layer.getTileY(game.input.activePointer.worldY);
-  //   var tile = this.map.getTile(x, y, this.layer);
-  //   var moveTile = this.rangeMap.getTile(x, y, this.rangeLayer);
-  //   var owner = tile.properties['owner']
-  //
-  //   if(owner && !moving['character']){
-  //     if(!owner.properties.active){
-  //       console.log("INACTIVE")
-  //       return;
-  //     }
-  //     moving['character'] = owner
-  //     moving['fromTile'] = tile
-  //     owner.selected()
-  //     this.showMovingRange(owner)
-  //     console.log(`SELECT ${owner.textname.text}`)
-  //   }
-  //   else if(owner && moving['character']){
-  //     this.removeMovingRange(moving['character'])
-  //     moving['character'].attack(owner)
-  //     // moving['character'].unselected()
-  //     // moving['character'].properties['active'] = false
-  //     moving['character'].setDeactive();
-  //     this.clearMoving()
-  //   }
-  //   else if(moving['character'] && moveTile){
-  //     console.log(moving['character'])
-  //     this.removeMovingRange(moving['character'])
-  //     this.moveCharacter(moving['character'], moving['fromTile'], tile)
-  //     this.clearMoving()
-  //   }
-  // }
 
   getTileProperties() {
     var x = this.layer.getTileX(game.input.activePointer.worldX);
@@ -447,7 +365,7 @@ export default class extends Phaser.State {
     //   let tile = self.map.getTile(spawn_points[runner].x, spawn_points[runner].y)
     //   tile.properties['owner'] = players[runner++];
     // })
-    players.push(new PlayerUnit({
+    this.players.push(new PlayerUnit({
       game: this,
       x: spawn_points[0].x*tile_size_x,
       y: spawn_points[0].y*tile_size_y,
@@ -458,9 +376,9 @@ export default class extends Phaser.State {
     }))
     // self.game.add.existing(players[0])
     let tile = self.map.getTile(spawn_points[0].x, spawn_points[0].y)
-    tile.properties['owner'] = players[0];
+    tile.properties['owner'] = this.players[0];
 
-    players.push(new PlayerUnit({
+    this.players.push(new EnemyUnit({
       game: this,
       x: spawn_points[1].x*tile_size_x,
       y: spawn_points[1].y*tile_size_y,
@@ -471,16 +389,16 @@ export default class extends Phaser.State {
     }))
     // self.game.add.existing(players[1])
     tile = self.map.getTile(spawn_points[1].x, spawn_points[1].y)
-    tile.properties['owner'] = players[1];
+    tile.properties['owner'] = this.players[1];
   }
 
   next_turn() {
     this.clearTurn();
-    this.current_unit = players.shift();
+    this.current_unit = this.players.shift();
     if(this.current_unit.alive){
       this.current_unit.setActive()
       // this.current_unit.act()
-      players.push(this.current_unit)
+      this.players.push(this.current_unit)
     }
     else{
       this.next_turn();

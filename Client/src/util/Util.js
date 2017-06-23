@@ -21,6 +21,27 @@ export default class {
     }
   }
 
+  static getSurroundCoordinate (x, y) {
+    return [
+      {
+        x:x+1,
+        y:y
+      },
+      {
+        x:x-1,
+        y:y
+      },
+      {
+        x:x,
+        y:y+1
+      },
+      {
+        x:x,
+        y:y-1
+      }      
+    ]
+  }
+
   static log () {
     console.log(Math.sqrt(4))
   }
