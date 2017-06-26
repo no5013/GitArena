@@ -28,7 +28,9 @@ export default class extends ActionState {
     if(!owner && rangeTile){
       this.game.removeMovingRange(this.unit)
       // this.game.moveCharacter(this.unit, currentTile, nextTile)
-      this.game.moveUnit(this.unit, x, y, this.game.finishAction)
+      this.game.moveUnit(this.unit, x, y, function(){
+        
+      })
     }
     else if(owner){
       console.log(owner.name)

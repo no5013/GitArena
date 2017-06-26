@@ -1,8 +1,8 @@
 import Phaser from 'phaser'
-import Prefab from '../Prefab.js'
-import TextPrefab from '../TextPrefab.js'
+import Prefab from '../Prefab'
+import TextPrefab from '../TextPrefab'
 
-export default class extends Prefab{
+export default class extends Prefab {
   constructor (game_state, name, position, properties) {
     super(game_state, name, position ,properties)
 
@@ -16,8 +16,6 @@ export default class extends Prefab{
     });
     this.message_text.anchor.setTo(0.5)
 
-    console.log(this.name)
-
     this.kill_timer = this.game_state.game.time.create();
     this.kill_timer.add(Phaser.Timer.SECOND * properties.duration, this.kill, this);
     this.kill_timer.start();
@@ -26,6 +24,7 @@ export default class extends Prefab{
   kill () {
     super.kill()
     this.message_text.kill();
+
     this.game_state.currentState.nextState();
   }
 }

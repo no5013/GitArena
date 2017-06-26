@@ -20,7 +20,6 @@ export default class extends ActionState {
     if(rangeTile && anotherUnit && anotherUnit!=this.unit){
       this.game.removeAttackRange(this.unit)
       this.unit.attack(anotherUnit)
-      // this.nextState()
     }
     else{
       console.log("Please select enemy")

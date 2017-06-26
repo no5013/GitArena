@@ -137,16 +137,6 @@ export default class extends Phaser.State {
     }
   }
 
-  moveCharacter(unit, fromTile, toTile, callback) {
-    var x = this.layer.getTileX(game.input.activePointer.worldX);
-    var y = this.layer.getTileY(game.input.activePointer.worldY);
-
-    game.camera.follow(unit)
-    unit.moveTo(toTile.x*tile_size_x, toTile.y*tile_size_y, this.finishAction)
-    fromTile.properties['owner'] = null
-    toTile.properties['owner'] = unit
-  }
-
   moveUnit(unit, to_tile_x, to_tile_y, callback) {
     var from_tile_x = this.layer.getTileX(unit.x);
     var from_tile_y = this.layer.getTileY(unit.y);

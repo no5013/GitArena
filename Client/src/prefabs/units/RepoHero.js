@@ -1,10 +1,10 @@
 import Phaser from 'phaser'
-import CommandMessage from '../huds/CommandMessage'
+import ActionMessage from '../huds/ActionMessage'
 import Util from '../../util/Util'
 
 const move_speed = 0.25;
 
-export default class extends Phaser.Sprite {
+export default class RepoHero extends Phaser.Sprite {
 
   constructor ({game, x, y, asset, name, health, num}) {
     super(game.game, x, y, asset)
@@ -21,6 +21,8 @@ export default class extends Phaser.Sprite {
     this.state = game
     this.movingRange = 5
     this.attackRange = 3
+
+    this.move_speed = 0.25
 
     this.anchor.setTo(0,0.5)
 
@@ -83,6 +85,16 @@ export default class extends Phaser.Sprite {
       callback()
     }, this)
     characterMovement.start();
+
+    var action_message_position = new Phaser.Point(400, this.game.world.height * 0.1)
+    var action_message_text = "MOVE UNIT"
+    var action_message = new ActionMessage(this.game, this.name + "_action_message", action_message_position, {
+      group: 'hud',
+      texture: 'rectangle_image',
+      scale: {x: 1.5, y: 0.5},
+      duration: 1,
+      message: action_message_text
+    })
   }
 
   takeDamage (damage){
@@ -132,7 +144,7 @@ export default class extends Phaser.Sprite {
 
     var action_message_position = new Phaser.Point(400, this.game.world.height * 0.1)
     var action_message_text = this.name + " attacks " + target.name + " with 2 damage"
-    var action_message = new CommandMessage(this.game, this.name + "_action_message", action_message_position, {
+    var action_message = new ActionMessage(this.game, this.name + "_action_message", action_message_position, {
       group: 'hud',
       texture: 'rectangle_image',
       scale: {x: 1.5, y: 0.5},

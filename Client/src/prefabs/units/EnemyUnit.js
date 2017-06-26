@@ -20,19 +20,6 @@ export default class extends RepoHero{
 
       let next_move = this.getAttempMoveCoordinate(target_tile_x, target_tile_y)
 
-      // var commands = []
-      //
-      // commands.push(new MoveCommand(this.game, this, {
-      //   x: next_move.x,
-      //   y: next_move.y
-      // }))
-      //
-      // commands.push(new MoveCommand(this.game, this, {
-      //   x: 10,
-      //   y: 10
-      // }))
-      //
-      // return commands
       let self = this;
       var tile, unit, attacked;
       this.game.moveUnit(this, next_move.x, next_move.y, function(){
@@ -51,7 +38,7 @@ export default class extends RepoHero{
           }
         })
         if(!attacked){
-          self.game.finishAction()
+          self.game.currentState.nextState()
         }
       })
     }
@@ -101,5 +88,25 @@ export default class extends RepoHero{
     }
 
     return move_coordinate
+  }
+
+  moveTo (dest_x, dest_y, callback){
+    let distance = Util.distanceBetweenPoint(this.x,this.y, dest_x, dest_y)
+    let direction = Util.directionOfVector(this.x, this.y, dest_x, dest_y)
+    console.log(direction)
+
+    if(this.isMoving){
+      return false;
+    }
+    this.isMoving = true;
+    this.animations.play(direction)
+
+    var characterMovement = this.game.add.tween(this);
+    characterMovement.to({x: dest_x, y: dest_y}, distance/this.move_speed);
+    characterMovement.onComplete.add(function(){
+      this.isMoving = false
+      callback()
+    }, this)
+    characterMovement.start();
   }
 }
