@@ -1,4 +1,5 @@
 import Phaser from 'phaser'
+import CommandMessage from '../huds/CommandMessage'
 import Util from '../../util/Util'
 
 const move_speed = 0.25;
@@ -126,8 +127,19 @@ export default class extends Phaser.Sprite {
     this.kill();
   }
 
-  attack (player) {
-    player.takeDamage(2)
+  attack (target) {
+    target.takeDamage(2)
+
+    var action_message_position = new Phaser.Point(400, this.game.world.height * 0.1)
+    var action_message_text = this.name + " attacks " + target.name + " with 2 damage"
+    var action_message = new CommandMessage(this.game, this.name + "_action_message", action_message_position, {
+      group: 'hud',
+      texture: 'rectangle_image',
+      scale: {x: 1.5, y: 0.5},
+      duration: 1,
+      message: action_message_text
+    })
+
     this.setDeactive();
   }
 

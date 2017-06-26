@@ -76,6 +76,9 @@ export default class extends Phaser.State {
   preload () {
     // I think it tile_size_xxtile_size_x
     game.load.image('tiles', '../assets/tiles/gridtiles.png')
+
+    game.load.image('rectangle_image', '../assets/huds/rectangle.png')
+
     game.load.spritesheet('chara', '../assets/images/vx_chara01.png', tile_size_x, 48);
 
     // Load temp button
@@ -100,6 +103,8 @@ export default class extends Phaser.State {
     this.TEXT_STYLE = {font: "30px Arial", fill: "#FFFFFF"}
     this.show_player_actions({x:400, y:100});
     this.disableActionCommandHud();
+
+    game.world.bringToTop(this.groups.hud);
   }
 
   enableActionCommandHud(){

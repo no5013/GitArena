@@ -57,7 +57,6 @@ export default class extends Prefab{
       this.moveSelection(0)
     }
     this.game_state.game.input.keyboard.addCallbacks(this, this.processInput)
-    console.log(this.x, this.y)
   }
 
   disable () {
