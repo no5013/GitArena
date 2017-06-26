@@ -139,8 +139,6 @@ export default class extends Phaser.Sprite {
       duration: 1,
       message: action_message_text
     })
-
-    this.setDeactive();
   }
 
   selected () {
@@ -156,7 +154,6 @@ export default class extends Phaser.Sprite {
     this.frame = 1+this.num*3
     this.properties['active'] = false
     this.restoreTint();
-
   }
 
   setActive () {

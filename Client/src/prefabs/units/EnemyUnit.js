@@ -40,60 +40,66 @@ export default class extends RepoHero{
 
         possible_attacks.forEach(function(attack){
           tile = self.game.map.getTile(attack.x, attack.y, self.game.layer)
-          unit = tile.properties['owner']
-          if(unit && !attacked){
-            attacked = true
-            self.attack(unit)
+          // check if tile exist
+          if(tile){
+            unit = tile.properties['owner']
+            // if there has unit there and still haven't attack
+            if(unit && !attacked){
+              attacked = true
+              self.attack(unit)
+            }
           }
         })
-      self.game.finishAction()
-    })
-  }
-  else {
-    console.log("win")
-  }
-}
-
-getAttempMoveCoordinate(target_tile_x, target_tile_y) {
-  let current_unit_tile_x = this.game.layer.getTileX(this.x);
-  let current_unit_tile_y = this.game.layer.getTileY(this.y);
-
-  let direction = Util.directionOfVector(current_unit_tile_x, current_unit_tile_y, target_tile_x, target_tile_y)
-
-  let offset_x = 0
-  let offset_y = 0
-
-  var temp_walk_tile_x = current_unit_tile_x
-  var temp_walk_tile_y = current_unit_tile_y
-  var temp_direction
-
-  for(let i=0; i<this.movingRange; i++){
-    temp_direction = Util.directionOfVector(temp_walk_tile_x, temp_walk_tile_y, target_tile_x, target_tile_y)
-
-
-    if(temp_direction == "left" && !this.game.map.getTile(temp_walk_tile_x-1, temp_walk_tile_y).properties['owner'] ){
-      temp_walk_tile_x -= 1
-    }
-    else if(temp_direction == "right" && !this.game.map.getTile(temp_walk_tile_x+1, temp_walk_tile_y).properties['owner']){
-      temp_walk_tile_x +=1
-    }
-    else if(temp_direction == "up" && !this.game.map.getTile(temp_walk_tile_x, temp_walk_tile_y-1).properties['owner']){
-      temp_walk_tile_y -= 1
-    }
-    else if(temp_direction == "down" && !this.game.map.getTile(temp_walk_tile_x, temp_walk_tile_y+1).properties['owner']){
-      temp_walk_tile_y +=1
+        if(!attacked){
+          self.game.finishAction()
+        }
+      })
     }
     else {
-      console.log("REACH THE TARGET")
-      break;
+      console.log("win")
     }
   }
 
-  let move_coordinate = {
-    x: temp_walk_tile_x,
-    y: temp_walk_tile_y
-  }
+  getAttempMoveCoordinate(target_tile_x, target_tile_y) {
+    let current_unit_tile_x = this.game.layer.getTileX(this.x);
+    let current_unit_tile_y = this.game.layer.getTileY(this.y);
 
-  return move_coordinate
-}
+    let direction = Util.directionOfVector(current_unit_tile_x, current_unit_tile_y, target_tile_x, target_tile_y)
+
+    let offset_x = 0
+    let offset_y = 0
+
+    var temp_walk_tile_x = current_unit_tile_x
+    var temp_walk_tile_y = current_unit_tile_y
+    var temp_direction
+
+    for(let i=0; i<this.movingRange; i++){
+      temp_direction = Util.directionOfVector(temp_walk_tile_x, temp_walk_tile_y, target_tile_x, target_tile_y)
+
+
+      if(temp_direction == "left" && !this.game.map.getTile(temp_walk_tile_x-1, temp_walk_tile_y).properties['owner'] ){
+        temp_walk_tile_x -= 1
+      }
+      else if(temp_direction == "right" && !this.game.map.getTile(temp_walk_tile_x+1, temp_walk_tile_y).properties['owner']){
+        temp_walk_tile_x +=1
+      }
+      else if(temp_direction == "up" && !this.game.map.getTile(temp_walk_tile_x, temp_walk_tile_y-1).properties['owner']){
+        temp_walk_tile_y -= 1
+      }
+      else if(temp_direction == "down" && !this.game.map.getTile(temp_walk_tile_x, temp_walk_tile_y+1).properties['owner']){
+        temp_walk_tile_y +=1
+      }
+      else {
+        console.log("REACH THE TARGET")
+        break;
+      }
+    }
+
+    let move_coordinate = {
+      x: temp_walk_tile_x,
+      y: temp_walk_tile_y
+    }
+
+    return move_coordinate
+  }
 }
