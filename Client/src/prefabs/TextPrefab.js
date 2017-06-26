@@ -10,8 +10,8 @@ export default class extends Phaser.Text {
 
     this.name = name;
 
-    this.fixedToCamera = true;
-    
+    // this.fixedToCamera = true;
+
     this.game_state.groups[properties.group].add(this);
 
     this.game_state.prefabs[name] = this

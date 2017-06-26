@@ -16,6 +16,7 @@ import WalkedState from '../StateMachine/ActionState/WalkedState'
 import EnemyActionState from '../StateMachine/ActionState/EnemyActionState'
 
 import Menu from '../prefabs/huds/Menu'
+import DamageText from '../prefabs/huds/DamageText'
 
 import AttackMenuItem from '../prefabs/huds/AttackMenuItem'
 import WalkMenuItem from '../prefabs/huds/WalkMenuItem'
@@ -134,6 +135,14 @@ export default class extends Phaser.State {
     else if (cursors.down.isDown)
     {
       game.camera.y+=camera_speed;
+      var test_text = new DamageText(this, "test_text", {x:200, y:200}, {
+        group: "hud",
+        text: "test",
+        style: Object.create(this.HUD_TEXT_STYLE),
+        distance: 30,
+        duration: 1000
+      })
+
     }
   }
 
