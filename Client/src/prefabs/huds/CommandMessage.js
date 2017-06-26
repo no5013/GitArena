@@ -12,7 +12,7 @@ export default class extends Prefab{
     this.message_text = new TextPrefab(this.game_state, this.name + "_message", position, {
       group: "hud",
       text: properties.message,
-      style: Object.create(this.game_state.TEXT_STYLE)
+      style: Object.create(this.game_state.HUD_TEXT_STYLE)
     });
     this.message_text.anchor.setTo(0.5)
 

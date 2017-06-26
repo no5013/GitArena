@@ -101,6 +101,7 @@ export default class extends Phaser.State {
     this.setActionState(this.ActionState.UnitSelectState)
 
     this.TEXT_STYLE = {font: "30px Arial", fill: "#FFFFFF"}
+    this.HUD_TEXT_STYLE = {font: "16px Arial", fill: "#FFFFFF"}
     this.show_player_actions({x:400, y:100});
     this.disableActionCommandHud();
 
