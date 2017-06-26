@@ -24,7 +24,6 @@ export default class extends Prefab {
   kill () {
     super.kill()
     this.message_text.kill();
-
     this.game_state.currentState.nextState();
   }
 }

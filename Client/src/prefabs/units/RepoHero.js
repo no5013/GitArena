@@ -86,16 +86,6 @@ export default class RepoHero extends Phaser.Sprite {
       callback()
     }, this)
     characterMovement.start();
-
-    var action_message_position = new Phaser.Point(400, this.game.world.height * 0.1)
-    var action_message_text = "MOVE UNIT"
-    var action_message = new ActionMessage(this.game, this.name + "_action_message", action_message_position, {
-      group: 'hud',
-      texture: 'rectangle_image',
-      scale: {x: 1.5, y: 0.5},
-      duration: 1,
-      message: action_message_text
-    })
   }
 
   takeDamage (damage){

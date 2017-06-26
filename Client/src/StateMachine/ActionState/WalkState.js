@@ -1,4 +1,5 @@
 import ActionState from './ActionState'
+import MoveCommand from '../../commands/MoveCommand'
 
 export default class extends ActionState {
   constructor (game) {
@@ -16,7 +17,6 @@ export default class extends ActionState {
   }
 
   selectTile (x, y) {
-
     var x2 = this.game.layer.getTileX(this.unit.x);
     var y2 = this.game.layer.getTileY(this.unit.y);
     var currentTile = this.game.map.getTile(x2, y2, this.game.layer)
@@ -28,9 +28,15 @@ export default class extends ActionState {
     if(!owner && rangeTile){
       this.game.removeMovingRange(this.unit)
       // this.game.moveCharacter(this.unit, currentTile, nextTile)
-      this.game.moveUnit(this.unit, x, y, function(){
-        
+      var move_command = new MoveCommand(this.game, this.unit.name+"_move", {x: this.unit.x,y: this.unit.y}, {
+        coordinate: {
+          x: x,
+          y: y
+        },
+        group: "hud",
+        owner_name: this.unit.name
       })
+      move_command.execute()
     }
     else if(owner){
       console.log(owner.name)
