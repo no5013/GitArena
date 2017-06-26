@@ -2,6 +2,7 @@ import Phaser from 'phaser'
 import RepoHero from './RepoHero'
 import Util from '../../util/Util'
 import MoveCommand from '../../commands/MoveCommand'
+import ActionCommand from '../../commands/ActionCommand'
 
 export default class extends RepoHero{
   constructor (game, x, y, asset, name, health, num) {
@@ -45,6 +46,18 @@ export default class extends RepoHero{
     else {
       console.log("win")
     }
+  }
+
+  getCommand(){
+    var move_command = new MoveCommand(this.game, this.name+"_move", {x: this.x, y: this.y}, {
+      coordinate: {
+        x: 15,
+        y: 10
+      },
+      group: "hud",
+      owner_name: this.name
+    })
+    return move_command
   }
 
   getAttempMoveCoordinate(target_tile_x, target_tile_y) {

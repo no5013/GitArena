@@ -1,4 +1,5 @@
 import Prefab from '../prefabs/Prefab'
+import ActionMessage from '../prefabs/huds/ActionMessage'
 
 export default class extends Prefab {
   constructor (game_state, name, position, properties) {
@@ -8,6 +9,8 @@ export default class extends Prefab {
 
     this.action_message_position = new Phaser.Point(400, this.game.world.height * 0.1)
     this.action_message_text = "Action Message"
+
+    this.properties = properties
   }
 
   showMessage () {

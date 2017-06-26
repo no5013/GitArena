@@ -11,9 +11,9 @@ export default class extends ActionCommand {
   }
 
   execute () {
-    var unit = this.owner.name
-    var to_tile_x = properties.coordinate.x
-    var to_tile_y = properties.coordinate.y
+    var unit = this.owner
+    var to_tile_x = this.properties.coordinate.x
+    var to_tile_y = this.properties.coordinate.y
 
     var from_tile_x = this.game_state.layer.getTileX(unit.x);
     var from_tile_y = this.game_state.layer.getTileY(unit.y);
@@ -21,8 +21,13 @@ export default class extends ActionCommand {
 
     let to_tile = this.game_state.map.getTile(to_tile_x, to_tile_y, this.game_state.layer)
 
-    unit.moveTo(to_tile_x*tile_size_x, to_tile_y*tile_size_y)
+    unit.moveTo(to_tile_x*tile_size_x, to_tile_y*tile_size_y, function(){
+
+    })
+
     from_tile.properties['owner'] = null
     to_tile.properties['owner'] = unit
+
+    this.showMessage();
   }
 }

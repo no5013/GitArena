@@ -87,6 +87,7 @@ export default class extends Phaser.State {
   }
 
   create () {
+    this.prefabs = {}
 
     this.initMap()
 
@@ -135,13 +136,7 @@ export default class extends Phaser.State {
     else if (cursors.down.isDown)
     {
       game.camera.y+=camera_speed;
-      var test_text = new DamageText(this, "test_text", {x:200, y:200}, {
-        group: "hud",
-        text: "test",
-        style: Object.create(this.HUD_TEXT_STYLE),
-        distance: 30,
-        duration: 1000,
-      })
+      console.log(this.prefabs)
     }
   }
 

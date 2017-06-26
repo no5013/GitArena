@@ -9,8 +9,8 @@ export default class RepoHero extends Phaser.Sprite {
 
   constructor ({game, x, y, asset, name, health, num}) {
     super(game.game, x, y, asset)
-
     this.game.add.existing(this)
+    game.prefabs[name] = this
 
     let self = this;
 
