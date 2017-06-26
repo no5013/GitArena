@@ -140,9 +140,8 @@ export default class extends Phaser.State {
         text: "test",
         style: Object.create(this.HUD_TEXT_STYLE),
         distance: 30,
-        duration: 1000
+        duration: 1000,
       })
-
     }
   }
 

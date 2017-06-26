@@ -12,14 +12,16 @@ export default class extends TextPrefab {
     this.stroke = '#000000'
     this.strokeThickness = 5
 
+    this.fixedToCamera = false
+
     let self = this
 
     var text_float = this.game_state.add.tween(this)
     console.log(properties.distance + " " + properties.duration)
-    text_float.to({x: 200, y: 0}, properties.duration)
+    text_float.to({x: self.x, y: self.y - properties.distance}, properties.duration)
     text_float.onComplete.add(function(){
       self.kill()
-    }, this)
+    })
     text_float.start();
   }
 }

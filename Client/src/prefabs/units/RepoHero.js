@@ -1,6 +1,7 @@
 import Phaser from 'phaser'
 import ActionMessage from '../huds/ActionMessage'
 import Util from '../../util/Util'
+import DamageText from '../huds/DamageText'
 
 const move_speed = 0.25;
 
@@ -104,15 +105,13 @@ export default class RepoHero extends Phaser.Sprite {
     this.tint = 0xff0000;
     console.log(`Receive ${damage}, remaining ${this.health}`)
 
-    this.damage_text.text = damage
-    var damage_float = this.game.add.tween(this.damage_text);
-    damage_float.to({x: 0, y: -60}, 1000);
-    damage_float.onComplete.add(function(){
-      this.damage_text.text = ""
-      this.damage_text.x = 0
-      this.damage_text.y = -40
-    }, this)
-    damage_float.start();
+    var test_text = new DamageText(this.game, "test_text", {x:this.x, y:this.y}, {
+      group: "hud",
+      text: damage,
+      style: Object.create(this.game.HUD_TEXT_STYLE),
+      distance: 30,
+      duration: 500,
+    })
 
     this.attacked_animation.start();
 
