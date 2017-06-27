@@ -21,7 +21,7 @@ export default class extends ActionState {
     if(rangeTile && target && target!=this.unit){
       this.game.removeAttackRange(this.unit)
 
-      var attack_command = new NormalAttackCommand(this.game, this.unit.name+"_move", {x: this.unit.x,y: this.unit.y}, {
+      var attack_command = new NormalAttackCommand(this.game, this.unit.name+"_attack", {x: this.unit.x,y: this.unit.y}, {
         target: target,
         group: "hud",
         owner_name: this.unit.name

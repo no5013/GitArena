@@ -27,6 +27,7 @@ export default class extends Prefab {
     super.kill()
     this.message_text.kill();
     if(this.finish_function){
+      console.log("EXECUTE FINISH FUNCTION")
       this.finish_function()
     }
     this.game_state.currentState.nextState();

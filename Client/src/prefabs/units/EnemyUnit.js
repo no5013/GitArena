@@ -2,6 +2,8 @@ import Phaser from 'phaser'
 import RepoHero from './RepoHero'
 import Util from '../../util/Util'
 import MoveCommand from '../../commands/MoveCommand'
+import NormalAttackCommand from '../../commands/NormalAttackCommand'
+import EndTurnCommand from '../../commands/EndTurnCommand'
 import ActionCommand from '../../commands/ActionCommand'
 
 export default class extends RepoHero{
@@ -49,6 +51,8 @@ export default class extends RepoHero{
   }
 
   getCommand(){
+    var command_list = []
+
     var move_command = new MoveCommand(this.game, this.name+"_move", {x: this.x, y: this.y}, {
       coordinate: {
         x: 15,
@@ -57,7 +61,23 @@ export default class extends RepoHero{
       group: "hud",
       owner_name: this.name
     })
-    return move_command
+
+    var attack_command = new NormalAttackCommand(this.game, this.name+"_attack", {x: 0,y: 0}, {
+      target: this.game.players[0],
+      group: "hud",
+      owner_name: this.name
+    })
+
+    var endTurn_command = new EndTurnCommand(this.game, this.name+"_endturn", {x: 0,y: 0}, {
+      group: "hud",
+      owner_name: this.name
+    })
+
+    command_list.push(move_command)
+    command_list.push(attack_command)
+    command_list.push(endTurn_command)
+
+    return command_list
   }
 
   getAttempMoveCoordinate(target_tile_x, target_tile_y) {

@@ -44,6 +44,7 @@ export default class extends ActionState {
   }
 
   nextState () {
+    console.log("UNIT SELECT NEXT STATE")
     if(!this.next_state){
       this.game.setActionState(this.game.ActionState.ActionSelectState)
     }else

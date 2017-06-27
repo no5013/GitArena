@@ -11,7 +11,9 @@ export default class extends ActionCommand {
   }
 
   execute () {
-    this.game_state.currentState.setNextState(this.game_state.ActionState.EndTurnState)
+    this.properties.finish_function = function(){
+      this.game_state.currentState.setNextState(this.game_state.ActionState.EndTurnState)
+    }
     this.showMessage();
   }
 }
