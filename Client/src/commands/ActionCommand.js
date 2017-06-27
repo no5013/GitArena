@@ -19,7 +19,8 @@ export default class extends Prefab {
       texture: 'rectangle_image',
       scale: {x: 1.5, y: 0.5},
       duration: 1,
-      message: this.action_message_text
+      message: this.action_message_text,
+      finish_function: this.properties.finish_function
     })
   }
 

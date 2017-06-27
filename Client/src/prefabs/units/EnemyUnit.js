@@ -102,24 +102,4 @@ export default class extends RepoHero{
 
     return move_coordinate
   }
-
-  moveTo (dest_x, dest_y, callback){
-    let distance = Util.distanceBetweenPoint(this.x,this.y, dest_x, dest_y)
-    let direction = Util.directionOfVector(this.x, this.y, dest_x, dest_y)
-    console.log(direction)
-
-    if(this.isMoving){
-      return false;
-    }
-    this.isMoving = true;
-    this.animations.play(direction)
-
-    var characterMovement = this.game.add.tween(this);
-    characterMovement.to({x: dest_x, y: dest_y}, distance/this.move_speed);
-    characterMovement.onComplete.add(function(){
-      this.isMoving = false
-      callback()
-    }, this)
-    characterMovement.start();
-  }
 }

@@ -1,4 +1,5 @@
 import ActionState from './ActionState'
+import NormalAttackCommand from '../../commands/NormalAttackCommand'
 
 export default class extends ActionState {
   constructor (game) {
@@ -15,11 +16,18 @@ export default class extends ActionState {
     let tile = this.game.map.getTile(x, y, game.layer)
     var rangeTile = this.game.rangeMap.getTile(x, y, this.game.rangeLayer)
 
-    let anotherUnit = tile.properties['owner']
+    let target = tile.properties['owner']
 
-    if(rangeTile && anotherUnit && anotherUnit!=this.unit){
+    if(rangeTile && target && target!=this.unit){
       this.game.removeAttackRange(this.unit)
-      this.unit.attack(anotherUnit)
+
+      var attack_command = new NormalAttackCommand(this.game, this.unit.name+"_move", {x: this.unit.x,y: this.unit.y}, {
+        target: target,
+        group: "hud",
+        owner_name: this.unit.name
+      })
+      attack_command.execute()
+
     }
     else{
       console.log("Please select enemy")
@@ -28,6 +36,6 @@ export default class extends ActionState {
   }
 
   nextState () {
-    this.game.setActionState(this.game.ActionState.EndTurnState)
+    this.game.setActionState(this.game.ActionState.ActionSelectState)
   }
 }

@@ -12,6 +12,14 @@ export default class extends ActionCommand {
 
   execute () {
     var unit = this.owner
+
+    //make camera follow unit and unfollow when it finish action
+    this.game_state.game.camera.follow(unit)
+    this.properties.finish_function = function(){
+      console.log("camera null")
+      this.game_state.game.camera.follow(null)
+    }
+
     var to_tile_x = this.properties.coordinate.x
     var to_tile_y = this.properties.coordinate.y
 

@@ -16,6 +16,8 @@ export default class extends Prefab {
     });
     this.message_text.anchor.setTo(0.5)
 
+    this.finish_function = properties.finish_function
+
     this.kill_timer = this.game_state.game.time.create();
     this.kill_timer.add(Phaser.Timer.SECOND * properties.duration, this.kill, this);
     this.kill_timer.start();
@@ -24,6 +26,9 @@ export default class extends Prefab {
   kill () {
     super.kill()
     this.message_text.kill();
+    if(this.finish_function){
+      this.finish_function()
+    }
     this.game_state.currentState.nextState();
   }
 }

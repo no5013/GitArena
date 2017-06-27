@@ -131,15 +131,15 @@ export default class RepoHero extends Phaser.Sprite {
   attack (target) {
     target.takeDamage(2)
 
-    var action_message_position = new Phaser.Point(400, this.game.world.height * 0.1)
-    var action_message_text = this.name + " attacks " + target.name + " with 2 damage"
-    var action_message = new ActionMessage(this.game, this.name + "_action_message", action_message_position, {
-      group: 'hud',
-      texture: 'rectangle_image',
-      scale: {x: 1.5, y: 0.5},
-      duration: 1,
-      message: action_message_text
-    })
+    // var action_message_position = new Phaser.Point(400, this.game.world.height * 0.1)
+    // var action_message_text = this.name + " attacks " + target.name + " with 2 damage"
+    // var action_message = new ActionMessage(this.game, this.name + "_action_message", action_message_position, {
+    //   group: 'hud',
+    //   texture: 'rectangle_image',
+    //   scale: {x: 1.5, y: 0.5},
+    //   duration: 1,
+    //   message: action_message_text
+    // })
   }
 
   selected () {
