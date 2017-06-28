@@ -14,12 +14,13 @@ import ActionSelectState from '../StateMachine/ActionState/ActionSelectState'
 import EndTurnState from '../StateMachine/ActionState/EndTurnState'
 import WalkedState from '../StateMachine/ActionState/WalkedState'
 import EnemyActionState from '../StateMachine/ActionState/EnemyActionState'
+import SkillSelectionState from '../StateMachine/ActionState/SkillSelectionState'
 
 import Menu from '../prefabs/huds/Menu'
 import DamageText from '../prefabs/huds/DamageText'
 
 import AttackMenuItem from '../prefabs/huds/AttackMenuItem'
-import SkillMenuItem from '../prefabs/huds/AttackMenuItem'
+import SkillMenuItem from '../prefabs/huds/SkillMenuItem'
 import WalkMenuItem from '../prefabs/huds/WalkMenuItem'
 import EndTurnMenuItem from '../prefabs/huds/EndTurnMenuItem'
 
@@ -62,7 +63,8 @@ export default class extends Phaser.State {
       ActionSelectState: new ActionSelectState(self),
       EndTurnState: new EndTurnState(self),
       WalkedState: new WalkedState(self),
-      EnemyActionState: new EnemyActionState(self)
+      EnemyActionState: new EnemyActionState(self),
+      SkillSelectionState: new SkillSelectionState(self)
     }
     this.properties = {
       ActionStateVar: {}
@@ -106,7 +108,9 @@ export default class extends Phaser.State {
     this.TEXT_STYLE = {font: "30px Arial", fill: "#FFFFFF"}
     this.HUD_TEXT_STYLE = {font: "16px Arial", fill: "#FFFFFF"}
     this.init_player_actions({x:400, y:100});
+    this.init_unit_skill({x:400, y:100})
     this.disableActionCommandHud();
+    this.disableUnitSkillCommandHud();
 
     game.world.bringToTop(this.groups.hud);
   }
@@ -119,6 +123,16 @@ export default class extends Phaser.State {
   disableActionCommandHud(){
     this.prefabs['actions_menu'].disable();
     this.prefabs['actions_menu'].hide();
+  }
+
+  enableUnitSkillCommandHud(){
+    this.prefabs['skills_menu'].enable();
+    this.prefabs['skills_menu'].show();
+  }
+
+  disableUnitSkillCommandHud(){
+    this.prefabs['skills_menu'].disable();
+    this.prefabs['skills_menu'].hide();
   }
 
   update () {
@@ -352,9 +366,9 @@ export default class extends Phaser.State {
 
   initCharacters() {
     let self = this
-    // let runner = 0
+    let runner = 0
     // spawn_points.forEach(function(spawn_point){
-    //   players.push(new RepoHero({
+    //   self.players.push(new PlayerUnit({
     //     game: self,
     //     x: spawn_points[runner].x*tile_size_x,
     //     y: spawn_points[runner].y*tile_size_y,
@@ -363,10 +377,10 @@ export default class extends Phaser.State {
     //     health: 10,
     //     num: runner,
     //   }))
-    //   self.game.add.existing(players[runner])
     //   let tile = self.map.getTile(spawn_points[runner].x, spawn_points[runner].y)
-    //   tile.properties['owner'] = players[runner++];
+    //   tile.properties['owner'] = self.players[runner++];
     // })
+
     this.players.push(new PlayerUnit({
       game: this,
       x: spawn_points[0].x*tile_size_x,
@@ -376,7 +390,6 @@ export default class extends Phaser.State {
       health: 10,
       num: 0,
     }))
-    // self.game.add.existing(players[0])
     let tile = self.map.getTile(spawn_points[0].x, spawn_points[0].y)
     tile.properties['owner'] = this.players[0];
 
@@ -389,10 +402,20 @@ export default class extends Phaser.State {
       health: 10,
       num: 1,
     }))
-
-    // self.game.add.existing(players[1])
     tile = self.map.getTile(spawn_points[1].x, spawn_points[1].y)
     tile.properties['owner'] = this.players[1];
+
+    this.players.push(new PlayerUnit({
+      game: this,
+      x: spawn_points[2].x*tile_size_x,
+      y: spawn_points[2].y*tile_size_y,
+      asset: 'chara',
+      name: self.game.repos[2].repo_name,
+      health: 10,
+      num: 2,
+    }))
+    tile = self.map.getTile(spawn_points[2].x, spawn_points[2].y)
+    tile.properties['owner'] = this.players[2];
   }
 
   next_turn() {
@@ -447,6 +470,27 @@ export default class extends Phaser.State {
       action_index++;
     }, this);
     actions_menu = new Menu(this, "actions_menu", position, {group: "hud", menu_items: actions_menu_items})
+  }
+
+  init_unit_skill (position) {
+    var self = this
+
+    var actions, actions_menu_items, action_index, actions_menu
+
+    // Available Action
+    actions = [
+      {text: "Attack", item_constructor: AttackMenuItem.prototype.constructor},
+    ]
+
+    actions_menu_items = []
+    action_index = 0;
+
+    // Create a menu item for each action
+    actions.forEach(function (action) {
+      actions_menu_items.push(new action.item_constructor(this, action.text+"_menu_item", {x: position.x, y:position.y + action_index * 35}, {group: "hud", text: action.text, style: Object.create(self.TEXT_STYLE)}));
+      action_index++;
+    }, this);
+    actions_menu = new Menu(this, "skills_menu", position, {group: "hud", menu_items: actions_menu_items})
   }
 
   render () {
