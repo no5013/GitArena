@@ -9,7 +9,7 @@ import TextPrefab from '../prefabs/TextPrefab'
 
 import UnitSelectState from '../StateMachine/ActionState/UnitSelectState'
 import WalkState from '../StateMachine/ActionState/WalkState'
-import SkillState from '../StateMachine/ActionState/SkillState'
+import TargetSelectionState from '../StateMachine/ActionState/TargetSelectionState'
 import ActionSelectState from '../StateMachine/ActionState/ActionSelectState'
 import EndTurnState from '../StateMachine/ActionState/EndTurnState'
 import WalkedState from '../StateMachine/ActionState/WalkedState'
@@ -58,7 +58,7 @@ export default class extends Phaser.State {
     this.ActionState = {
       UnitSelectState: new UnitSelectState(self),
       WalkState: new WalkState(self),
-      SkillState: new SkillState(self),
+      TargetSelectionState: new TargetSelectionState(self),
       ActionSelectState: new ActionSelectState(self),
       EndTurnState: new EndTurnState(self),
       WalkedState: new WalkedState(self),
@@ -105,7 +105,7 @@ export default class extends Phaser.State {
 
     this.TEXT_STYLE = {font: "30px Arial", fill: "#FFFFFF"}
     this.HUD_TEXT_STYLE = {font: "16px Arial", fill: "#FFFFFF"}
-    this.show_player_actions({x:400, y:100});
+    this.init_player_actions({x:400, y:100});
     this.disableActionCommandHud();
 
     game.world.bringToTop(this.groups.hud);
@@ -426,7 +426,7 @@ export default class extends Phaser.State {
     this.currentState.enterState();
   }
 
-  show_player_actions (position) {
+  init_player_actions (position) {
     var self = this
 
     var actions, actions_menu_items, action_index, actions_menu

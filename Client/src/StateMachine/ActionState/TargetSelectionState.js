@@ -7,7 +7,7 @@ export default class extends ActionState {
   }
 
   enterState () {
-    console.log("skillState")
+    console.log("TargetSelectionState")
     this.unit = this.game.properties.ActionStateVar['unit']
     this.game.showAttackRange(this.unit)
   }
@@ -17,16 +17,23 @@ export default class extends ActionState {
     var rangeTile = this.game.rangeMap.getTile(x, y, this.game.rangeLayer)
 
     let target = tile.properties['owner']
+    let command = this.game.properties.ActionStateVar['command']
 
     if(rangeTile && target && target!=this.unit){
       this.game.removeAttackRange(this.unit)
 
-      var attack_command = new NormalAttackCommand(this.game, this.unit.name+"_attack", {x: this.unit.x,y: this.unit.y}, {
-        target: target,
-        group: "hud",
-        owner_name: this.unit.name
-      })
-      attack_command.execute()
+      // if(command){
+        console.log("I HAVE COMNMAND I SAS")
+        command.properties.target = target
+      // }else{
+      //   command = new NormalAttackCommand(this.game, this.unit.name+"_attack", {x: this.unit.x,y: this.unit.y}, {
+      //     target: target,
+      //     group: "hud",
+      //     owner_name: this.unit.name
+      //   })
+      // }
+
+      command.execute()
 
     }
     else{
