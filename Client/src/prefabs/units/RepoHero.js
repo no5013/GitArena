@@ -91,8 +91,6 @@ export default class RepoHero extends Phaser.Sprite {
   takeDamage (damage){
     console.log(this.x + " " + this.y)
     this.health-=damage
-
-    this.tint = 0xff0000;
     console.log(`Receive ${damage}, remaining ${this.health}`)
 
     var test_text = new DamageText(this.game, "test_text", {x:this.x, y:this.y}, {

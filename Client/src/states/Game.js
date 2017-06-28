@@ -19,6 +19,7 @@ import Menu from '../prefabs/huds/Menu'
 import DamageText from '../prefabs/huds/DamageText'
 
 import AttackMenuItem from '../prefabs/huds/AttackMenuItem'
+import SkillMenuItem from '../prefabs/huds/AttackMenuItem'
 import WalkMenuItem from '../prefabs/huds/WalkMenuItem'
 import EndTurnMenuItem from '../prefabs/huds/EndTurnMenuItem'
 
@@ -388,6 +389,7 @@ export default class extends Phaser.State {
       health: 10,
       num: 1,
     }))
+
     // self.game.add.existing(players[1])
     tile = self.map.getTile(spawn_points[1].x, spawn_points[1].y)
     tile.properties['owner'] = this.players[1];
@@ -432,6 +434,7 @@ export default class extends Phaser.State {
     // Available Action
     actions = [
       {text: "Attack", item_constructor: AttackMenuItem.prototype.constructor},
+      {text: "Skill", item_constructor: SkillMenuItem.prototype.constructor},
       {text: "Walk", item_constructor: WalkMenuItem.prototype.constructor},
       {text: "Endturn", item_constructor: EndTurnMenuItem.prototype.constructor}
     ]

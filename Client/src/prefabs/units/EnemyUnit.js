@@ -17,31 +17,40 @@ export default class extends RepoHero{
     let random_tile_y = Math.floor(Math.random()*10)+1
 
     let target = this.game.players[0]
+
     if(target){
       let target_tile_x = this.game.layer.getTileX(target.x);
       let target_tile_y = this.game.layer.getTileX(target.y);
 
       let next_move = this.getAttempMoveCoordinate(target_tile_x, target_tile_y)
 
+      var move_command = new MoveCommand(this.game, this.name+"_move", {x: this.x, y: this.y}, {
+        coordinate: {
+          x: next_move.x,
+          y: next_move.y
+        },
+        group: "hud",
+        owner_name: this.name
+      })
+
+
       let self = this;
       var tile, unit, attacked;
-      this.game.moveUnit(this, next_move.x, next_move.y, function(){
-        var possible_attacks = self.game.getAttackRangeCoordinate(self)
-
-        possible_attacks.forEach(function(attack){
-          tile = self.game.map.getTile(attack.x, attack.y, self.game.layer)
-          // check if tile exist
-          if(tile){
-            unit = tile.properties['owner']
-            // if there has unit there and still haven't attack
-            if(unit && !attacked){
-              attacked = true
-              self.attack(unit)
-            }
+      var possible_attacks = this.game.getAttackRangeCoordinate(this)
+      possible_attacks.forEach(function(attack){
+        tile = self.game.map.getTile(attack.x, attack.y, self.game.layer)
+        // check if tile exist
+        if(tile){
+          unit = tile.properties['owner']
+          // if there has unit there and still haven't attack
+          if(unit && !attacked){
+            attacked = true
+            var attack_command = new NormalAttackCommand(this.game, this.name+"_attack", {x: 0,y: 0}, {
+              target: this.game.players[0],
+              group: "hud",
+              owner_name: this.name
+            })
           }
-        })
-        if(!attacked){
-          self.game.currentState.nextState()
         }
       })
     }
@@ -52,29 +61,73 @@ export default class extends RepoHero{
 
   getCommand(){
     var command_list = []
+    var move_command, attack_command
 
-    var move_command = new MoveCommand(this.game, this.name+"_move", {x: this.x, y: this.y}, {
-      coordinate: {
-        x: 15,
-        y: 10
-      },
-      group: "hud",
-      owner_name: this.name
-    })
+    let random_tile_x = Math.floor(Math.random()*10)+1
+    let random_tile_y = Math.floor(Math.random()*10)+1
 
-    var attack_command = new NormalAttackCommand(this.game, this.name+"_attack", {x: 0,y: 0}, {
-      target: this.game.players[0],
-      group: "hud",
-      owner_name: this.name
-    })
+    let target = this.game.players[0]
+
+    if(target){
+      let target_tile_x = this.game.layer.getTileX(target.x);
+      let target_tile_y = this.game.layer.getTileX(target.y);
+
+      let next_move = this.getAttempMoveCoordinate(target_tile_x, target_tile_y)
+
+      move_command = new MoveCommand(this.game, this.name+"_move", {x: this.x, y: this.y}, {
+        coordinate: {
+          x: next_move.x,
+          y: next_move.y
+        },
+        group: "hud",
+        owner_name: this.name
+      })
+      command_list.push(move_command)
+
+      let self = this;
+      var tile, unit, attacked;
+      var possible_attacks = this.game.getAttackRangeCoordinate(this)
+      possible_attacks.forEach(function(attack){
+        tile = self.game.map.getTile(attack.x, attack.y, self.game.layer)
+        // check if tile exist
+        if(tile){
+          unit = tile.properties['owner']
+          // if there has unit there and still haven't attack
+          if(unit && !attacked){
+            attacked = true
+            attack_command = new NormalAttackCommand(self.game, self.name+"_attack", {x: 0,y: 0}, {
+              target: self.game.players[0],
+              group: "hud",
+              owner_name: self.name
+            })
+            command_list.push(attack_command)
+          }
+        }
+      })
+    }
+    else {
+      console.log("win")
+    }
+    // var move_command = new MoveCommand(this.game, this.name+"_move", {x: this.x, y: this.y}, {
+    //   coordinate: {
+    //     x: 15,
+    //     y: 10
+    //   },
+    //   group: "hud",
+    //   owner_name: this.name
+    // })
+    //
+    // var attack_command = new NormalAttackCommand(this.game, this.name+"_attack", {x: 0,y: 0}, {
+    //   target: this.game.players[0],
+    //   group: "hud",
+    //   owner_name: this.name
+    // })
 
     var endTurn_command = new EndTurnCommand(this.game, this.name+"_endturn", {x: 0,y: 0}, {
       group: "hud",
       owner_name: this.name
     })
 
-    command_list.push(move_command)
-    command_list.push(attack_command)
     command_list.push(endTurn_command)
 
     return command_list
