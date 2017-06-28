@@ -421,6 +421,7 @@ export default class extends Phaser.State {
   next_turn() {
     this.clearTurn();
     this.current_unit = this.players.shift();
+    console.log("HEALTH: " + this.current_unit.health)
     this.setSkillMenu();
 
     if(this.players.length<=0){

@@ -3,6 +3,7 @@ import ActionMessage from '../huds/ActionMessage'
 import Util from '../../util/Util'
 import DamageText from '../huds/DamageText'
 import Skill from '../skills/Skill'
+import Heal from '../skills/Heal'
 
 const move_speed = 0.25;
 
@@ -46,7 +47,11 @@ export default class RepoHero extends Phaser.Sprite {
     var super_attack = new Skill(this.game, "SUPER ATTACK!", {x:0, y:0}, {
       group: "hud"
     })
+    var heal = new Heal(this.game, "Heal!", {x:0, y:0}, {
+      group: "hud"
+    })
     this.skills.push(super_attack)
+    this.skills.push(heal)
   }
 
   initNameTag(){
