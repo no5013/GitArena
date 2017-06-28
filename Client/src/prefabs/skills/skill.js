@@ -4,11 +4,10 @@ import Prefab from '../Prefab'
 export default class extends Prefab {
   constructor(game_state, name, position, properties){
     super(game_state, name, position, properties)
+    this.name = name
   }
 
-
-
   use (target){
-    console.log("USE SKILL TO " + target.name)
+    target.takeDamage(5)
   }
 }

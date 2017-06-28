@@ -2,6 +2,7 @@ import Phaser from 'phaser'
 import ActionMessage from '../huds/ActionMessage'
 import Util from '../../util/Util'
 import DamageText from '../huds/DamageText'
+import Skill from '../skills/Skill'
 
 const move_speed = 0.25;
 
@@ -22,8 +23,9 @@ export default class RepoHero extends Phaser.Sprite {
     this.state = game
     this.movingRange = 5
     this.attackRange = 3
-
     this.move_speed = 0.25
+
+    this.skills = []
 
     this.anchor.setTo(0,0.5)
 
@@ -31,12 +33,20 @@ export default class RepoHero extends Phaser.Sprite {
     this.setDeactive();
     this.initDamageText();
     this.initNameTag();
+    this.initInitialSkill();
 
     this.attacked_animation = this.game.add.tween(this);
     this.attacked_animation.to({tint: 0xFF0000}, 200);
     this.attacked_animation.onComplete.add(function(){
       self.restoreTint();
     }, this)
+  }
+
+  initInitialSkill(){
+    var super_attack = new Skill(this.game, "SUPER ATTACK!", {x:0, y:0}, {
+      group: "hud"
+    })
+    this.skills.push(super_attack)
   }
 
   initNameTag(){

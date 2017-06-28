@@ -6,15 +6,19 @@ const tile_size_y = 32
 export default class extends ActionCommand {
   constructor (game_state, name, position, properties) {
     super(game_state, name, position, properties)
-
-    this.target = properties.target
-    console.log(this.target.name)
-
-    this.action_message_text = this.owner.name + " ATTACK " + this.target.name
+    this.properties = properties
   }
 
   execute () {
     var unit = this.owner
+    var target = this.properties.target
+    var skill = this.properties.skill
+
+    console.log(unit.name)
+    console.log(skill)
+    console.log(target.name)
+
+    this.action_message_text = unit.name + " USE " + skill.name + " ON" + target.name
 
     //make camera follow unit and unfollow when it finish action
     this.game_state.game.camera.follow(unit)
@@ -22,7 +26,7 @@ export default class extends ActionCommand {
       console.log("camera null")
       this.game_state.game.camera.follow(null)
     }
-    unit.attack(this.target)
+    skill.use(target)
 
     this.showMessage();
   }

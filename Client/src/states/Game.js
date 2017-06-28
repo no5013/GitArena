@@ -23,6 +23,7 @@ import AttackMenuItem from '../prefabs/huds/AttackMenuItem'
 import SkillMenuItem from '../prefabs/huds/SkillMenuItem'
 import WalkMenuItem from '../prefabs/huds/WalkMenuItem'
 import EndTurnMenuItem from '../prefabs/huds/EndTurnMenuItem'
+import SkillSelectionMenuItem from '../prefabs/huds/SkillSelectionMenuItem'
 
 const tile_size_x = 32
 const tile_size_y = 32
@@ -102,9 +103,6 @@ export default class extends Phaser.State {
 
     cursors = game.input.keyboard.createCursorKeys();
 
-    this.next_turn();
-    this.setActionState(this.ActionState.UnitSelectState)
-
     this.TEXT_STYLE = {font: "30px Arial", fill: "#FFFFFF"}
     this.HUD_TEXT_STYLE = {font: "16px Arial", fill: "#FFFFFF"}
     this.init_player_actions({x:400, y:100});
@@ -113,6 +111,9 @@ export default class extends Phaser.State {
     this.disableUnitSkillCommandHud();
 
     game.world.bringToTop(this.groups.hud);
+
+    this.next_turn();
+    this.setActionState(this.ActionState.UnitSelectState)
   }
 
   enableActionCommandHud(){
@@ -151,7 +152,6 @@ export default class extends Phaser.State {
     else if (cursors.down.isDown)
     {
       game.camera.y+=camera_speed;
-      console.log(this.prefabs)
     }
   }
 
@@ -421,6 +421,7 @@ export default class extends Phaser.State {
   next_turn() {
     this.clearTurn();
     this.current_unit = this.players.shift();
+    this.setSkillMenu();
 
     if(this.players.length<=0){
       console.log("GAME OVER")
@@ -473,24 +474,36 @@ export default class extends Phaser.State {
   }
 
   init_unit_skill (position) {
+
+    this.actions_menu = new Menu(this, "skills_menu", position, {group: "hud", menu_items: []})
+    console.log("ACTION MENU")
+
+  }
+  setSkillMenu(){
     var self = this
+    var unit = this.current_unit
+    console.log(unit.skills)
 
     var actions, actions_menu_items, action_index, actions_menu
 
     // Available Action
-    actions = [
-      {text: "Attack", item_constructor: AttackMenuItem.prototype.constructor},
-    ]
+    actions = unit.skills
 
     actions_menu_items = []
     action_index = 0;
 
     // Create a menu item for each action
     actions.forEach(function (action) {
-      actions_menu_items.push(new action.item_constructor(this, action.text+"_menu_item", {x: position.x, y:position.y + action_index * 35}, {group: "hud", text: action.text, style: Object.create(self.TEXT_STYLE)}));
+      actions_menu_items.push(new SkillSelectionMenuItem(this, action.name+"_menu_item", {x: 400, y: 100 + action_index * 35}, {
+        skill: action,
+        group: "hud",
+        text: action.name,
+        style: Object.create(self.TEXT_STYLE)
+      }));
       action_index++;
     }, this);
-    actions_menu = new Menu(this, "skills_menu", position, {group: "hud", menu_items: actions_menu_items})
+    this.actions_menu.menu_items = actions_menu_items
+    this.disableUnitSkillCommandHud()
   }
 
   render () {
