@@ -6,7 +6,7 @@ export default class extends Phaser.Text {
 
     this.game_state = game_state
 
-    this.game_state.game.add.existing(this)
+    this.game_state.add.existing(this)
 
     this.name = name;
 

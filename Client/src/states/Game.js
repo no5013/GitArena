@@ -90,6 +90,10 @@ export default class extends Phaser.State {
     game.load.spritesheet('button', 'assets/images/button_sprite_sheet.png', 193, 71);
   }
 
+  log() {
+    console.log("GAME LOG")
+  }
+
   create () {
     this.prefabs = {}
 
@@ -502,6 +506,7 @@ export default class extends Phaser.State {
         style: Object.create(self.TEXT_STYLE)
       }));
       action_index++;
+      console.log(action.name);
     }, this);
     this.actions_menu.menu_items = actions_menu_items
     this.disableUnitSkillCommandHud()

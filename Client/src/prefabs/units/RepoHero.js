@@ -50,8 +50,9 @@ export default class RepoHero extends Phaser.Sprite {
     var heal = new Heal(this.game, "Heal!", {x:0, y:0}, {
       group: "hud"
     })
-    this.skills.push(super_attack)
     this.skills.push(heal)
+    this.skills.push(super_attack)
+
   }
 
   initNameTag(){
