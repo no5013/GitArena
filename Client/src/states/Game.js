@@ -197,7 +197,7 @@ export default class extends Phaser.State {
 
   showAttackRange(unit){
     let self = this
-    var tileToPush = this.getAttackRangeCoordinate(unit.x, unit.y, unit.attackRange);
+    var tileToPush = this.getAttackRangeCoordinate(unit.x/tile_size_x, unit.y/tile_size_y, unit.attackRange);
     tileToPush.forEach(function(coordinate){
       self.rangeMap.putTile(new Phaser.Tile(self.rangeLayer,104,0,0,tile_size_x,tile_size_y),coordinate.x, coordinate.y, self.rangeLayer)
     })
