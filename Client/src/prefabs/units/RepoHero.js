@@ -25,6 +25,8 @@ export default class RepoHero extends Phaser.Sprite {
     this.movingRange = 5
     this.attackRange = 3
     this.move_speed = 0.25
+    this.speed = 20;
+    this.act_turn = 0;
 
     this.skills = []
 
@@ -80,8 +82,8 @@ export default class RepoHero extends Phaser.Sprite {
     console.log("repo hero")
   }
 
-  update () {
-
+  calculateActTurn (current_turn) {
+    this.act_turn = current_turn + Math.ceil(100/this.speed)
   }
 
   moveTo (dest_x, dest_y, callback){

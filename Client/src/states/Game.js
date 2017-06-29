@@ -25,6 +25,9 @@ import WalkMenuItem from '../prefabs/huds/WalkMenuItem'
 import EndTurnMenuItem from '../prefabs/huds/EndTurnMenuItem'
 import SkillSelectionMenuItem from '../prefabs/huds/SkillSelectionMenuItem'
 
+import PriorityQueue from '../libs/priority-queue'
+import PriorityQueue2 from '../Structure/PriorityQueue'
+
 const tile_size_x = 32
 const tile_size_y = 32
 
@@ -77,7 +80,11 @@ export default class extends Phaser.State {
     this.prefabs = {}
     this.players = []
     this.enemies = []
-    this.units = []
+    this.units = new PriorityQueue2({
+      comparator: function(unit_a, unit_b){
+        return unit_a.act_turn - unit_b.act_turn
+      }
+    })
   }
 
   preload () {
@@ -97,6 +104,8 @@ export default class extends Phaser.State {
   }
 
   create () {
+    var self = this
+
     this.prefabs = {}
 
     this.initMap()
@@ -406,43 +415,71 @@ export default class extends Phaser.State {
       asset: 'chara',
       name: self.game.repos[1].repo_name,
       health: 10,
-      num: 2,
+      num: 1,
     }))
     tile = self.map.getTile(spawn_points[1].x, spawn_points[1].y)
     tile.properties['owner'] = this.players[1];
 
-    this.enemies.push(new EnemyUnit({
+    this.players.push(new PlayerUnit({
       game: this,
       x: spawn_points[2].x*tile_size_x,
       y: spawn_points[2].y*tile_size_y,
       asset: 'chara',
       name: self.game.repos[2].repo_name,
       health: 10,
-      num: 1,
+      num: 2,
     }))
     tile = self.map.getTile(spawn_points[2].x, spawn_points[2].y)
-    tile.properties['owner'] = this.enemies[0];
+    tile.properties['owner'] = this.players[2];
 
-    this.units = this.units.concat(this.players)
-    this.units = this.units.concat(this.enemies)
+    this.players[2].speed = 50
+    this.players[1].speed = 25
+    this.players[0].speed = 10
+
+    // this.enemies.push(new EnemyUnit({
+    //   game: this,
+    //   x: spawn_points[2].x*tile_size_x,
+    //   y: spawn_points[2].y*tile_size_y,
+    //   asset: 'chara',
+    //   name: self.game.repos[2].repo_name,
+    //   health: 10,
+    //   num: 1,
+    // }))
+    // tile = self.map.getTile(spawn_points[2].x, spawn_points[2].y)
+    // tile.properties['owner'] = this.enemies[0];
+
+    this.players.forEach(function(unit){
+      unit.calculateActTurn(0)
+      this.units.queue(unit)
+    }, this)
+
+    this.enemies.forEach(function(unit){
+      unit.calculateActTurn(0)
+      this.units.queue(unit)
+    }, this)
+
+    this.unit_log = this.players.concat(this.enemies)
+    this.unit_log.forEach(function(unit){
+      console.log(unit.name + " act turn = " + unit.act_turn )
+    })
   }
 
   next_turn() {
+    this.unit_log.forEach(function(unit){
+      console.log(unit.name + " act turn = " + unit.act_turn )
+    })
+
     this.clearTurn();
     console.log(this.units)
-    this.current_unit = this.units.shift();
+    this.current_unit = this.units.dequeue();
     console.log("HEALTH: " + this.current_unit.health)
+    console.log(this.units.length)
     this.setSkillMenu();
-
-    if(this.units.length<=0){
-      console.log("GAME OVER")
-      return;
-    }
 
     if(this.current_unit.alive){
       this.current_unit.setActive()
-      // this.current_unit.act()
-      this.units.push(this.current_unit)
+      this.current_unit.calculateActTurn(this.current_unit.act_turn)
+      this.units.queue(this.current_unit)
     }
     else{
       this.next_turn();
@@ -493,7 +530,6 @@ export default class extends Phaser.State {
   setSkillMenu(){
     var self = this
     var unit = this.current_unit
-    console.log(unit.skills)
 
     var actions, actions_menu_items, action_index, actions_menu
 
