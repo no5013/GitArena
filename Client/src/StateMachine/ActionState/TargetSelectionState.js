@@ -23,7 +23,6 @@ export default class extends ActionState {
       this.game.removeAttackRange(this.unit)
 
       // if(command){
-        console.log("I HAVE COMNMAND I SAS")
         command.properties.target = target
       // }else{
       //   command = new NormalAttackCommand(this.game, this.unit.name+"_attack", {x: this.unit.x,y: this.unit.y}, {

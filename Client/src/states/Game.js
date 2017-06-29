@@ -76,6 +76,8 @@ export default class extends Phaser.State {
     }
     this.prefabs = {}
     this.players = []
+    this.enemies = []
+    this.units = []
   }
 
   preload () {
@@ -101,7 +103,7 @@ export default class extends Phaser.State {
 
     this.initMarker()
 
-    this.initCharacters()
+    this.initUnits()
 
     game.physics.startSystem(Phaser.Physics.ARCADE);
 
@@ -195,7 +197,7 @@ export default class extends Phaser.State {
 
   showAttackRange(unit){
     let self = this
-    var tileToPush = this.getAttackRangeCoordinate(unit);
+    var tileToPush = this.getAttackRangeCoordinate(unit.x, unit.y, unit.attackRange);
     tileToPush.forEach(function(coordinate){
       self.rangeMap.putTile(new Phaser.Tile(self.rangeLayer,104,0,0,tile_size_x,tile_size_y),coordinate.x, coordinate.y, self.rangeLayer)
     })
@@ -211,7 +213,7 @@ export default class extends Phaser.State {
 
   removeAttackRange(unit){
     let self = this
-    var tileToPush = this.getAttackRangeCoordinate(unit);
+    var tileToPush = this.getAttackRangeCoordinate(unit.x, unit.y, unit.attackRange);
     tileToPush.forEach(function(coordinate){
       self.rangeMap.removeTile(coordinate.x, coordinate.y, self.rangeLayer)
     })
@@ -249,14 +251,14 @@ export default class extends Phaser.State {
     return possibleMove
   }
 
-  getAttackRangeCoordinate(unit){
-    let x = unit.x/tile_size_x
-    let y = unit.y/tile_size_y
+  getAttackRangeCoordinate(current_x, current_y, attack_range){
+    let x = current_x
+    let y = current_y
 
     var possibleAttack = []
 
-    for(let j=0; j<=unit.attackRange; j++){
-      for(let i=0; i<=unit.attackRange-j; i++){
+    for(let j=0; j<=attack_range; j++){
+      for(let i=0; i<=attack_range-j; i++){
         if(i==0 && j==0)
         continue;
         possibleAttack.push(
@@ -368,7 +370,7 @@ export default class extends Phaser.State {
     this.rangeLayer.resizeWorld();
   }
 
-  initCharacters() {
+  initUnits() {
     let self = this
     let runner = 0
     // spawn_points.forEach(function(spawn_point){
@@ -397,38 +399,42 @@ export default class extends Phaser.State {
     let tile = self.map.getTile(spawn_points[0].x, spawn_points[0].y)
     tile.properties['owner'] = this.players[0];
 
-    this.players.push(new EnemyUnit({
+    this.players.push(new PlayerUnit({
       game: this,
       x: spawn_points[1].x*tile_size_x,
       y: spawn_points[1].y*tile_size_y,
       asset: 'chara',
       name: self.game.repos[1].repo_name,
       health: 10,
-      num: 1,
+      num: 2,
     }))
     tile = self.map.getTile(spawn_points[1].x, spawn_points[1].y)
     tile.properties['owner'] = this.players[1];
 
-    this.players.push(new PlayerUnit({
+    this.enemies.push(new EnemyUnit({
       game: this,
       x: spawn_points[2].x*tile_size_x,
       y: spawn_points[2].y*tile_size_y,
       asset: 'chara',
       name: self.game.repos[2].repo_name,
       health: 10,
-      num: 2,
+      num: 1,
     }))
     tile = self.map.getTile(spawn_points[2].x, spawn_points[2].y)
-    tile.properties['owner'] = this.players[2];
+    tile.properties['owner'] = this.enemies[0];
+
+    this.units = this.units.concat(this.players)
+    this.units = this.units.concat(this.enemies)
   }
 
   next_turn() {
     this.clearTurn();
-    this.current_unit = this.players.shift();
+    console.log(this.units)
+    this.current_unit = this.units.shift();
     console.log("HEALTH: " + this.current_unit.health)
     this.setSkillMenu();
 
-    if(this.players.length<=0){
+    if(this.units.length<=0){
       console.log("GAME OVER")
       return;
     }
@@ -436,7 +442,7 @@ export default class extends Phaser.State {
     if(this.current_unit.alive){
       this.current_unit.setActive()
       // this.current_unit.act()
-      this.players.push(this.current_unit)
+      this.units.push(this.current_unit)
     }
     else{
       this.next_turn();
