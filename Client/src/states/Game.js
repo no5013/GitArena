@@ -25,8 +25,7 @@ import WalkMenuItem from '../prefabs/huds/WalkMenuItem'
 import EndTurnMenuItem from '../prefabs/huds/EndTurnMenuItem'
 import SkillSelectionMenuItem from '../prefabs/huds/SkillSelectionMenuItem'
 
-import PriorityQueue from '../libs/priority-queue'
-import PriorityQueue2 from '../Structure/PriorityQueue'
+import PriorityQueue from '../Structure/PriorityQueue'
 
 const tile_size_x = 32
 const tile_size_y = 32
@@ -80,7 +79,7 @@ export default class extends Phaser.State {
     this.prefabs = {}
     this.players = []
     this.enemies = []
-    this.units = new PriorityQueue2({
+    this.units = new PriorityQueue({
       comparator: function(unit_a, unit_b){
         return unit_a.act_turn - unit_b.act_turn
       }
@@ -120,8 +119,10 @@ export default class extends Phaser.State {
 
     this.TEXT_STYLE = {font: "30px Arial", fill: "#FFFFFF"}
     this.HUD_TEXT_STYLE = {font: "16px Arial", fill: "#FFFFFF"}
-    this.init_player_actions({x:400, y:100});
+    // this.init_player_actions({x:400, y:100});
+
     this.initSkillMenu({x:400, y:100})
+    this.initActionMenu({x:400, y:100})
     this.disableActionCommandHud();
     this.disableUnitSkillCommandHud();
 
@@ -294,10 +295,6 @@ export default class extends Phaser.State {
     return possibleAttack
   }
 
-  clearMoving() {
-    moving['character'] = null
-  }
-
   updateMarker() {
     marker.x = this.layer.getTileX(game.input.activePointer.worldX) * tile_size_x;
     marker.y = this.layer.getTileY(game.input.activePointer.worldY) * tile_size_y;
@@ -432,10 +429,6 @@ export default class extends Phaser.State {
     tile = self.map.getTile(spawn_points[2].x, spawn_points[2].y)
     tile.properties['owner'] = this.players[2];
 
-    this.players[2].speed = 50
-    this.players[1].speed = 25
-    this.players[0].speed = 10
-
     // this.enemies.push(new EnemyUnit({
     //   game: this,
     //   x: spawn_points[2].x*tile_size_x,
@@ -474,7 +467,8 @@ export default class extends Phaser.State {
     this.current_unit = this.units.dequeue();
     console.log("HEALTH: " + this.current_unit.health)
     console.log(this.units.length)
-    this.setSkillMenu();
+    this.setSkillMenu()
+    this.setActionMenu()
 
     if(this.current_unit.alive){
       this.current_unit.setActive()
@@ -518,12 +512,36 @@ export default class extends Phaser.State {
       actions_menu_items.push(new action.item_constructor(this, action.text+"_menu_item", {x: position.x, y:position.y + action_index * 35}, {group: "hud", text: action.text, style: Object.create(self.TEXT_STYLE)}));
       action_index++;
     }, this);
-    actions_menu = new Menu(this, "actions_menu", position, {group: "hud", menu_items: actions_menu_items})
+    this.actions_menu = new Menu(this, "actions_menu", position, {group: "hud", menu_items: actions_menu_items})
+  }
+
+  initActionMenu(position) {
+    this.actions_menu = new Menu(this, "actions_menu", position, {group: "hud", menu_items: []})
+  }
+
+  setActionMenu () {
+    var self = this
+    var unit = this.current_unit
+
+    var actions, actions_menu_items, action_index, actions_menu
+
+    // Available Action
+    actions = unit.actions
+
+    actions_menu_items = []
+    action_index = 0;
+
+    // Create a menu item for each action
+    actions.forEach(function (action) {
+      actions_menu_items.push(new action.item_constructor(this, action.text+"_menu_item", {x: 400, y:100 + action_index * 35}, {group: "hud", text: action.text, style: Object.create(self.TEXT_STYLE)}));
+      action_index++;
+    }, this);
+    this.actions_menu.menu_items = actions_menu_items
+    this.disableActionCommandHud()
   }
 
   initSkillMenu (position) {
-    this.actions_menu = new Menu(this, "skills_menu", position, {group: "hud", menu_items: []})
-    console.log("ACTION MENU")
+    this.skills_menu = new Menu(this, "skills_menu", position, {group: "hud", menu_items: []})
   }
 
   setSkillMenu(){
@@ -549,7 +567,7 @@ export default class extends Phaser.State {
       action_index++;
       console.log(action.name);
     }, this);
-    this.actions_menu.menu_items = actions_menu_items
+    this.skills_menu.menu_items = actions_menu_items
     this.disableUnitSkillCommandHud()
   }
 

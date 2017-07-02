@@ -5,6 +5,11 @@ import DamageText from '../huds/DamageText'
 import Skill from '../skills/Skill'
 import Heal from '../skills/Heal'
 
+import AttackMenuItem from '../huds/AttackMenuItem'
+import SkillMenuItem from '../huds/SkillMenuItem'
+import WalkMenuItem from '../huds/WalkMenuItem'
+import EndTurnMenuItem from '../huds/EndTurnMenuItem'
+
 const move_speed = 0.25;
 
 export default class RepoHero extends Phaser.Sprite {
@@ -29,6 +34,12 @@ export default class RepoHero extends Phaser.Sprite {
     this.act_turn = 0;
 
     this.skills = []
+    this.actions = [
+      {text: "Attack", item_constructor: AttackMenuItem.prototype.constructor},
+      {text: "Skill", item_constructor: SkillMenuItem.prototype.constructor},
+      {text: "Walk", item_constructor: WalkMenuItem.prototype.constructor},
+      {text: "Endturn", item_constructor: EndTurnMenuItem.prototype.constructor}
+    ]
 
     this.anchor.setTo(0,0.5)
 
