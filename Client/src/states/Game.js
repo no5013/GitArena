@@ -121,7 +121,7 @@ export default class extends Phaser.State {
     this.TEXT_STYLE = {font: "30px Arial", fill: "#FFFFFF"}
     this.HUD_TEXT_STYLE = {font: "16px Arial", fill: "#FFFFFF"}
     this.init_player_actions({x:400, y:100});
-    this.init_unit_skill({x:400, y:100})
+    this.initSkillMenu({x:400, y:100})
     this.disableActionCommandHud();
     this.disableUnitSkillCommandHud();
 
@@ -222,7 +222,7 @@ export default class extends Phaser.State {
 
   removeAttackRange(unit){
     let self = this
-    var tileToPush = this.getAttackRangeCoordinate(unit.x, unit.y, unit.attackRange);
+    var tileToPush = this.getAttackRangeCoordinate(unit.x/tile_size_x, unit.y/tile_size_y, unit.attackRange);
     tileToPush.forEach(function(coordinate){
       self.rangeMap.removeTile(coordinate.x, coordinate.y, self.rangeLayer)
     })
@@ -521,12 +521,11 @@ export default class extends Phaser.State {
     actions_menu = new Menu(this, "actions_menu", position, {group: "hud", menu_items: actions_menu_items})
   }
 
-  init_unit_skill (position) {
-
+  initSkillMenu (position) {
     this.actions_menu = new Menu(this, "skills_menu", position, {group: "hud", menu_items: []})
     console.log("ACTION MENU")
-
   }
+
   setSkillMenu(){
     var self = this
     var unit = this.current_unit
