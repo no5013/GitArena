@@ -79,6 +79,8 @@ export default class extends Phaser.State {
     this.prefabs = {}
     this.players = []
     this.enemies = []
+    this.used_commands = {}
+
     this.units = new PriorityQueue({
       comparator: function(unit_a, unit_b){
         return unit_a.act_turn - unit_b.act_turn
@@ -133,6 +135,9 @@ export default class extends Phaser.State {
   }
 
   enableActionCommandHud(){
+    console.log("USED COMMAND")
+    console.log(this.used_commands)
+    this.setActionMenu(this.current_unit)
     this.prefabs['actions_menu'].enable();
     this.prefabs['actions_menu'].show();
   }
@@ -469,6 +474,7 @@ export default class extends Phaser.State {
     console.log(this.units.length)
     this.setSkillMenu()
     this.setActionMenu()
+    this.resetTurn()
 
     if(this.current_unit.alive){
       this.current_unit.setActive()
@@ -492,31 +498,43 @@ export default class extends Phaser.State {
     this.currentState.enterState();
   }
 
-  init_player_actions (position) {
-    var self = this
-
-    var actions, actions_menu_items, action_index, actions_menu
-
-    // Available Action
-    actions = [
-      {text: "Attack", item_constructor: AttackMenuItem.prototype.constructor},
-      {text: "Skill", item_constructor: SkillMenuItem.prototype.constructor},
-      {text: "Walk", item_constructor: WalkMenuItem.prototype.constructor},
-      {text: "Endturn", item_constructor: EndTurnMenuItem.prototype.constructor}
-    ]
-    actions_menu_items = []
-    action_index = 0;
-
-    // Create a menu item for each action
-    actions.forEach(function (action) {
-      actions_menu_items.push(new action.item_constructor(this, action.text+"_menu_item", {x: position.x, y:position.y + action_index * 35}, {group: "hud", text: action.text, style: Object.create(self.TEXT_STYLE)}));
-      action_index++;
-    }, this);
-    this.actions_menu = new Menu(this, "actions_menu", position, {group: "hud", menu_items: actions_menu_items})
-  }
+  // init_player_actions (position) {
+  //   var self = this
+  //
+  //   var actions, actions_menu_items, action_index, actions_menu
+  //
+  //   // Available Action
+  //   actions = [
+  //     {text: "Attack", item_constructor: AttackMenuItem.prototype.constructor},
+  //     {text: "Skill", item_constructor: SkillMenuItem.prototype.constructor},
+  //     {text: "Walk", item_constructor: WalkMenuItem.prototype.constructor},
+  //     {text: "Endturn", item_constructor: EndTurnMenuItem.prototype.constructor}
+  //   ]
+  //   actions_menu_items = []
+  //   action_index = 0;
+  //
+  //   // Create a menu item for each action
+  //   actions.forEach(function (action) {
+  //     actions_menu_items.push(new action.item_constructor(this, action.text+"_menu_item", {x: position.x, y:position.y + action_index * 35}, {group: "hud", text: action.text, style: Object.create(self.TEXT_STYLE)}));
+  //     action_index++;
+  //   }, this);
+  //   this.actions_menu = new Menu(this, "actions_menu", position, {group: "hud", menu_items: actions_menu_items})
+  // }
 
   initActionMenu(position) {
     this.actions_menu = new Menu(this, "actions_menu", position, {group: "hud", menu_items: []})
+  }
+
+  getAvailableAction(unit) {
+    let self = this
+
+    var available_actions = []
+    unit.actions.forEach(function(action){
+      if(!self.used_commands[action.text]){
+        available_actions.push(action)
+      }
+    })
+    return available_actions
   }
 
   setActionMenu () {
@@ -526,7 +544,9 @@ export default class extends Phaser.State {
     var actions, actions_menu_items, action_index, actions_menu
 
     // Available Action
-    actions = unit.actions
+    actions = this.getAvailableAction(unit)
+    console.log("Available ACTION")
+    console.log(actions)
 
     actions_menu_items = []
     action_index = 0;
@@ -542,6 +562,10 @@ export default class extends Phaser.State {
 
   initSkillMenu (position) {
     this.skills_menu = new Menu(this, "skills_menu", position, {group: "hud", menu_items: []})
+  }
+
+  resetTurn(){
+    this.used_commands = {}
   }
 
   setSkillMenu(){

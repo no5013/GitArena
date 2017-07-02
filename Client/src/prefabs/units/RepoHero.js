@@ -34,10 +34,11 @@ export default class RepoHero extends Phaser.Sprite {
     this.act_turn = 0;
 
     this.skills = []
+
     this.actions = [
+      {text: "Move", item_constructor: WalkMenuItem.prototype.constructor},
       {text: "Attack", item_constructor: AttackMenuItem.prototype.constructor},
       {text: "Skill", item_constructor: SkillMenuItem.prototype.constructor},
-      {text: "Walk", item_constructor: WalkMenuItem.prototype.constructor},
       {text: "Endturn", item_constructor: EndTurnMenuItem.prototype.constructor}
     ]
 

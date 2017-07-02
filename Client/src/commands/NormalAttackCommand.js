@@ -10,6 +10,8 @@ export default class extends ActionCommand {
   }
 
   execute () {
+    this.game_state.used_commands["Attack"] = true
+
     var unit = this.owner
     var target = this.properties.target
 

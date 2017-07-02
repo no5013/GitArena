@@ -10,6 +10,7 @@ export default class extends ActionCommand {
   }
 
   execute () {
+    this.game_state.used_commands["Skill"] = true
     var unit = this.owner
     var target = this.properties.target
     var skill = this.properties.skill
