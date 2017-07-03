@@ -14,7 +14,7 @@ export default class extends Phaser.State {
     // load your assets
     //
     this.load.image('mushroom', 'assets/images/mushroom2.png')
-    // this.load.tilemap('level1', 'assets/tilemaps/level1.json', null, Phaser.Tilemap.TILED_JSON)
+    this.load.tilemap('level0', 'assets/tilemaps/level1.json', null, Phaser.Tilemap.TILED_JSON)
     // this.load.tilemap('level1', 'assets/tilemaps/level1_ColliderLayer.csv', null, Phaser.Tilemap.CSV)
     // this.load.tilemap('level1', 'assets/tilemaps/level1_PlayFieldLayer.csv', null, Phaser.Tilemap.CSV)
     this.load.tilemap('level1', 'assets/tilemaps/level1.csv', null, Phaser.Tilemap.CSV)

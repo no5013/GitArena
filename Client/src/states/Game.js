@@ -41,8 +41,8 @@ const spawn_points = [
     y: 5
   },
   {
-    x: 20,
-    y: 5
+    x: 5,
+    y: 7
   },
   {
     x: 5,
@@ -110,7 +110,9 @@ export default class extends Phaser.State {
     this.prefabs = {}
 
     // this.initMap()
-    this.initMapp()
+    // this.initMapp()
+    this.initMapJSON()
+    this.initRangeMap()
 
     this.initMarker()
 
@@ -319,34 +321,43 @@ export default class extends Phaser.State {
     //create level match
     this.map = this.game.add.tilemap('level1')
     //create blank rangeMap
-    this.rangeMap = game.add.tilemap(null, tile_size_x, tile_size_y);
+
 
     //the first parameter is the tileset name as specified in Tiled, the second is the key to the asset
     this.map.addTilesetImage('gameTiles')
-    this.rangeMap.addTilesetImage('tiles');
+
 
     //create layer
     this.layer = this.map.createLayer(0)
-    this.rangeLayer = this.rangeMap.createBlankLayer("RangeLayer", 30, 30, tile_size_x, tile_size_y)
+
 
     this.layer.resizeWorld()
-    this.rangeLayer.resizeWorld()
+
 
     //make range layer transparent
-    this.rangeLayer.alpha = 0.5
+
   }
 
   initMapJSON() {
-    this.map = this.game.add.tilemap('level1')
+    this.map = this.game.add.tilemap('level0')
 
     //the first parameter is the tileset name as specified in Tiled, the second is the key to the asset
-    this.map.addTilesetImage('tileset', 'gameTiles')
+    this.map.addTilesetImage('hyptosis_tile-art-batch-1', 'gameTiles')
 
     //create layer
-    this.colliderLayer = this.map.createLayer('ColliderLayer')
-    this.playFieldLayer = this.map.createLayer('PlayFieldLayer')
+    this.layer = this.map.createLayer('PlayFieldLayer')
+    this.colliderlayer = this.map.createLayer('ColliderLayer')
+    // this.rangeLayer = this.map.createLayer('RangeLayer')
 
-    this.colliderLayer.resizeWorld()
+    this.layer.resizeWorld()
+  }
+
+  initRangeMap() {
+    this.rangeMap = game.add.tilemap(null, tile_size_x, tile_size_y);
+    this.rangeMap.addTilesetImage('tiles');
+    this.rangeLayer = this.rangeMap.createBlankLayer("RangeLayer", 30, 30, tile_size_x, tile_size_y)
+    this.rangeLayer.resizeWorld()
+    this.rangeLayer.alpha = 0.5
   }
 
   initMap() {
