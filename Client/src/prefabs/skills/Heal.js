@@ -9,6 +9,6 @@ export default class extends Skill {
   }
 
   use (target){
-    target.health += 5
+    target.heal(5)
   }
 }

@@ -55,6 +55,12 @@ export default class RepoHero extends Phaser.Sprite {
     this.attacked_animation.onComplete.add(function(){
       self.restoreTint();
     }, this)
+
+    this.healed_animation = this.game.add.tween(this);
+    this.healed_animation.to({tint: 0x00FFFF}, 200);
+    this.healed_animation.onComplete.add(function(){
+      self.restoreTint();
+    }, this)
   }
 
   initInitialSkill(){
@@ -141,6 +147,11 @@ export default class RepoHero extends Phaser.Sprite {
       // BUG when 2 tween run at the same time
       // this.addQuake()
     }
+  }
+
+  heal (amount) {
+    this.health += amount
+    this.healed_animation.start()
   }
 
   restoreTint () {

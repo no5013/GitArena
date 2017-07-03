@@ -422,7 +422,19 @@ export default class extends Phaser.State {
     tile = self.map.getTile(spawn_points[1].x, spawn_points[1].y)
     tile.properties['owner'] = this.players[1];
 
-    this.players.push(new PlayerUnit({
+    // this.players.push(new PlayerUnit({
+    //   game: this,
+    //   x: spawn_points[2].x*tile_size_x,
+    //   y: spawn_points[2].y*tile_size_y,
+    //   asset: 'chara',
+    //   name: self.game.repos[2].repo_name,
+    //   health: 10,
+    //   num: 2,
+    // }))
+    // tile = self.map.getTile(spawn_points[2].x, spawn_points[2].y)
+    // tile.properties['owner'] = this.players[2];
+
+    this.enemies.push(new EnemyUnit({
       game: this,
       x: spawn_points[2].x*tile_size_x,
       y: spawn_points[2].y*tile_size_y,
@@ -432,19 +444,7 @@ export default class extends Phaser.State {
       num: 2,
     }))
     tile = self.map.getTile(spawn_points[2].x, spawn_points[2].y)
-    tile.properties['owner'] = this.players[2];
-
-    // this.enemies.push(new EnemyUnit({
-    //   game: this,
-    //   x: spawn_points[2].x*tile_size_x,
-    //   y: spawn_points[2].y*tile_size_y,
-    //   asset: 'chara',
-    //   name: self.game.repos[2].repo_name,
-    //   health: 10,
-    //   num: 1,
-    // }))
-    // tile = self.map.getTile(spawn_points[2].x, spawn_points[2].y)
-    // tile.properties['owner'] = this.enemies[0];
+    tile.properties['owner'] = this.enemies[0];
 
     this.players.forEach(function(unit){
       unit.calculateActTurn(0)
@@ -545,8 +545,6 @@ export default class extends Phaser.State {
 
     // Available Action
     actions = this.getAvailableAction(unit)
-    console.log("Available ACTION")
-    console.log(actions)
 
     actions_menu_items = []
     action_index = 0;
