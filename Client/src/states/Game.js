@@ -160,6 +160,20 @@ export default class extends Phaser.State {
     this.prefabs['skills_menu'].hide();
   }
 
+  findObjectsByType(type, map, layer) {
+    var result = new Array();
+    map.objects[layer].forEach(function(element){
+      if(element.properties.type === type) {
+        //Phaser uses top left, Tiled bottom left so we have to adjust
+        //also keep in mind that the cup images are a bit smaller than the tile which is 16x16
+        //so they might not be placed in the exact position as in Tiled
+        element.y -= map.tileHeight;
+        result.push(element);
+      }
+    });
+    return result;
+  }
+
   update () {
     if (cursors.left.isDown)
     {
@@ -431,42 +445,32 @@ export default class extends Phaser.State {
   initUnits() {
     let self = this
     let runner = 0
-    // spawn_points.forEach(function(spawn_point){
-    //   self.players.push(new PlayerUnit({
-    //     game: self,
-    //     x: spawn_points[runner].x*tile_size_x,
-    //     y: spawn_points[runner].y*tile_size_y,
-    //     asset: 'chara',
-    //     name: self.game.repos[runner].repo_name,
-    //     health: 10,
-    //     num: runner,
-    //   }))
-    //   let tile = self.map.getTile(spawn_points[runner].x, spawn_points[runner].y)
-    //   tile.properties['owner'] = self.players[runner++];
-    // })
+
+    var spawn_points = this.findObjectsByType("player_unit", this.map, "ObjectLayer")
+    console.log(spawn_points)
 
     this.players.push(new PlayerUnit({
       game: this,
-      x: spawn_points[0].x*tile_size_x,
-      y: spawn_points[0].y*tile_size_y,
+      x: spawn_points[0].x,
+      y: spawn_points[0].y,
       asset: 'chara',
       name: self.game.repos[0].repo_name,
       health: 10,
       num: 0,
     }))
-    let tile = self.map.getTile(spawn_points[0].x, spawn_points[0].y)
+    let tile = self.map.getTile(spawn_points[0].x/32, spawn_points[0].y/32)
     tile.properties['owner'] = this.players[0];
 
     this.players.push(new PlayerUnit({
       game: this,
-      x: spawn_points[1].x*tile_size_x,
-      y: spawn_points[1].y*tile_size_y,
+      x: spawn_points[1].x,
+      y: spawn_points[1].y,
       asset: 'chara',
       name: self.game.repos[1].repo_name,
       health: 10,
       num: 1,
     }))
-    tile = self.map.getTile(spawn_points[1].x, spawn_points[1].y)
+    tile = self.map.getTile(spawn_points[1].x/32, spawn_points[1].y/32)
     tile.properties['owner'] = this.players[1];
 
     // this.players.push(new PlayerUnit({
@@ -483,14 +487,14 @@ export default class extends Phaser.State {
 
     this.enemies.push(new EnemyUnit({
       game: this,
-      x: spawn_points[2].x*tile_size_x,
-      y: spawn_points[2].y*tile_size_y,
+      x: spawn_points[2].x,
+      y: spawn_points[2].y,
       asset: 'chara',
       name: self.game.repos[2].repo_name,
       health: 10,
       num: 2,
     }))
-    tile = self.map.getTile(spawn_points[2].x, spawn_points[2].y)
+    tile = self.map.getTile(spawn_points[2].x/32, spawn_points[2].y/32)
     tile.properties['owner'] = this.enemies[0];
 
     this.players.forEach(function(unit){
