@@ -446,56 +446,51 @@ export default class extends Phaser.State {
     let self = this
     let runner = 0
 
-    var spawn_points = this.findObjectsByType("player_unit", this.map, "ObjectLayer")
+    var player_unit_spawn_points = this.findObjectsByType("player_unit", this.map, "ObjectLayer")
+    var enemy_unit_spawn_points = this.findObjectsByType("enemy_unit", this.map, "ObjectLayer")
     console.log(spawn_points)
 
-    this.players.push(new PlayerUnit({
-      game: this,
-      x: spawn_points[0].x,
-      y: spawn_points[0].y,
-      asset: 'chara',
-      name: self.game.repos[0].repo_name,
-      health: 10,
-      num: 0,
-    }))
-    let tile = self.map.getTile(spawn_points[0].x/32, spawn_points[0].y/32)
-    tile.properties['owner'] = this.players[0];
+    player_unit_spawn_points.forEach(function(spawn_point){
+      this.players.push(new PlayerUnit({
+        game: this,
+        x: player_unit_spawn_points[runner].x,
+        y: player_unit_spawn_points[runner].y,
+        asset: 'chara',
+        name: self.game.repos[runner].repo_name,
+        health: 10,
+        num: runner,
+      }))
+      let tile = self.map.getTile(player_unit_spawn_points[runner].x/32, player_unit_spawn_points[runner].y/32)
+      tile.properties['owner'] = this.players[runner++];
+    }, this)
 
-    this.players.push(new PlayerUnit({
-      game: this,
-      x: spawn_points[1].x,
-      y: spawn_points[1].y,
-      asset: 'chara',
-      name: self.game.repos[1].repo_name,
-      health: 10,
-      num: 1,
-    }))
-    tile = self.map.getTile(spawn_points[1].x/32, spawn_points[1].y/32)
-    tile.properties['owner'] = this.players[1];
+    let new_runner = 0
+    enemy_unit_spawn_points.forEach(function(spawn_point){
+      this.enemies.push(new EnemyUnit({
+        game: this,
+        x: enemy_unit_spawn_points[new_runner].x,
+        y: enemy_unit_spawn_points[new_runner].y,
+        asset: 'chara',
+        name: self.game.repos[runner++].repo_name,
+        health: 10,
+        num: runner,
+      }))
+      let tile = self.map.getTile(enemy_unit_spawn_points[new_runner].x/32, enemy_unit_spawn_points[new_runner].y/32)
+      tile.properties['owner'] = this.enemies[new_runner++];
+    }, this)
 
-    // this.players.push(new PlayerUnit({
+
+    // this.enemies.push(new EnemyUnit({
     //   game: this,
-    //   x: spawn_points[2].x*tile_size_x,
-    //   y: spawn_points[2].y*tile_size_y,
+    //   x: spawn_points[2].x,
+    //   y: spawn_points[2].y,
     //   asset: 'chara',
     //   name: self.game.repos[2].repo_name,
     //   health: 10,
     //   num: 2,
     // }))
-    // tile = self.map.getTile(spawn_points[2].x, spawn_points[2].y)
-    // tile.properties['owner'] = this.players[2];
-
-    this.enemies.push(new EnemyUnit({
-      game: this,
-      x: spawn_points[2].x,
-      y: spawn_points[2].y,
-      asset: 'chara',
-      name: self.game.repos[2].repo_name,
-      health: 10,
-      num: 2,
-    }))
-    tile = self.map.getTile(spawn_points[2].x/32, spawn_points[2].y/32)
-    tile.properties['owner'] = this.enemies[0];
+    // tile = self.map.getTile(spawn_points[2].x/32, spawn_points[2].y/32)
+    // tile.properties['owner'] = this.enemies[0];
 
     this.players.forEach(function(unit){
       unit.calculateActTurn(0)
