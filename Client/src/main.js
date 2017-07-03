@@ -3,7 +3,7 @@ import 'p2'
 import Phaser from 'phaser'
 
 import BootState from './states/Boot'
-import SplashState from './states/Splash'
+import PreloadState from './states/Preload'
 import GameState from './states/Game'
 import MainState from './states/MainState'
 import Util from './util/Util'
@@ -19,7 +19,7 @@ class Game extends Phaser.Game {
     super(width, height, Phaser.CANVAS, 'content', null)
 
     this.state.add('Boot', BootState, false)
-    // this.state.add('Splash', SplashState, false)
+    this.state.add('Preload', PreloadState, false)
     this.state.add('Game', GameState, false)
 
     this.state.start('Boot')

@@ -109,7 +109,8 @@ export default class extends Phaser.State {
 
     this.prefabs = {}
 
-    this.initMap()
+    // this.initMap()
+    this.initMapp()
 
     this.initMarker()
 
@@ -314,6 +315,40 @@ export default class extends Phaser.State {
     game.input.onDown.add(this.getTileProperties, this);
   }
 
+  initMapp() {
+    //create level match
+    this.map = this.game.add.tilemap('level1')
+    //create blank rangeMap
+    this.rangeMap = game.add.tilemap(null, tile_size_x, tile_size_y);
+
+    //the first parameter is the tileset name as specified in Tiled, the second is the key to the asset
+    this.map.addTilesetImage('gameTiles')
+    this.rangeMap.addTilesetImage('tiles');
+
+    //create layer
+    this.layer = this.map.createLayer(0)
+    this.rangeLayer = this.rangeMap.createBlankLayer("RangeLayer", 30, 30, tile_size_x, tile_size_y)
+
+    this.layer.resizeWorld()
+    this.rangeLayer.resizeWorld()
+
+    //make range layer transparent
+    this.rangeLayer.alpha = 0.5
+  }
+
+  initMapJSON() {
+    this.map = this.game.add.tilemap('level1')
+
+    //the first parameter is the tileset name as specified in Tiled, the second is the key to the asset
+    this.map.addTilesetImage('tileset', 'gameTiles')
+
+    //create layer
+    this.colliderLayer = this.map.createLayer('ColliderLayer')
+    this.playFieldLayer = this.map.createLayer('PlayFieldLayer')
+
+    this.colliderLayer.resizeWorld()
+  }
+
   initMap() {
     var data = '';
     var size_x = 30;
@@ -358,14 +393,15 @@ export default class extends Phaser.State {
     }
     game.cache.addTilemap('dynamicMap', null, data, Phaser.Tilemap.CSV);
 
-    game.cache.addTilemap('dynamicMap2', null, data2, Phaser.Tilemap.CSV);
+    game.cache.addTilemap('dynamicMap2', null, "", Phaser.Tilemap.CSV);
     //  Create our map (the 16x16 is the tile size)
     this.map = game.add.tilemap('dynamicMap', tile_size_x, tile_size_y);
 
-    this.rangeMap = game.add.tilemap('dynamicMap2', tile_size_x, tile_size_y);
+    this.rangeMap = game.add.tilemap(null, tile_size_x, tile_size_y);
     //  'tiles' = cache image key, 16x16 = tile size
     this.map.addTilesetImage('tiles', 'tiles', tile_size_x, tile_size_y);
-    this.rangeMap.addTilesetImage('tiles', 'tiles', tile_size_x, tile_size_y);
+    // this.rangeMap.addTilesetImage('tiles', 'tiles', tile_size_x, tile_size_y);
+    this.rangeMap.addTilesetImage('tiles');
     //  0 is important
     this.layer = this.map.createLayer(0);
     // this.rangeLayer = this.rangeMap.createLayer(0);
