@@ -303,32 +303,12 @@ export default class extends Phaser.State {
     game.input.onDown.add(this.getTileProperties, this);
   }
 
-  initMapp() {
-    //create level match
-    this.map = this.game.add.tilemap('level1')
-    //create blank rangeMap
-
-
-    //the first parameter is the tileset name as specified in Tiled, the second is the key to the asset
-    this.map.addTilesetImage('gameTiles')
-
-
-    //create layer
-    this.layer = this.map.createLayer(0)
-
-
-    this.layer.resizeWorld()
-
-
-    //make range layer transparent
-
-  }
-
   initMapJSON() {
-    this.map = this.game.add.tilemap('level_tilemap')
-
-    //the first parameter is the tileset name as specified in Tiled, the second is the key to the asset
-    this.map.addTilesetImage('hyptosis_tile-art-batch-1', 'map_tileset')
+    this.map = this.game.add.tilemap(this.level_data.map.key);
+    let tileset_index = 0;
+    this.map.tilesets.forEach(function (tileset) {
+        this.map.addTilesetImage(tileset.name, this.level_data.map.tilesets[tileset_index++]);
+    }, this);
 
     //create layer
     this.layer = this.map.createLayer('PlayFieldLayer')
