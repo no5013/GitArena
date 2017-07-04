@@ -309,6 +309,7 @@ export default class extends Phaser.State {
     this.map.tilesets.forEach(function (tileset) {
         this.map.addTilesetImage(tileset.name, this.level_data.map.tilesets[tileset_index++]);
     }, this);
+    console.log(this.map)
 
     //create layer
     this.layer = this.map.createLayer('PlayFieldLayer')
@@ -321,7 +322,7 @@ export default class extends Phaser.State {
   initRangeMap() {
     this.rangeMap = game.add.tilemap(null, tile_size_x, tile_size_y);
     this.rangeMap.addTilesetImage('tiles');
-    this.rangeLayer = this.rangeMap.createBlankLayer("RangeLayer", 30, 30, tile_size_x, tile_size_y)
+    this.rangeLayer = this.rangeMap.createBlankLayer("RangeLayer", this.map.width, this.map.height, tile_size_x, tile_size_y)
     this.rangeLayer.resizeWorld()
     this.rangeLayer.alpha = 0.5
   }
