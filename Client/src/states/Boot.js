@@ -7,8 +7,10 @@ var loadUserReady = false
 var loadRepoReady = false
 
 export default class extends Phaser.State {
-  init () {
-    var game = this;
+  init (level_file, next_state, extra_parameters) {
+    this.level_file = level_file
+    this.next_state = next_state
+    this.extra_parameters = extra_parameters
   }
 
   preload () {
@@ -22,11 +24,16 @@ export default class extends Phaser.State {
       game.repos = data
       loadRepoReady = true
     })
+    this.load.text("level1", this.level_file);
   }
 
   update () {
     if (loadUserReady&&loadRepoReady) {
-      this.state.start('Preload')
+      var level_text, level_data;
+      level_text = this.game.cache.getText("level1");
+      level_data = JSON.parse(level_text);
+      console.log(level_data)
+      this.state.start("Loading", true, false, level_data, this.next_state);
     }
   }
 }

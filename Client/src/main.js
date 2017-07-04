@@ -4,8 +4,8 @@ import Phaser from 'phaser'
 
 import BootState from './states/Boot'
 import PreloadState from './states/Preload'
+import LoadingState from './states/LoadingState'
 import GameState from './states/Game'
-import MainState from './states/MainState'
 import Util from './util/Util'
 
 import config from './config'
@@ -21,8 +21,9 @@ class Game extends Phaser.Game {
     this.state.add('Boot', BootState, false)
     this.state.add('Preload', PreloadState, false)
     this.state.add('Game', GameState, false)
+    this.state.add('Loading', LoadingState, false)
 
-    this.state.start('Boot')
+    this.state.start('Boot', true, false, "assets/levels/battle.json", "Game")
   }
 }
 

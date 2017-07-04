@@ -13,11 +13,14 @@ export default class extends Phaser.State {
     //
     // load your assets
     //
-    this.load.image('mushroom', 'assets/images/mushroom2.png')
+    game.load.image('tiles', 'assets/tiles/gridtiles.png')
+
+    game.load.image('rectangle_image', 'assets/huds/rectangle.png')
+
+    game.load.spritesheet('chara', 'assets/images/vx_chara01.png', 32, 48);
+
     this.load.tilemap('level0', 'assets/tilemaps/level1.json', null, Phaser.Tilemap.TILED_JSON)
-    // this.load.tilemap('level1', 'assets/tilemaps/level1_ColliderLayer.csv', null, Phaser.Tilemap.CSV)
-    // this.load.tilemap('level1', 'assets/tilemaps/level1_PlayFieldLayer.csv', null, Phaser.Tilemap.CSV)
-    this.load.tilemap('level1', 'assets/tilemaps/level1.csv', null, Phaser.Tilemap.CSV)
+
     this.load.image('gameTiles', 'assets/images/gametiles.png')
   }
 

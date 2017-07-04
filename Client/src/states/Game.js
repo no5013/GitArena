@@ -90,14 +90,7 @@ export default class extends Phaser.State {
 
   preload () {
     // I think it tile_size_xxtile_size_x
-    game.load.image('tiles', '../assets/tiles/gridtiles.png')
 
-    game.load.image('rectangle_image', '../assets/huds/rectangle.png')
-
-    game.load.spritesheet('chara', '../assets/images/vx_chara01.png', tile_size_x, 48);
-
-    // Load temp button
-    game.load.spritesheet('button', 'assets/images/button_sprite_sheet.png', 193, 71);
   }
 
   log() {
@@ -448,7 +441,8 @@ export default class extends Phaser.State {
 
     var player_unit_spawn_points = this.findObjectsByType("player_unit", this.map, "ObjectLayer")
     var enemy_unit_spawn_points = this.findObjectsByType("enemy_unit", this.map, "ObjectLayer")
-    console.log(spawn_points)
+    console.log(player_unit_spawn_points)
+    console.log(enemy_unit_spawn_points)
 
     player_unit_spawn_points.forEach(function(spawn_point){
       this.players.push(new PlayerUnit({
@@ -460,7 +454,9 @@ export default class extends Phaser.State {
         health: 10,
         num: runner,
       }))
+      console.log(runner)
       let tile = self.map.getTile(player_unit_spawn_points[runner].x/32, player_unit_spawn_points[runner].y/32)
+
       tile.properties['owner'] = this.players[runner++];
     }, this)
 

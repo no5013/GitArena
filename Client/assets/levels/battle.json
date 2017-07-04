@@ -1,0 +1,18 @@
+{
+  "assets": {
+    "rectangle_image": {"type": "image", "source": "assets/huds/rectangle.png"},
+    "gameTiles": {"type": "image", "source": "assets/images/gametiles.png"},
+    "tiles": {"type": "image", "source": "assets/tiles/gridtiles.png"},
+    "chara": {"type": "spritesheet", "source": "assets/images/vx_chara01.png", "frame_width": 32, "frame_height": 48},
+    "level0": {"type": "tilemap", "source": "assets/maps/map1.json"}
+  },
+  "groups": [
+    "background",
+    "player_units",
+    "enemy_units",
+    "hud"
+  ],
+  "prefabs": {
+
+  }
+}
