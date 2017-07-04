@@ -39,6 +39,6 @@ export default class extends Phaser.State {
   }
 
   create () {
-    this.game.state.start(this.next_state, true, false, this.level_data, this.extra_parameters);
+    this.game.state.start(this.next_state, true, false, this.battle_data, this.level_data, this.extra_parameters);
   }
 }

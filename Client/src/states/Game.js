@@ -39,7 +39,7 @@ const move_speed = 0.01
 
 export default class extends Phaser.State {
 
-  init (level_data) {
+  init (battle_data, level_data, extra_parameters) {
     let self = this;
     this.ActionState = {
       UnitSelectState: new UnitSelectState(self),
@@ -69,9 +69,9 @@ export default class extends Phaser.State {
       }
     })
 
+    this.battle_data = battle_data
     this.level_data = level_data
-    console.log("LEVEL DATA")
-    console.log(level_data)
+    this.extra_parameters = extra_parameters
   }
 
   log() {
@@ -328,7 +328,7 @@ export default class extends Phaser.State {
     this.map = this.game.add.tilemap('level_tilemap')
 
     //the first parameter is the tileset name as specified in Tiled, the second is the key to the asset
-    this.map.addTilesetImage('hyptosis_tile-art-batch-1', 'gameTiles')
+    this.map.addTilesetImage('hyptosis_tile-art-batch-1', 'map_tileset')
 
     //create layer
     this.layer = this.map.createLayer('PlayFieldLayer')
@@ -440,13 +440,13 @@ export default class extends Phaser.State {
     }, this)
 
     let new_runner = 0
-    enemy_unit_spawn_points.forEach(function(spawn_point){
+    this.level_data.enemy_encounters.forEach(function(enemy){
       this.enemies.push(new EnemyUnit({
         game: this,
         x: enemy_unit_spawn_points[new_runner].x,
         y: enemy_unit_spawn_points[new_runner].y,
         asset: 'chara',
-        name: self.game.repos[runner++].repo_name,
+        name: enemy.name,
         health: 10,
         num: runner,
       }))

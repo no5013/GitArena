@@ -38,7 +38,7 @@ export default class extends Phaser.State {
       level2_text = this.game.cache.getText("level2");
       level2_data = JSON.parse(level2_text);
 
-      this.state.start("Loading", true, false,level2_data, level_data, this.next_state);
+      this.state.start("Loading", true, false, level_data, level2_data, this.next_state);
     }
   }
 }
