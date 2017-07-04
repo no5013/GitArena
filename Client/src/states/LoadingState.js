@@ -2,7 +2,8 @@ import Phaser from 'phaser'
 import { centerGameObjects } from '../utils'
 
 export default class extends Phaser.State {
-  init (level_data, next_state, extra_parameters) {
+  init (battle_data, level_data, next_state, extra_parameters) {
+    this.battle_data = battle_data;
     this.level_data = level_data;
     this.next_state = next_state;
     this.extra_parameters = extra_parameters;
@@ -13,8 +14,12 @@ export default class extends Phaser.State {
     this.loaderBar = this.add.sprite(this.game.world.centerX, this.game.world.centerY, 'loaderBar')
     centerGameObjects([this.loaderBg, this.loaderBar])
 
-    var assets, asset_loader, asset_key, asset;
-    assets = this.level_data.assets;
+    this.loadAssetFromJSON(this.level_data.assets);
+    this.loadAssetFromJSON(this.battle_data.assets)
+  }
+
+  loadAssetFromJSON(assets) {
+    var asset_loader, asset_key, asset;
     for (asset_key in assets) { // load assets according to asset key
       if (assets.hasOwnProperty(asset_key)) {
         asset = assets[asset_key];

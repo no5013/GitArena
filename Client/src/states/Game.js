@@ -35,29 +35,11 @@ var camera_speed = 5;
 var marker;
 var moving = {}
 
-const spawn_points = [
-  {
-    x: 5,
-    y: 5
-  },
-  {
-    x: 5,
-    y: 7
-  },
-  {
-    x: 5,
-    y: 9
-  },
-  {
-    x: 5,
-    y: 11
-  }
-]
 const move_speed = 0.01
 
 export default class extends Phaser.State {
 
-  init () {
+  init (level_data) {
     let self = this;
     this.ActionState = {
       UnitSelectState: new UnitSelectState(self),
@@ -86,11 +68,10 @@ export default class extends Phaser.State {
         return unit_a.act_turn - unit_b.act_turn
       }
     })
-  }
 
-  preload () {
-    // I think it tile_size_xxtile_size_x
-
+    this.level_data = level_data
+    console.log("LEVEL DATA")
+    console.log(level_data)
   }
 
   log() {
@@ -102,8 +83,6 @@ export default class extends Phaser.State {
 
     this.prefabs = {}
 
-    // this.initMap()
-    // this.initMapp()
     this.initMapJSON()
     this.initRangeMap()
 
@@ -346,7 +325,7 @@ export default class extends Phaser.State {
   }
 
   initMapJSON() {
-    this.map = this.game.add.tilemap('level0')
+    this.map = this.game.add.tilemap('level_tilemap')
 
     //the first parameter is the tileset name as specified in Tiled, the second is the key to the asset
     this.map.addTilesetImage('hyptosis_tile-art-batch-1', 'gameTiles')

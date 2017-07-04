@@ -25,6 +25,7 @@ export default class extends Phaser.State {
       loadRepoReady = true
     })
     this.load.text("level1", this.level_file);
+    this.load.text("level2", "assets/levels/level.json")
   }
 
   update () {
@@ -32,8 +33,12 @@ export default class extends Phaser.State {
       var level_text, level_data;
       level_text = this.game.cache.getText("level1");
       level_data = JSON.parse(level_text);
-      console.log(level_data)
-      this.state.start("Loading", true, false, level_data, this.next_state);
+
+      var level2_text, level2_data;
+      level2_text = this.game.cache.getText("level2");
+      level2_data = JSON.parse(level2_text);
+
+      this.state.start("Loading", true, false,level2_data, level_data, this.next_state);
     }
   }
 }

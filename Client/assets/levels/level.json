@@ -1,6 +1,6 @@
 {
   "assets": {
-    "map_tileset": {"type": "image", "source": "assets/images/gametiles.png"},
+    "gameTiles": {"type": "image", "source": "assets/images/gametiles.png"},
     "level_tilemap": {"type": "tilemap", "source": "assets/maps/map1.json"}
   },
 
