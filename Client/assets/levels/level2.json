@@ -1,0 +1,38 @@
+{
+  "assets": {
+    "map_tileset": {"type": "image", "source": "assets/images/gametiles.png"},
+    "level_tilemap": {"type": "tilemap", "source": "assets/maps/map1.json"}
+  },
+
+  "groups": [
+
+  ],
+
+  "map": {
+    "key": "level_tilemap",
+    "tilesets": ["map_tileset"]
+  },
+
+  "enemy_encounters": [
+    {
+      "name": "A",
+      "type": "enemy_unit",
+      "position": {"x": 100, "y": 100},
+      "properties": {
+        "texture": "lizard_spritesheet",
+        "group": "enemy_units",
+        "stats": {
+          "attack": 30,
+          "defense": 10,
+          "health": 50,
+          "speed": 15
+        }
+      }
+    }
+  ],
+
+  "reward": {
+    "experience": 100,
+    "items": [{"type": "potion", "properties": {"group": "items", "health_power": 50}}]
+  }
+}
