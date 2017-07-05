@@ -39,8 +39,6 @@ export default class extends Phaser.State {
   }
 
   enableActionCommandHud(){
-    console.log("USED COMMAND")
-    console.log(this.used_commands)
     this.setActionMenu(this.current_unit)
     this.prefabs['actions_menu'].enable();
     this.prefabs['actions_menu'].show();

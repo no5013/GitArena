@@ -6,17 +6,12 @@ export default class extends ActionState {
   }
 
   enterState () {
-    console.log("WalkedState")
     this.unit = this.game.properties.ActionStateVar['unit']
     this.game.enableActionCommandHud();
   }
 
   leaveState () {
     this.game.disableActionCommandHud();
-  }
-
-  selectTile (x, y) {
-    console.log('fuck')
   }
 
   setNextState(state) {

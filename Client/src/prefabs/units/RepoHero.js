@@ -96,10 +96,6 @@ export default class RepoHero extends Phaser.Sprite {
     this.addChild(this.damage_text);
   }
 
-  log() {
-    console.log("repo hero")
-  }
-
   calculateActTurn (current_turn) {
     this.act_turn = current_turn + Math.ceil(100/this.speed)
   }
@@ -107,7 +103,6 @@ export default class RepoHero extends Phaser.Sprite {
   moveTo (dest_x, dest_y, callback){
     let distance = Util.distanceBetweenPoint(this.x,this.y, dest_x, dest_y)
     let direction = Util.directionOfVector(this.x, this.y, dest_x, dest_y)
-    console.log(direction)
 
     if(this.isMoving){
       return false;
@@ -125,7 +120,6 @@ export default class RepoHero extends Phaser.Sprite {
   }
 
   takeDamage (damage){
-    console.log(this.x + " " + this.y)
     this.health-=damage
     console.log(`Receive ${damage}, remaining ${this.health}`)
 

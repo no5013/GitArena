@@ -13,53 +13,6 @@ export default class extends RepoHero{
 
   act () {
 
-    // let random_tile_x = Math.floor(Math.random()*10)+1
-    // let random_tile_y = Math.floor(Math.random()*10)+1
-    //
-    // let random_target = Math.floor((Math.random * this.game.players.length()))
-    // let target = this.game.players[random_target]
-    //
-    // if(target){
-    //   let target_tile_x = this.game.layer.getTileX(target.x);
-    //   let target_tile_y = this.game.layer.getTileX(target.y);
-    //
-    //   let next_move = this.getAttempMoveCoordinate(target_tile_x, target_tile_y)
-    //
-    //   var move_command = new MoveCommand(this.game, this.name+"_move", {x: this.x, y: this.y}, {
-    //     coordinate: {
-    //       x: next_move.x,
-    //       y: next_move.y
-    //     },
-    //     group: "hud",
-    //     owner_name: this.name
-    //   })
-    //
-    //
-    //   let self = this;
-    //   var tile, unit, attacked;
-    //   var possible_attacks = this.game.getAttackRangeCoordinate(this.x, this.y, this.attackRange)
-    //   console.log("WHY YOU NO ATTACK")
-    //   possible_attacks.forEach(function(attack){
-    //     tile = self.game.map.getTile(attack.x, attack.y, self.game.layer)
-    //     // check if tile exist
-    //     if(tile){
-    //       unit = tile.properties['owner']
-    //       // if there has unit there and still haven't attack
-    //       if(unit && !attacked){
-    //         attacked = true
-    //         var attack_command = new NormalAttackCommand(this.game, this.name+"_attack", {x: 0,y: 0}, {
-    //           target: this.game.players[0],
-    //           group: "hud",
-    //           owner_name: this.name
-    //         })
-    //       }
-    //     }
-    //   })
-    // }
-    // else {
-    //   console.log("win")
-    //   console.log(random_target)
-    // }
   }
 
   getCommand(){
@@ -74,7 +27,7 @@ export default class extends RepoHero{
 
     if(target){
       let target_tile_x = this.game.layer.getTileX(target.x);
-      let target_tile_y = this.game.layer.getTileX(target.y);
+      let target_tile_y = this.game.layer.getTileY(target.y);
 
       let next_move = this.getAttempMoveCoordinate(target_tile_x, target_tile_y)
 
@@ -90,6 +43,7 @@ export default class extends RepoHero{
 
       let self = this;
       var tile, unit, attacked;
+      console.log("NEXTMOVE: " + next_move.x + " " + next_move.y)
       var possible_attacks = this.game.getAttackRangeCoordinate(next_move.x, next_move.y, this.attackRange)
       possible_attacks.forEach(function(attack){
         tile = self.game.map.getTile(attack.x, attack.y, self.game.layer)
@@ -97,7 +51,8 @@ export default class extends RepoHero{
         if(tile){
           unit = tile.properties['owner']
           // if there has unit there and still haven't attack
-          if(unit && !attacked){
+          if(unit && unit===target &&!attacked){
+            console.log(tile)
             attacked = true
             attack_command = new NormalAttackCommand(self.game, self.name+"_attack", {x: 0,y: 0}, {
               target: target,

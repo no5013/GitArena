@@ -9,20 +9,6 @@ export default class {
       this.priority_queue.push(item)
     }
     else{
-      // for(let i=this.priority_queue.length-1; i>=0; i--){
-      //   var queue_item = this.priority_queue[i]
-      //   var compare_value = this.comparator(item, queue_item)
-      //   console.log(compare_value)
-      //   if(compare_value<0){
-      //     console.log("WTF")
-      //     continue;
-      //   }
-      //   else if(compare_value>=0){
-      //     this.priority_queue.splice(i, 0, item)
-      //     console.log(this.priority_queue)
-      //     break;
-      //   }
-      // }
       this.priority_queue.reverse()
       for(let i=0; i<this.priority_queue.length; i++){
         var queue_item = this.priority_queue[i]

@@ -29,7 +29,7 @@ export default class extends TextPrefab{
   }
 
   select(){
-    console.log("CLICK ITEM")
+
   }
 
 }

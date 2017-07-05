@@ -6,7 +6,6 @@ export default class extends ActionState {
   }
 
   enterState () {
-    console.log("EndturnState")
     this.unit = this.game.current_unit
     this.unit.setDeactive();
     this.game.next_turn();

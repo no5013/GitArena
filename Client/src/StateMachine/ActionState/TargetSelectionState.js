@@ -7,7 +7,6 @@ export default class extends ActionState {
   }
 
   enterState () {
-    console.log("TargetSelectionState")
     this.unit = this.game.properties.ActionStateVar['unit']
     this.game.showAttackRange(this.unit)
   }

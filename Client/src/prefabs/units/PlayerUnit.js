@@ -7,6 +7,6 @@ export default class PlayerUnit extends RepoHero{
   }
 
   act () {
-    console.log("PLAYER")
+    
   }
 }

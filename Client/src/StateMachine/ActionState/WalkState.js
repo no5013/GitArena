@@ -7,7 +7,6 @@ export default class extends ActionState {
   }
 
   enterState () {
-    console.log("walkingState")
     this.unit = this.game.properties.ActionStateVar['unit']
     this.game.showMovingRange(this.unit)
   }

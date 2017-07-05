@@ -38,11 +38,7 @@ export default class {
       {
         x:x,
         y:y-1
-      }      
+      }
     ]
-  }
-
-  static log () {
-    console.log(Math.sqrt(4))
   }
 }

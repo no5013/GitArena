@@ -6,8 +6,6 @@ export default class extends ActionState {
   }
 
   enterState () {
-    console.log("ActionSelectState")
-    console.log(this.game.groups['hud'])
     this.unit = this.game.properties.ActionStateVar['unit']
     this.game.enableActionCommandHud();
   }

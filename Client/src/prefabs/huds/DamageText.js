@@ -17,7 +17,6 @@ export default class extends TextPrefab {
     let self = this
 
     var text_float = this.game_state.add.tween(this)
-    console.log(properties.distance + " " + properties.duration)
     text_float.to({x: self.x, y: self.y - properties.distance}, properties.duration)
     text_float.onComplete.add(function(){
       self.kill()

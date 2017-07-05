@@ -14,7 +14,6 @@ export default class extends Prefab {
   }
 
   showMessage () {
-    console.log(this.properties)
     var action_message = new ActionMessage(this.game_state, this.owner.name + "_action_message", this.action_message_position, {
       group: 'hud',
       texture: 'rectangle_image',

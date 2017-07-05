@@ -74,10 +74,6 @@ export default class extends Phaser.State {
     this.extra_parameters = extra_parameters
   }
 
-  log() {
-    console.log("GAME LOG")
-  }
-
   create () {
     var self = this
 
@@ -110,8 +106,6 @@ export default class extends Phaser.State {
   }
 
   enableActionCommandHud(){
-    console.log("USED COMMAND")
-    console.log(this.used_commands)
     this.setActionMenu(this.current_unit)
     this.prefabs['actions_menu'].enable();
     this.prefabs['actions_menu'].show();
@@ -309,7 +303,6 @@ export default class extends Phaser.State {
     this.map.tilesets.forEach(function (tileset) {
         this.map.addTilesetImage(tileset.name, this.level_data.map.tilesets[tileset_index++]);
     }, this);
-    console.log(this.map)
 
     //create layer
     this.layer = this.map.createLayer('PlayFieldLayer')
@@ -327,82 +320,12 @@ export default class extends Phaser.State {
     this.rangeLayer.alpha = 0.5
   }
 
-  initMap() {
-    var data = '';
-    var size_x = 30;
-    var size_y = 30;
-    for (var y = 0; y < size_y; y++)
-    {
-      for (var x = 0; x < size_x; x++)
-      {
-        // data += game.rnd.between(0, 47).toString();
-        data += "0"
-        if (x < size_x-1)
-        {
-          data += ',';
-        }
-      }
-
-      if (y < size_y-1)
-      {
-        data += "\n";
-      }
-    }
-
-    var data2 = '';
-    var size_x = 30;
-    var size_y = 30;
-    for (var y = 0; y < size_y; y++)
-    {
-      for (var x = 0; x < size_x; x++)
-      {
-        // data += game.rnd.between(0, 47).toString();
-        data2 += "40"
-        if (x < size_x-1)
-        {
-          data2 += ',';
-        }
-      }
-
-      if (y < size_y-1)
-      {
-        data2 += "\n";
-      }
-    }
-    game.cache.addTilemap('dynamicMap', null, data, Phaser.Tilemap.CSV);
-
-    game.cache.addTilemap('dynamicMap2', null, "", Phaser.Tilemap.CSV);
-    //  Create our map (the 16x16 is the tile size)
-    this.map = game.add.tilemap('dynamicMap', tile_size_x, tile_size_y);
-
-    this.rangeMap = game.add.tilemap(null, tile_size_x, tile_size_y);
-    //  'tiles' = cache image key, 16x16 = tile size
-    this.map.addTilesetImage('tiles', 'tiles', tile_size_x, tile_size_y);
-    // this.rangeMap.addTilesetImage('tiles', 'tiles', tile_size_x, tile_size_y);
-    this.rangeMap.addTilesetImage('tiles');
-    //  0 is important
-    this.layer = this.map.createLayer(0);
-    // this.rangeLayer = this.rangeMap.createLayer(0);
-    this.rangeLayer = this.rangeMap.createBlankLayer("RangeLayer", 30, 30, tile_size_x, tile_size_y)
-
-    this.layer.alpha = 1
-    this.rangeLayer.alpha = 0.5
-
-    // let xxx = this.rangeMap.getTile(10,10)
-    // console.log(xxx)
-    //  Scroll it
-    this.layer.resizeWorld();
-    this.rangeLayer.resizeWorld();
-  }
-
   initUnits() {
     let self = this
     let runner = 0
 
     var player_unit_spawn_points = this.findObjectsByType("player_unit", this.map, "ObjectLayer")
     var enemy_unit_spawn_points = this.findObjectsByType("enemy_unit", this.map, "ObjectLayer")
-    console.log(player_unit_spawn_points)
-    console.log(enemy_unit_spawn_points)
 
     player_unit_spawn_points.forEach(function(spawn_point){
       this.players.push(new PlayerUnit({
@@ -414,7 +337,7 @@ export default class extends Phaser.State {
         health: 10,
         num: runner,
       }))
-      console.log(runner)
+
       let tile = self.map.getTile(player_unit_spawn_points[runner].x/32, player_unit_spawn_points[runner].y/32)
 
       tile.properties['owner'] = this.players[runner++];
@@ -435,19 +358,6 @@ export default class extends Phaser.State {
       tile.properties['owner'] = this.enemies[new_runner++];
     }, this)
 
-
-    // this.enemies.push(new EnemyUnit({
-    //   game: this,
-    //   x: spawn_points[2].x,
-    //   y: spawn_points[2].y,
-    //   asset: 'chara',
-    //   name: self.game.repos[2].repo_name,
-    //   health: 10,
-    //   num: 2,
-    // }))
-    // tile = self.map.getTile(spawn_points[2].x/32, spawn_points[2].y/32)
-    // tile.properties['owner'] = this.enemies[0];
-
     this.players.forEach(function(unit){
       unit.calculateActTurn(0)
       this.units.queue(unit)
@@ -457,23 +367,13 @@ export default class extends Phaser.State {
       unit.calculateActTurn(0)
       this.units.queue(unit)
     }, this)
-
-    this.unit_log = this.players.concat(this.enemies)
-    this.unit_log.forEach(function(unit){
-      console.log(unit.name + " act turn = " + unit.act_turn )
-    })
   }
 
   next_turn() {
-    this.unit_log.forEach(function(unit){
-      console.log(unit.name + " act turn = " + unit.act_turn )
-    })
-
     this.clearTurn();
     console.log(this.units)
     this.current_unit = this.units.dequeue();
     console.log("HEALTH: " + this.current_unit.health)
-    console.log(this.units.length)
     this.setSkillMenu()
     this.setActionMenu()
     this.resetTurn()
@@ -589,7 +489,6 @@ export default class extends Phaser.State {
         style: Object.create(self.TEXT_STYLE)
       }));
       action_index++;
-      console.log(action.name);
     }, this);
     this.skills_menu.menu_items = actions_menu_items
     this.disableUnitSkillCommandHud()

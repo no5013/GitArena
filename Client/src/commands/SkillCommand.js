@@ -15,16 +15,11 @@ export default class extends ActionCommand {
     var target = this.properties.target
     var skill = this.properties.skill
 
-    console.log(unit.name)
-    console.log(skill)
-    console.log(target.name)
-
     this.action_message_text = unit.name + " USE " + skill.name + " ON " + target.name
 
     //make camera follow unit and unfollow when it finish action
     this.game_state.game.camera.follow(unit)
     this.properties.finish_function = function(){
-      console.log("camera null")
       this.game_state.game.camera.follow(null)
     }
     skill.use(target)

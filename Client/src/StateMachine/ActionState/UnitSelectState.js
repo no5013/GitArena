@@ -7,7 +7,6 @@ export default class extends ActionState {
   }
 
   enterState () {
-    console.log("select state")
     console.log(this.game.current_unit.name)
     if(this.game.current_unit instanceof PlayerUnit){
       console.log("HEY THIS IS PLAYER")
@@ -22,11 +21,9 @@ export default class extends ActionState {
 
   selectTile (x, y) {
     let tile = this.game.map.getTile(x, y, game.layer)
-    let unit = tile.properties['owner']
     console.log(tile)
+    let unit = tile.properties['owner']
     if(unit&&unit.properties['active']){
-      console.log("UNIT SELECTED")
-      console.log(unit.name)
       this.game.properties.ActionStateVar['unit'] = unit
       this.game.properties.ActionStateVar['currentTile'] = tile
       this.nextState();

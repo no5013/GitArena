@@ -14,7 +14,6 @@ export default class {
   selectTile (x, y) {
     let tile = this.game.map.getTile(x, y, game.layer)
     let unit = tile.properties['owner']
-    console.log(tile)
   }
 
   cancel () {
