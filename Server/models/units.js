@@ -1,13 +1,13 @@
 var connection = require('../libs/database.js');
 
-function User() {
-  this.getAllUsers = function(callback) {
+function Unit() {
+  this.getAllUnits = function(callback) {
     connection.connect(function(err, client, done) {
       if(err) {
         return console.error('error fetching client from pool', err);
       }
       //use the client for executing the query
-      client.query('SELECT * FROM USERS', function(err, result) {
+      client.query('SELECT * FROM UNITS', function(err, result) {
         //call `done(err)` to release the client back to the pool (or destroy it if there is an error)
         done(err);
 
@@ -20,13 +20,13 @@ function User() {
     });
   };
 
-  this.getSingleUser = function(id, callback) {
+  this.getSingleUnit = function(id, callback) {
     connection.connect(function(err, client, done) {
       if(err) {
         return console.error('error fetching client from pool', err);
       }
       //use the client for executing the query
-      client.query(`SELECT * FROM USERS WHERE id = ${id}`, function(err, result) {
+      client.query(`SELECT * FROM UNITS WHERE id = ${id}`, function(err, result) {
         //call `done(err)` to release the client back to the pool (or destroy it if there is an error)
         done(err);
 
@@ -39,14 +39,14 @@ function User() {
     });
   };
 
-  this.createNewUser = function(username, callback) {
+  this.createNewUnit = function(owner_id, name, language, experience, stargazers_count, watchers_count, callback) {
     connection.connect(function(err, client, done) {
       if(err) {
         return console.error('error fetching client from pool', err);
       }
 
       //use the client for executing the query
-      client.query(`INSERT INTO users (name) VALUES ('${username}')`, function(err, result) {
+      client.query(`INSERT INTO UNITS (owner_id, name, language, experience, stargazers_count, watchers_count) VALUES (${owner_id}, '${name}', '${language}', ${experience}, ${stargazers_count}, ${watchers_count})`, function(err, result) {
         //call `done(err)` to release the client back to the pool (or destroy it if there is an error)
         done(err);
 
@@ -60,4 +60,4 @@ function User() {
   };
 }
 
-module.exports = new User();
+module.exports = new Unit();
