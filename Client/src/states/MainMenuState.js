@@ -8,6 +8,7 @@ import LevelMenuItem from '../prefabs/huds/LevelMenuItem'
 export default class extends Phaser.State {
 
   init () {
+    this.prefabs = {}
     this.groups = {
       hud: this.game.add.group()
     }
@@ -19,8 +20,6 @@ export default class extends Phaser.State {
 
   create () {
     var self = this
-
-    this.prefabs = {}
 
     this.TEXT_STYLE = {font: "30px Arial", fill: "#FFFFFF"}
     this.HUD_TEXT_STYLE = {font: "16px Arial", fill: "#FFFFFF"}

@@ -15,32 +15,31 @@ export default class extends Phaser.State {
   }
 
   preload () {
-    $.get("http://localhost:8000/users/no5013", function(data, status){
-      console.log(data)
-      game.user = data
-      loadUserReady = true
-    })
-    $.get("http://localhost:8000/users/no5013/repos", function(data, status){
-      console.log(data)
-      game.repos = data
-      loadRepoReady = true
-    })
+    // $.get("http://localhost:8000/users/no5013", function(data, status){
+    //   console.log(data)
+    //   game.user = data
+    //   loadUserReady = true
+    // })
+    // $.get("http://localhost:8000/users/no5013/repos", function(data, status){
+    //   console.log(data)
+    //   game.repos = data
+    //   loadRepoReady = true
+    // })
     this.load.text("battle_file", this.battle_file)
     this.load.text("level_file", this.level_file);
-
+    this.load.image('loaderBg', './assets/images/loader-bg.png')
+    this.load.image('loaderBar', './assets/images/loader-bar.png')
   }
 
-  update () {
-    if (loadUserReady&&loadRepoReady) {
-      var level_text, level_data;
-      level_text = this.game.cache.getText("level_file");
-      level_data = JSON.parse(level_text);
+  create () {
+    var level_text, level_data;
+    level_text = this.game.cache.getText("level_file");
+    level_data = JSON.parse(level_text);
 
-      var battle_text, battle_data;
-      battle_text = this.game.cache.getText("battle_file");
-      battle_data = JSON.parse(battle_text);
+    var battle_text, battle_data;
+    battle_text = this.game.cache.getText("battle_file");
+    battle_data = JSON.parse(battle_text);
 
-      this.state.start("Loading", true, false, battle_data, level_data, this.next_state);
-    }
+    this.state.start("Loading", true, false, battle_data, level_data, this.next_state);
   }
 }
