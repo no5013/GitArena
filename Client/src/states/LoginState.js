@@ -55,12 +55,12 @@ export default class extends Phaser.State {
 
   login(){
     let self = this
-    console.log(this.username.value)
-    console.log(this.password.value)
-    $.get("http://localhost:8000/users/no5013", function(data, status){
+    var username = this.username.value
+    var password = this.password.value
+    $.get(`http://localhost:8000/users/${username}`, function(data, status){
       console.log(data)
       game.user = data
-      $.get("http://localhost:8000/users/no5013/repos", function(data, status){
+      $.get(`http://localhost:8000/users/${username}/repos`, function(data, status){
         console.log(data)
         game.repos = data
 
