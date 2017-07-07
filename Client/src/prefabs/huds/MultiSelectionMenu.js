@@ -11,8 +11,16 @@ export default class extends Menu {
   }
 
   addToSelected(menu_item) {
-    this.current_selected.push(menu_item)
-    console.log(this.current_selected)
+    if(this.isFull()){
+      console.log("FULL")
+    }
+    else{
+      this.current_selected.push(menu_item)
+    }
+  }
+
+  isFull(){
+    return this.current_selected.length>=this.maximum_size
   }
 
   removeFromSelected(menu_item) {

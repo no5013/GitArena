@@ -58,7 +58,7 @@ export default class extends Phaser.State {
     var actions_menu_items = []
 
     // this.test_menu = null
-    this.test_menu = new MultiSelectionMenu(this, "main_menu", position, {group: "hud", menu_items: null})
+    this.test_menu = new MultiSelectionMenu(this, "main_menu", position, {group: "hud", menu_items: null, maximum_size: 2})
     actions_menu_items.push(new MultiSelectionMenuItem(this, "test_menu_item1", {x: position.x, y: position.y}, {group: "hud", text: "test1", style: Object.create(this.TEXT_STYLE), owner: this.test_menu}))
     actions_menu_items.push(new MultiSelectionMenuItem(this, "test_menu_item2", {x: position.x, y: position.y+50}, {group: "hud", text: "test2", style: Object.create(this.TEXT_STYLE), owner: this.test_menu}))
     actions_menu_items.push(new MultiSelectionMenuItem(this, "test_menu_item3", {x: position.x, y: position.y+100}, {group: "hud", text: "test3", style: Object.create(this.TEXT_STYLE), owner: this.test_menu}))

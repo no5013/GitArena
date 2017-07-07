@@ -54,15 +54,14 @@ export default class extends TextPrefab{
   }
 
   select(){
-    if(this.isSelected){
-      this.isSelected = false
-      this.deSelected()
-      this.owner.removeFromSelected(this)
-    }else{
+    if(!this.owner.isFull() && !this.isSelected){
       this.isSelected = true
       this.selected()
       this.owner.addToSelected(this)
-      console.log(this.owner)
+    }else if(this.isSelected){
+      this.isSelected = false
+      this.deSelected()
+      this.owner.removeFromSelected(this)
     }
   }
 }
