@@ -2,10 +2,12 @@
 import TextPrefab from '../prefabs/TextPrefab'
 
 import Menu from '../prefabs/huds/Menu'
+import MultiSelectionMenu from '../prefabs/huds/MultiSelectionMenu'
 
+import MenuItem from '../prefabs/huds/MenuItem'
 import LevelMenuItem from '../prefabs/huds/LevelMenuItem'
-
 import StageSelectionMenuItem from '../prefabs/huds/MainMenuHuds/StageSelectionMenuItem'
+import MultiSelectionMenuItem from '../prefabs/huds/MultiSelectionMenuItem'
 
 import MainMenuSelectionState from '../StateMachine/MainMenuState/MainMenuSelectionState'
 import StageSelectionState from '../StateMachine/MainMenuState/StageSelectionState'
@@ -42,11 +44,30 @@ export default class extends Phaser.State {
     this.HUD_TEXT_STYLE = {font: "16px Arial", fill: "#FFFFFF"}
 
     // this.initActionMenu({x:400, y:100})
-    // this.enableActionCommandHud()
-    this.initMainMenu({x:400, y:100})
-    this.initStageSelectionMenu({x:400, y:100})
+    // this.initMainMenu({x:400, y:100})
+    // this.initStageSelectionMenu({x:400, y:100})
+    // this.setMainMenuState(this.MainMenuState.MainMenuSelectionState)
 
-    this.setMainMenuState(this.MainMenuState.MainMenuSelectionState)
+    this.initUnitSelectionMenuHud({x:400, y:100})
+    this.test_menu.enable()
+  }
+
+  initUnitSelectionMenuHud(position){
+    var self = this
+
+    var actions_menu_items = []
+
+    // this.test_menu = null
+    this.test_menu = new MultiSelectionMenu(this, "main_menu", position, {group: "hud", menu_items: null})
+    actions_menu_items.push(new MultiSelectionMenuItem(this, "test_menu_item1", {x: position.x, y: position.y}, {group: "hud", text: "test1", style: Object.create(this.TEXT_STYLE), owner: this.test_menu}))
+    actions_menu_items.push(new MultiSelectionMenuItem(this, "test_menu_item2", {x: position.x, y: position.y+50}, {group: "hud", text: "test2", style: Object.create(this.TEXT_STYLE), owner: this.test_menu}))
+    actions_menu_items.push(new MultiSelectionMenuItem(this, "test_menu_item3", {x: position.x, y: position.y+100}, {group: "hud", text: "test3", style: Object.create(this.TEXT_STYLE), owner: this.test_menu}))
+    actions_menu_items.push(new MultiSelectionMenuItem(this, "test_menu_item4", {x: position.x, y: position.y+150}, {group: "hud", text: "test4", style: Object.create(this.TEXT_STYLE), owner: this.test_menu}))
+    this.test_menu.menu_items = actions_menu_items
+    // this.test_menu.disable()
+    // this.test_menu.hide()
+    // this.test_menu.enable()
+    // this.test_menu.show()
   }
 
   enableMainMenuHud(){
@@ -89,8 +110,8 @@ export default class extends Phaser.State {
       actions_menu_items.push(new action.item_constructor(this, action.text+"_menu_item", {x: position.x, y: position.y + action_index * 35}, {group: "hud", text: action.text, style: Object.create(self.TEXT_STYLE)}));
       action_index++;
     }, this);
-    this.actions_menu = new Menu(this, "main_menu", position, {group: "hud", menu_items: actions_menu_items})
-    this.disableMainMenuHud()
+    this.main_menu = new Menu(this, "main_menu", position, {group: "hud", menu_items: actions_menu_items})
+    // this.disableMainMenuHud()
   }
 
   initStageSelectionMenu(position) {
