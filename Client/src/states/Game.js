@@ -333,7 +333,7 @@ export default class extends Phaser.State {
         x: player_unit_spawn_points[runner].x,
         y: player_unit_spawn_points[runner].y,
         asset: 'chara',
-        name: self.game.repos[runner].repo_name,
+        name: self.game.repos[runner].name,
         health: 10,
         num: runner,
       }))

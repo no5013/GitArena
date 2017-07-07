@@ -4,6 +4,7 @@ var router = express.Router();
 var gitRepo = require('../get-repo')
 
 var users = require('../models/users');
+var units = require('../models/units');
 
 router.get('/', function(req, res) {
   users.getAllUsers(function(result){
@@ -26,5 +27,21 @@ router.post('/new', function(req, res) {
     })
   });
 });
+
+router.get('/:id/repos', function(req,res){
+  var user_id = req.params.id
+  units.getAllOUnitsOfUser(user_id, function(result){
+    res.send(result)
+  })
+
+})
+
+router.post('/authenticate', function(req,res){
+  var username = req.body.username
+  var password = req.body.password
+  users.authenticate(username, password, function(result){
+    res.send(result)
+  })
+})
 
 module.exports = router;

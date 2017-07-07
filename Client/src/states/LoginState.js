@@ -57,15 +57,37 @@ export default class extends Phaser.State {
     let self = this
     var username = this.username.value
     var password = this.password.value
-    $.get(`http://localhost:8000/users/${username}`, function(data, status){
-      console.log(data)
-      game.user = data
-      $.get(`http://localhost:8000/users/${username}/repos`, function(data, status){
-        console.log(data)
-        game.repos = data
+    // $.get(`http://localhost:8000/users/${username}`, function(data, status){
+    //   console.log(data)
+    //   game.user = data
+      // $.get(`http://localhost:8000/users/${username}/repos`, function(data, status){
+      //   console.log(data)
+      //   game.repos = data
+      //
+      //   self.state.start('MainMenu')
+      // })
+    // })
+    $.ajax({
+      type: "POST",
+      url: "http://localhost:8000/users/authenticate",
+      data: JSON.stringify({
+        username: username,
+        password: password
+      }),
+      contentType: "application/json; charset=utf-8",
+      dataType: "json",
+      success: function(data){
+        game.user = data
+        $.get(`http://localhost:8000/users/${data.id}/repos`, function(data, status){
+          game.repos = data
 
+          self.state.start('MainMenu')
+        })
         self.state.start('MainMenu')
-      })
+      },
+      error: function(err){
+        console.log(err)
+      }
     })
   }
 
