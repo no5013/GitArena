@@ -20,6 +20,7 @@ var API = require('./API')
 
 //Import from controllers folder
 var users = require('./controllers/users_controller');
+var units = require('./controllers/units_controller');
 
 // parse application/json
 app.use(bodyParser.json());
@@ -74,6 +75,7 @@ app.use(cors())
 
 //Init Routes
 app.use('/users' , users);
+app.use('/units' , units);
 
 app.get('/', function(req,res){
   res.render('main', { user: req.user })
@@ -85,12 +87,12 @@ app.get('/auth/github/callback',
     res.redirect('/');
   });
 
-app.get('/users/:name', function(req,res){
-  console.log(req.params.name)
-  gitRepo.getGithubUser(req.params.name, function(data){
-    res.send(data)
-  });
-})
+// app.get('/users/:name', function(req,res){
+//   console.log(req.params.name)
+//   gitRepo.getGithubUser(req.params.name, function(data){
+//     res.send(data)
+//   });
+// })
 
 app.get('/users/:name/repos', function(req,res){
   console.log(req.params.name)

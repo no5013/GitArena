@@ -34,7 +34,7 @@ function User() {
           return console.error('error running query', err);
         }
 
-        callback(result)
+        callback(result.rows[0])
       });
     });
   };
