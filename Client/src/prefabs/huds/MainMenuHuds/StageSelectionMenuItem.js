@@ -7,9 +7,6 @@ export default class extends MenuItem{
   }
 
   select () {
-    // let game_state = game.state.states.Game
-    // let unit = game_state.current_unit
-    console.log("FUCK U")
     this.game_state.currentState.setNextState(this.game_state.MainMenuState.StageSelectionState)
     this.game_state.currentState.nextState();
   }

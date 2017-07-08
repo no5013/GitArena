@@ -6,7 +6,6 @@ export default class extends MainMenuState{
   }
 
   enterState(){
-    console.log(this.game_state)
     this.game_state.enableMainMenuHud()
   }
 
