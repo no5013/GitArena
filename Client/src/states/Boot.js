@@ -40,6 +40,6 @@ export default class extends Phaser.State {
     battle_text = this.game.cache.getText("battle_file");
     battle_data = JSON.parse(battle_text);
 
-    this.state.start("Loading", true, false, battle_data, level_data, this.next_state);
+    this.state.start("Loading", true, false, battle_data, level_data, this.next_state, this.extra_parameters);
   }
 }

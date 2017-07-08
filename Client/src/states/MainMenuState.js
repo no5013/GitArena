@@ -56,15 +56,24 @@ export default class extends Phaser.State {
   initUnitSelectionMenuHud(position){
     var self = this
 
-    var actions_menu_items = []
+    var actions, actions_menu_items, action_index, actions_menu
 
-    // this.test_menu = null
-    this.unit_selection_menu = new MultiSelectionMenu(this, "unit_selection_menu", position, {group: "hud", menu_items: null, maximum_size: 2})
-    actions_menu_items.push(new MultiSelectionMenuItem(this, "test_menu_item1", {x: position.x, y: position.y}, {group: "hud", text: "test1", style: Object.create(this.TEXT_STYLE), owner: this.unit_selection_menu}))
-    actions_menu_items.push(new MultiSelectionMenuItem(this, "test_menu_item2", {x: position.x, y: position.y+35}, {group: "hud", text: "test2", style: Object.create(this.TEXT_STYLE), owner: this.unit_selection_menu}))
-    actions_menu_items.push(new MultiSelectionMenuItem(this, "test_menu_item3", {x: position.x, y: position.y+70}, {group: "hud", text: "test3", style: Object.create(this.TEXT_STYLE), owner: this.unit_selection_menu}))
-    actions_menu_items.push(new MultiSelectionMenuItem(this, "test_menu_item4", {x: position.x, y: position.y+105}, {group: "hud", text: "test4", style: Object.create(this.TEXT_STYLE), owner: this.unit_selection_menu}))
-    actions_menu_items.push(new StartLevelMenuItem(this, "test_menu_item5", {x: position.x, y: position.y+140}, {group: "hud", text: "start level", style: Object.create(this.TEXT_STYLE)}))
+    //Limit the unit to 5
+    actions = this.game.repos.slice(0,5)
+
+    actions_menu_items = []
+    action_index = 0;
+
+    //Init menu
+    this.unit_selection_menu = new MultiSelectionMenu(this, "unit_selection_menu", position, {group: "hud", menu_items: null, maximum_size: 4})
+
+    // Create a menu item for each action
+    actions.forEach(function (action) {
+      actions_menu_items.push(new MultiSelectionMenuItem(this, action.name+"_menu_item", {x: position.x, y: position.y + action_index * 35}, {group: "hud", text: action.name, style: Object.create(self.TEXT_STYLE), owner: this.unit_selection_menu, item: action}));
+      action_index++;
+    }, this);
+
+    actions_menu_items.push(new StartLevelMenuItem(this, "start_level_menu_item", {x: position.x, y: position.y + action_index * 35}, {group: "hud", text: "start level", style: Object.create(this.TEXT_STYLE)}))
     this.unit_selection_menu.menu_items = actions_menu_items
     this.disableUnitSelectionMenuHud()
   }

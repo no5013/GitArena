@@ -72,6 +72,7 @@ export default class extends Phaser.State {
     this.battle_data = battle_data
     this.level_data = level_data
     this.extra_parameters = extra_parameters
+    this.player_units = this.extra_parameters.player_units
   }
 
   create () {
@@ -334,6 +335,55 @@ export default class extends Phaser.State {
         y: player_unit_spawn_points[runner].y,
         asset: 'chara',
         name: self.game.repos[runner].name,
+        health: 10,
+        num: runner,
+      }))
+
+      let tile = self.map.getTile(player_unit_spawn_points[runner].x/32, player_unit_spawn_points[runner].y/32)
+
+      tile.properties['owner'] = this.players[runner++];
+    }, this)
+
+    let new_runner = 0
+    this.level_data.enemy_encounters.forEach(function(enemy){
+      this.enemies.push(new EnemyUnit({
+        game: this,
+        x: enemy_unit_spawn_points[new_runner].x,
+        y: enemy_unit_spawn_points[new_runner].y,
+        asset: 'chara',
+        name: enemy.name,
+        health: 10,
+        num: runner,
+      }))
+      let tile = self.map.getTile(enemy_unit_spawn_points[new_runner].x/32, enemy_unit_spawn_points[new_runner].y/32)
+      tile.properties['owner'] = this.enemies[new_runner++];
+    }, this)
+
+    this.players.forEach(function(unit){
+      unit.calculateActTurn(0)
+      this.units.queue(unit)
+    }, this)
+
+    this.enemies.forEach(function(unit){
+      unit.calculateActTurn(0)
+      this.units.queue(unit)
+    }, this)
+  }
+
+  initUnits() {
+    let self = this
+    let runner = 0
+
+    var player_unit_spawn_points = this.findObjectsByType("player_unit", this.map, "ObjectLayer")
+    var enemy_unit_spawn_points = this.findObjectsByType("enemy_unit", this.map, "ObjectLayer")
+
+    this.player_units.forEach(function(player_unit){
+      this.players.push(new PlayerUnit({
+        game: this,
+        x: player_unit_spawn_points[runner].x,
+        y: player_unit_spawn_points[runner].y,
+        asset: 'chara',
+        name: player_unit.name,
         health: 10,
         num: runner,
       }))

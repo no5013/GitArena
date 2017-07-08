@@ -80,10 +80,8 @@ export default class extends Phaser.State {
         game.user = data
         $.get(`http://localhost:8000/users/${data.id}/repos`, function(data, status){
           game.repos = data
-
           self.state.start('MainMenu')
         })
-        self.state.start('MainMenu')
       },
       error: function(err){
         console.log(err)
