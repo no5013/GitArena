@@ -7,8 +7,8 @@ import EndTurnCommand from '../../commands/EndTurnCommand'
 import ActionCommand from '../../commands/ActionCommand'
 
 export default class extends RepoHero{
-  constructor (game, x, y, asset, name, health, num) {
-    super(game, x, y, asset, name, health, num)
+  constructor (game, x, y, asset, name, health, num, properties) {
+    super(game, x, y, asset, name, health, num, properties)
   }
 
   act () {
@@ -22,8 +22,8 @@ export default class extends RepoHero{
     let random_tile_x = Math.floor(Math.random()*10)+1
     let random_tile_y = Math.floor(Math.random()*10)+1
 
-    let random_target = Math.floor(Math.random() * this.game.players.length)
-    let target = this.game.players[random_target]
+    let target_index = Math.floor(Math.random() * this.game.groups.player_units.countLiving())
+    let target = this.game.groups.player_units.children[target_index];
 
     if(target){
       let target_tile_x = this.game.layer.getTileX(target.x);

@@ -14,10 +14,12 @@ const move_speed = 0.25;
 
 export default class RepoHero extends Phaser.Sprite {
 
-  constructor ({game, x, y, asset, name, health, num}) {
+  constructor ({game, x, y, asset, name, health, num, properties}) {
     super(game.game, x, y, asset)
     this.game.add.existing(this)
+
     game.prefabs[name] = this
+    game.groups[properties.group].add(this);
 
     let self = this;
 
@@ -27,7 +29,7 @@ export default class RepoHero extends Phaser.Sprite {
     this.num = num;
     this.properties = {};
     this.state = game
-    this.movingRange = 5
+    this.movingRange = 10
     this.attackRange = 3
     this.move_speed = 0.25
     this.speed = 20;

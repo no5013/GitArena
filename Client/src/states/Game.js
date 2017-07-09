@@ -56,11 +56,11 @@ export default class extends Phaser.State {
     }
 
     this.groups = {
-      hud: this.game.add.group()
+      hud: this.game.add.group(),
+      player_units: this.game.add.group(),
+      enemy_units: this.game.add.group()
     }
     this.prefabs = {}
-    this.players = []
-    this.enemies = []
     this.used_commands = {}
 
     this.units = new PriorityQueue({
@@ -77,8 +77,6 @@ export default class extends Phaser.State {
 
   create () {
     var self = this
-
-    this.prefabs = {}
 
     this.initMapJSON()
     this.initRangeMap()
@@ -101,6 +99,8 @@ export default class extends Phaser.State {
     this.disableUnitSkillCommandHud();
 
     game.world.bringToTop(this.groups.hud);
+    game.world.bringToTop(this.groups.player_units);
+    game.world.bringToTop(this.groups.enemy_units);
 
     this.next_turn();
     this.setActionState(this.ActionState.UnitSelectState)
@@ -302,7 +302,7 @@ export default class extends Phaser.State {
     this.map = this.game.add.tilemap(this.level_data.map.key);
     let tileset_index = 0;
     this.map.tilesets.forEach(function (tileset) {
-        this.map.addTilesetImage(tileset.name, this.level_data.map.tilesets[tileset_index++]);
+      this.map.addTilesetImage(tileset.name, this.level_data.map.tilesets[tileset_index++]);
     }, this);
 
     //create layer
@@ -328,57 +328,8 @@ export default class extends Phaser.State {
     var player_unit_spawn_points = this.findObjectsByType("player_unit", this.map, "ObjectLayer")
     var enemy_unit_spawn_points = this.findObjectsByType("enemy_unit", this.map, "ObjectLayer")
 
-    player_unit_spawn_points.forEach(function(spawn_point){
-      this.players.push(new PlayerUnit({
-        game: this,
-        x: player_unit_spawn_points[runner].x,
-        y: player_unit_spawn_points[runner].y,
-        asset: 'chara',
-        name: self.game.repos[runner].name,
-        health: 10,
-        num: runner,
-      }))
-
-      let tile = self.map.getTile(player_unit_spawn_points[runner].x/32, player_unit_spawn_points[runner].y/32)
-
-      tile.properties['owner'] = this.players[runner++];
-    }, this)
-
-    let new_runner = 0
-    this.level_data.enemy_encounters.forEach(function(enemy){
-      this.enemies.push(new EnemyUnit({
-        game: this,
-        x: enemy_unit_spawn_points[new_runner].x,
-        y: enemy_unit_spawn_points[new_runner].y,
-        asset: 'chara',
-        name: enemy.name,
-        health: 10,
-        num: runner,
-      }))
-      let tile = self.map.getTile(enemy_unit_spawn_points[new_runner].x/32, enemy_unit_spawn_points[new_runner].y/32)
-      tile.properties['owner'] = this.enemies[new_runner++];
-    }, this)
-
-    this.players.forEach(function(unit){
-      unit.calculateActTurn(0)
-      this.units.queue(unit)
-    }, this)
-
-    this.enemies.forEach(function(unit){
-      unit.calculateActTurn(0)
-      this.units.queue(unit)
-    }, this)
-  }
-
-  initUnits() {
-    let self = this
-    let runner = 0
-
-    var player_unit_spawn_points = this.findObjectsByType("player_unit", this.map, "ObjectLayer")
-    var enemy_unit_spawn_points = this.findObjectsByType("enemy_unit", this.map, "ObjectLayer")
-
     this.player_units.forEach(function(player_unit){
-      this.players.push(new PlayerUnit({
+      var player = new PlayerUnit({
         game: this,
         x: player_unit_spawn_points[runner].x,
         y: player_unit_spawn_points[runner].y,
@@ -386,16 +337,21 @@ export default class extends Phaser.State {
         name: player_unit.name,
         health: 10,
         num: runner,
-      }))
+        properties: {
+          group: "player_units"
+        }
+      })
 
-      let tile = self.map.getTile(player_unit_spawn_points[runner].x/32, player_unit_spawn_points[runner].y/32)
+      let tile = self.map.getTile(player_unit_spawn_points[runner].x/32, player_unit_spawn_points[runner++].y/32)
+      tile.properties['owner'] = player
 
-      tile.properties['owner'] = this.players[runner++];
+      player.calculateActTurn(0)
+      this.units.queue(player)
     }, this)
 
     let new_runner = 0
     this.level_data.enemy_encounters.forEach(function(enemy){
-      this.enemies.push(new EnemyUnit({
+      var enemy = new EnemyUnit({
         game: this,
         x: enemy_unit_spawn_points[new_runner].x,
         y: enemy_unit_spawn_points[new_runner].y,
@@ -403,25 +359,30 @@ export default class extends Phaser.State {
         name: enemy.name,
         health: 10,
         num: runner,
-      }))
-      let tile = self.map.getTile(enemy_unit_spawn_points[new_runner].x/32, enemy_unit_spawn_points[new_runner].y/32)
-      tile.properties['owner'] = this.enemies[new_runner++];
-    }, this)
+        properties: {
+          group: "enemy_units"
+        }
+      })
 
-    this.players.forEach(function(unit){
-      unit.calculateActTurn(0)
-      this.units.queue(unit)
-    }, this)
+      let tile = self.map.getTile(enemy_unit_spawn_points[new_runner].x/32, enemy_unit_spawn_points[new_runner++].y/32)
+      tile.properties['owner'] = enemy
 
-    this.enemies.forEach(function(unit){
-      unit.calculateActTurn(0)
-      this.units.queue(unit)
+      enemy.calculateActTurn(0)
+      this.units.queue(enemy)
     }, this)
   }
 
   next_turn() {
     this.clearTurn();
-    console.log(this.units)
+
+    if(this.groups.player_units.countLiving()<=0){
+      this.endBattle()
+    }
+
+    if(this.groups.enemy_units.countLiving()<=0){
+      this.endBattle()
+    }
+
     this.current_unit = this.units.dequeue();
     console.log("HEALTH: " + this.current_unit.health)
     this.setSkillMenu()
@@ -449,29 +410,6 @@ export default class extends Phaser.State {
     this.currentState = state;
     this.currentState.enterState();
   }
-
-  // init_player_actions (position) {
-  //   var self = this
-  //
-  //   var actions, actions_menu_items, action_index, actions_menu
-  //
-  //   // Available Action
-  //   actions = [
-  //     {text: "Attack", item_constructor: AttackMenuItem.prototype.constructor},
-  //     {text: "Skill", item_constructor: SkillMenuItem.prototype.constructor},
-  //     {text: "Walk", item_constructor: WalkMenuItem.prototype.constructor},
-  //     {text: "Endturn", item_constructor: EndTurnMenuItem.prototype.constructor}
-  //   ]
-  //   actions_menu_items = []
-  //   action_index = 0;
-  //
-  //   // Create a menu item for each action
-  //   actions.forEach(function (action) {
-  //     actions_menu_items.push(new action.item_constructor(this, action.text+"_menu_item", {x: position.x, y:position.y + action_index * 35}, {group: "hud", text: action.text, style: Object.create(self.TEXT_STYLE)}));
-  //     action_index++;
-  //   }, this);
-  //   this.actions_menu = new Menu(this, "actions_menu", position, {group: "hud", menu_items: actions_menu_items})
-  // }
 
   initActionMenu(position) {
     this.actions_menu = new Menu(this, "actions_menu", position, {group: "hud", menu_items: []})
@@ -542,6 +480,15 @@ export default class extends Phaser.State {
     }, this);
     this.skills_menu.menu_items = actions_menu_items
     this.disableUnitSkillCommandHud()
+  }
+
+
+  endBattle(){
+    this.state.start('MainMenu', true, false)
+  }
+
+  gameOver(){
+
   }
 
   render () {

@@ -8,6 +8,6 @@ export default class extends Prefab {
   }
 
   use (target){
-    target.takeDamage(5)
+    target.takeDamage(10)
   }
 }
