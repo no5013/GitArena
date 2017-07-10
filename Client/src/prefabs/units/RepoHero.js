@@ -50,22 +50,12 @@ export default class RepoHero extends Phaser.Sprite {
     this.anchor.setTo(0,0.5)
 
     this.initAnimations();
-    this.setDeactive();
     this.initDamageText();
     this.initNameTag();
     this.initInitialSkill();
 
-    this.attacked_animation = this.game.add.tween(this);
-    this.attacked_animation.to({tint: 0xFF0000}, 200);
-    this.attacked_animation.onComplete.add(function(){
-      self.restoreTint();
-    }, this)
-
-    this.healed_animation = this.game.add.tween(this);
-    this.healed_animation.to({tint: 0x00FFFF}, 200);
-    this.healed_animation.onComplete.add(function(){
-      self.restoreTint();
-    }, this)
+    this.animations.play("down")
+    this.setDeactive();
   }
 
   initInitialSkill(){
@@ -190,7 +180,6 @@ export default class RepoHero extends Phaser.Sprite {
 
   setDeactive () {
     this.animations.stop()
-    this.frame = 1+this.num*3
     this.status['active'] = false
     this.restoreTint();
   }
@@ -230,11 +219,6 @@ export default class RepoHero extends Phaser.Sprite {
   }
 
   initAnimations(){
-    // this.animations.add('down', [0+this.num*3, 1+this.num*3, 2+this.num*3, 1+this.num*3], 5, true)
-    // this.animations.add('left', [12+this.num*3, 13+this.num*3, 14+this.num*3, 13+this.num*3], 5, true)
-    // this.animations.add('right', [24+this.num*3, 25+this.num*3, 26+this.num*3, 25+this.num*3], 5, true)
-    // this.animations.add('up', [36+this.num*3, 37+this.num*3, 38+this.num*3, 37+this.num*3], 5, true)
-    // this.animations.add('idle', [0+this.num*3, 1+this.num*3, 2+this.num*3, 1+this.num*3], 5, true)
 
     for (let animation_name in this.animation_mapping) { // load assets according to asset key
       if (this.animation_mapping.hasOwnProperty(animation_name)){
@@ -243,5 +227,19 @@ export default class RepoHero extends Phaser.Sprite {
         this.animations.add(animation_name, this.animation_mapping[animation_name].animations_sequence, 5, true)
       }
     }
+
+    //attacked_animation
+    this.attacked_animation = this.game.add.tween(this);
+    this.attacked_animation.to({tint: 0xFF0000}, 200);
+    this.attacked_animation.onComplete.add(function(){
+      self.restoreTint();
+    }, this)
+
+    //healed_animation
+    this.healed_animation = this.game.add.tween(this);
+    this.healed_animation.to({tint: 0x00FFFF}, 200);
+    this.healed_animation.onComplete.add(function(){
+      self.restoreTint();
+    }, this)
   }
 }

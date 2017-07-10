@@ -1,21 +1,179 @@
 {
   "spritesheet_name": "vx_chara01",
   "sprite": {
-    "hero1": {
+    "hero_1": {
       "idle": {
-        "animations_sequence": [0,1,2],
+        "animations_sequence": [0,1,2,1],
+        "loop": true
+      },
+      "down": {
+        "animations_sequence": [0,1,2,1],
         "loop": true
       },
       "left": {
-        "animations_sequence": [12,13,14],
+        "animations_sequence": [12,13,14,13],
         "loop": true
       },
       "right": {
-        "animations_sequence": [24,25,26],
+        "animations_sequence": [24,25,26,25],
         "loop": true
       },
-      "back": {
-        "animations_sequence": [36,17,18],
+      "up": {
+        "animations_sequence": [36,37,38,37],
+        "loop": true
+      }
+    },
+    "hero_2": {
+      "idle": {
+        "animations_sequence": [3,4,5,4],
+        "loop": true
+      },
+      "down": {
+        "animations_sequence": [3,4,5,4],
+        "loop": true
+      },
+      "left": {
+        "animations_sequence": [15,16,17,16],
+        "loop": true
+      },
+      "right": {
+        "animations_sequence": [27,28,29,28],
+        "loop": true
+      },
+      "up": {
+        "animations_sequence": [39,40,41,40],
+        "loop": true
+      }
+    },
+    "hero_3": {
+      "idle": {
+        "animations_sequence": [6,7,8,7],
+        "loop": true
+      },
+      "down": {
+        "animations_sequence": [6,7,8,7],
+        "loop": true
+      },
+      "left": {
+        "animations_sequence": [18,19,20,19],
+        "loop": true
+      },
+      "right": {
+        "animations_sequence": [30,31,32,31],
+        "loop": true
+      },
+      "up": {
+        "animations_sequence": [42,43,44,43],
+        "loop": true
+      }
+    },
+    "hero_4": {
+      "idle": {
+        "animations_sequence": [9,10,11,10],
+        "loop": true
+      },
+      "down": {
+        "animations_sequence": [9,10,11,10],
+        "loop": true
+      },
+      "left": {
+        "animations_sequence": [21,22,23,22],
+        "loop": true
+      },
+      "right": {
+        "animations_sequence": [33,34,35,34],
+        "loop": true
+      },
+      "up": {
+        "animations_sequence": [45,46,47,46],
+        "loop": true
+      }
+    },
+    "hero_5": {
+      "idle": {
+        "animations_sequence": [48,49,50,49],
+        "loop": true
+      },
+      "down": {
+        "animations_sequence": [48,49,50,49],
+        "loop": true
+      },
+      "left": {
+        "animations_sequence": [60,61,62,61],
+        "loop": true
+      },
+      "right": {
+        "animations_sequence": [72,73,74,73],
+        "loop": true
+      },
+      "up": {
+        "animations_sequence": [84,85,86,85],
+        "loop": true
+      }
+    },
+    "hero_6": {
+      "idle": {
+        "animations_sequence": [51,52,53,52],
+        "loop": true
+      },
+      "down": {
+        "animations_sequence": [51,52,53,52],
+        "loop": true
+      },
+      "left": {
+        "animations_sequence": [63,64,65,64],
+        "loop": true
+      },
+      "right": {
+        "animations_sequence": [75,76,77,76],
+        "loop": true
+      },
+      "up": {
+        "animations_sequence": [87,88,89,88],
+        "loop": true
+      }
+    },
+    "hero_7": {
+      "idle": {
+        "animations_sequence": [54,55,56,55],
+        "loop": true
+      },
+      "down": {
+        "animations_sequence": [54,55,56,55],
+        "loop": true
+      },
+      "left": {
+        "animations_sequence": [66,67,68,67],
+        "loop": true
+      },
+      "right": {
+        "animations_sequence": [78,79,80,79],
+        "loop": true
+      },
+      "up": {
+        "animations_sequence": [90,91,92,91],
+        "loop": true
+      }
+    },
+    "hero_8": {
+      "idle": {
+        "animations_sequence": [57,58,59,58],
+        "loop": true
+      },
+      "down": {
+        "animations_sequence": [57,58,59,58],
+        "loop": true
+      },
+      "left": {
+        "animations_sequence": [69,70,71,70],
+        "loop": true
+      },
+      "right": {
+        "animations_sequence": [81,82,83,82],
+        "loop": true
+      },
+      "up": {
+        "animations_sequence": [93,94,95,94],
         "loop": true
       }
     }
