@@ -35,6 +35,34 @@ var camera_speed = 5;
 var marker;
 var moving = {}
 
+var animation_mapping = {
+  "spritesheet_name": "vx_chara01",
+  "sprite": {
+    "hero1": {
+      "idle": {
+        "animations_sequence": [0,1,2.1],
+        "loop": true
+      },
+      "down": {
+        "animations_sequence": [0,1,2,1],
+        "loop": true
+      },
+      "left": {
+        "animations_sequence": [12,13,14,13],
+        "loop": true
+      },
+      "right": {
+        "animations_sequence": [24,25,26,25],
+        "loop": true
+      },
+      "up": {
+        "animations_sequence": [36,37,38,37],
+        "loop": true
+      }
+    }
+  }
+}
+
 const move_speed = 0.01
 
 export default class extends Phaser.State {
@@ -338,7 +366,8 @@ export default class extends Phaser.State {
         health: 10,
         num: runner,
         properties: {
-          group: "player_units"
+          group: "player_units",
+          animation_mapping: animation_mapping.sprite.hero1
         }
       })
 
@@ -360,7 +389,8 @@ export default class extends Phaser.State {
         health: 10,
         num: runner,
         properties: {
-          group: "enemy_units"
+          group: "enemy_units",
+          animation_mapping: animation_mapping.sprite.hero1
         }
       })
 

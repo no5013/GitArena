@@ -21,13 +21,16 @@ export default class RepoHero extends Phaser.Sprite {
     game.prefabs[name] = this
     game.groups[properties.group].add(this);
 
+    this.animation_mapping = properties.animation_mapping
+    console.log(this.animation_mapping)
+
     let self = this;
 
     this.game = game;
     this.name = name;
     this.health = health;
     this.num = num;
-    this.properties = {};
+    this.status = {};
     this.state = game
     this.movingRange = 10
     this.attackRange = 3
@@ -151,7 +154,7 @@ export default class RepoHero extends Phaser.Sprite {
   }
 
   restoreTint () {
-    if(this.properties['active']){
+    if(this.status['active']){
       this.tint = 0xFFFFFF;
     }
     else {
@@ -188,13 +191,13 @@ export default class RepoHero extends Phaser.Sprite {
   setDeactive () {
     this.animations.stop()
     this.frame = 1+this.num*3
-    this.properties['active'] = false
+    this.status['active'] = false
     this.restoreTint();
   }
 
   setActive () {
     this.animations.play('idle')
-    this.properties['active'] = true
+    this.status['active'] = true
     this.restoreTint();
   }
 
@@ -227,10 +230,18 @@ export default class RepoHero extends Phaser.Sprite {
   }
 
   initAnimations(){
-    this.animations.add('down', [0+this.num*3, 1+this.num*3, 2+this.num*3, 1+this.num*3], 5, true)
-    this.animations.add('left', [12+this.num*3, 13+this.num*3, 14+this.num*3, 13+this.num*3], 5, true)
-    this.animations.add('right', [24+this.num*3, 25+this.num*3, 26+this.num*3, 25+this.num*3], 5, true)
-    this.animations.add('up', [36+this.num*3, 37+this.num*3, 38+this.num*3, 37+this.num*3], 5, true)
-    this.animations.add('idle', [0+this.num*3, 1+this.num*3, 2+this.num*3, 1+this.num*3], 5, true)
+    // this.animations.add('down', [0+this.num*3, 1+this.num*3, 2+this.num*3, 1+this.num*3], 5, true)
+    // this.animations.add('left', [12+this.num*3, 13+this.num*3, 14+this.num*3, 13+this.num*3], 5, true)
+    // this.animations.add('right', [24+this.num*3, 25+this.num*3, 26+this.num*3, 25+this.num*3], 5, true)
+    // this.animations.add('up', [36+this.num*3, 37+this.num*3, 38+this.num*3, 37+this.num*3], 5, true)
+    // this.animations.add('idle', [0+this.num*3, 1+this.num*3, 2+this.num*3, 1+this.num*3], 5, true)
+
+    for (let animation_name in this.animation_mapping) { // load assets according to asset key
+      if (this.animation_mapping.hasOwnProperty(animation_name)){
+        console.log(animation_name)
+        console.log(this.animation_mapping[animation_name])
+        this.animations.add(animation_name, this.animation_mapping[animation_name].animations_sequence, 5, true)
+      }
+    }
   }
 }

@@ -23,12 +23,12 @@ export default class extends ActionState {
     let tile = this.game.map.getTile(x, y, game.layer)
     console.log(tile)
     let unit = tile.properties['owner']
-    if(unit&&unit.properties['active']){
+    if(unit&&unit.status['active']){
       this.game.properties.ActionStateVar['unit'] = unit
       this.game.properties.ActionStateVar['currentTile'] = tile
       this.nextState();
     }
-    else if(unit&&!unit.properties['active']){
+    else if(unit&&!unit.status['active']){
       console.log("not active")
     }
     else {
