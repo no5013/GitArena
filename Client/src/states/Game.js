@@ -74,7 +74,8 @@ export default class extends Phaser.State {
     this.extra_parameters = extra_parameters
     this.player_units = this.extra_parameters.player_units
 
-    this.animation_mapping = this.extra_parameters.vx_chara01
+    this.animation_mapping_chara = this.extra_parameters.vx_chara01
+    this.animation_mapping_baddie = this.extra_parameters.baddie
   }
 
   create () {
@@ -341,7 +342,7 @@ export default class extends Phaser.State {
         num: runner,
         properties: {
           group: "player_units",
-          animation_mapping: this.animation_mapping.sprite[`hero_${runner+1}`]
+          animation_mapping: this.animation_mapping_chara.sprite[`hero_${runner+1}`]
         }
       })
 
@@ -358,13 +359,13 @@ export default class extends Phaser.State {
         game: this,
         x: enemy_unit_spawn_points[new_runner].x,
         y: enemy_unit_spawn_points[new_runner].y,
-        asset: 'chara',
+        asset: 'baddie',
         name: enemy.name,
         health: 10,
         num: runner,
         properties: {
           group: "enemy_units",
-          animation_mapping: this.animation_mapping.sprite[`hero_${runner+1}`]
+          animation_mapping: this.animation_mapping_baddie.sprite[`baddie`]
         }
       })
 

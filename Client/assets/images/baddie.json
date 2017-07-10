@@ -1,0 +1,27 @@
+{
+  "spritesheet_name": "baddie.png",
+  "sprite": {
+    "baddie": {
+      "idle": {
+        "animations_sequence": [0,1],
+        "loop": true
+      },
+      "down": {
+        "animations_sequence": [0,1],
+        "loop": true
+      },
+      "left": {
+        "animations_sequence": [0,1],
+        "loop": true
+      },
+      "right": {
+        "animations_sequence": [2,3],
+        "loop": true
+      },
+      "up": {
+        "animations_sequence": [2,3],
+        "loop": true
+      }
+    }
+  }
+}

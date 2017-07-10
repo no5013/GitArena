@@ -28,6 +28,7 @@ export default class extends Phaser.State {
     this.load.text("battle_file", this.battle_file)
     this.load.text("level_file", this.level_file);
     this.load.text("vx_chara01_file", './assets/images/vx_chara01.json');
+    this.load.text("baddie_file", './assets/images/baddie.json');
     this.load.image('loaderBg', './assets/images/loader-bg.png')
     this.load.image('loaderBar', './assets/images/loader-bar.png')
   }
@@ -45,7 +46,12 @@ export default class extends Phaser.State {
     vx_chara01_text = this.game.cache.getText("vx_chara01_file");
     vx_chara01_data = JSON.parse(vx_chara01_text);
 
+    var baddie_text, baddie_data;
+    baddie_text = this.game.cache.getText("baddie_file");
+    baddie_data = JSON.parse(baddie_text);
+
     this.extra_parameters.vx_chara01 = vx_chara01_data
+    this.extra_parameters.baddie = baddie_data
 
     this.state.start("Loading", true, false, battle_data, level_data, this.next_state, this.extra_parameters);
   }

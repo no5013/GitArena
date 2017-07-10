@@ -223,7 +223,7 @@ export default class RepoHero extends Phaser.Sprite {
     for (let animation_name in this.animation_mapping) { // load assets according to asset key
       if (this.animation_mapping.hasOwnProperty(animation_name)){
         console.log(animation_name)
-        console.log(this.animation_mapping[animation_name])
+        console.log(this.animation_mapping[animation_name].animations_sequence)
         this.animations.add(animation_name, this.animation_mapping[animation_name].animations_sequence, 5, true)
       }
     }
@@ -232,14 +232,14 @@ export default class RepoHero extends Phaser.Sprite {
     this.attacked_animation = this.game.add.tween(this);
     this.attacked_animation.to({tint: 0xFF0000}, 200);
     this.attacked_animation.onComplete.add(function(){
-      self.restoreTint();
+      this.restoreTint();
     }, this)
 
     //healed_animation
     this.healed_animation = this.game.add.tween(this);
     this.healed_animation.to({tint: 0x00FFFF}, 200);
     this.healed_animation.onComplete.add(function(){
-      self.restoreTint();
+      this.restoreTint();
     }, this)
   }
 }
