@@ -24,6 +24,6 @@
 
   "reward": {
     "experience": 100,
-    "items": [{"type": "potion", "properties": {"group": "items", "health_power": 50}}]
+    "money": 300
   }
 }

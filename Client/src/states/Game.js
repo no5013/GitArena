@@ -15,6 +15,8 @@ import EndTurnState from '../StateMachine/ActionState/EndTurnState'
 import WalkedState from '../StateMachine/ActionState/WalkedState'
 import EnemyActionState from '../StateMachine/ActionState/EnemyActionState'
 import SkillSelectionState from '../StateMachine/ActionState/SkillSelectionState'
+import ResultState from '../StateMachine/ActionState/ResultState'
+import RewardState from '../StateMachine/ActionState/RewardState'
 
 import Menu from '../prefabs/huds/Menu'
 import DamageText from '../prefabs/huds/DamageText'
@@ -26,6 +28,8 @@ import EndTurnMenuItem from '../prefabs/huds/EndTurnMenuItem'
 import SkillSelectionMenuItem from '../prefabs/huds/SkillSelectionMenuItem'
 
 import PriorityQueue from '../Structure/PriorityQueue'
+
+import { centerGameObjects } from '../utils'
 
 const tile_size_x = 32
 const tile_size_y = 32
@@ -49,7 +53,9 @@ export default class extends Phaser.State {
       EndTurnState: new EndTurnState(self),
       WalkedState: new WalkedState(self),
       EnemyActionState: new EnemyActionState(self),
-      SkillSelectionState: new SkillSelectionState(self)
+      SkillSelectionState: new SkillSelectionState(self),
+      RewardState: new RewardState(self),
+      ResultState: new ResultState(self)
     }
     this.properties = {
       ActionStateVar: {}
@@ -97,6 +103,7 @@ export default class extends Phaser.State {
 
     this.TEXT_STYLE = {font: "30px Arial", fill: "#FFFFFF"}
     this.HUD_TEXT_STYLE = {font: "16px Arial", fill: "#FFFFFF"}
+    this.RESULT_TEXT_STYLE = {font: "40px Arial", fill: "#000000"}
     // this.init_player_actions({x:400, y:100});
 
     this.initSkillMenu({x:400, y:100})
@@ -131,6 +138,34 @@ export default class extends Phaser.State {
   disableUnitSkillCommandHud(){
     this.prefabs['skills_menu'].disable();
     this.prefabs['skills_menu'].hide();
+  }
+
+  showResult(){
+    var result_text = new TextPrefab(this, "result_text", {x: 400, y: 200}, {
+      text: "WIN",
+      style: Object.create(this.RESULT_TEXT_STYLE),
+      group: "hud"
+    })
+  }
+
+  showReward(){
+    var reward_text = new TextPrefab(this, "reward_text", {x: 400, y: 200}, {
+      text: "REWARD",
+      style: Object.create(this.RESULT_TEXT_STYLE),
+      group: "hud"
+    })
+
+    var exp_reward_text = new TextPrefab(this, "exp_reward_text", {x: 400, y: 300}, {
+      text: `EXP: ${this.level_data.reward.experience}` ,
+      style: Object.create(this.TEXT_STYLE),
+      group: "hud"
+    })
+
+    var money_reward_text = new TextPrefab(this, "money_reward_text", {x: 400, y: 350}, {
+      text: `MONEY: ${this.level_data.reward.money}` ,
+      style: Object.create(this.TEXT_STYLE),
+      group: "hud"
+    })
   }
 
   findObjectsByType(type, map, layer) {
@@ -390,14 +425,6 @@ export default class extends Phaser.State {
   next_turn() {
     this.clearTurn();
 
-    if(this.groups.player_units.countLiving()<=0){
-      this.endBattle()
-    }
-
-    if(this.groups.enemy_units.countLiving()<=0){
-      this.endBattle()
-    }
-
     this.current_unit = this.units.dequeue();
     console.log("HEALTH: " + this.current_unit.health)
     this.setSkillMenu()
@@ -419,6 +446,7 @@ export default class extends Phaser.State {
   }
 
   setActionState(state) {
+    console.log(this.currentState)
     if(this.currentState){
       this.currentState.leaveState();
     }
