@@ -14,8 +14,15 @@ export default class extends Phaser.State {
     this.loaderBar = this.add.sprite(this.game.world.centerX, this.game.world.centerY, 'loaderBar')
     centerGameObjects([this.loaderBg, this.loaderBar])
 
-    this.loadAssetFromJSON(this.level_data.assets);
+    this.loadAssetFromJSON(this.level_data.assets)
     this.loadAssetFromJSON(this.battle_data.assets)
+
+    this.level_data.enemy_encounters.forEach(function(enemy){
+      var enemy_file = this.extra_parameters.units.enemies[enemy.name]
+      console.log(enemy_file.name)
+      this.load.spritesheet(enemy_file.name, enemy_file.asset.spritesheet_source, enemy_file.asset.frame_width, enemy_file.asset.frame_height, enemy_file.asset.frames, enemy_file.asset.margin, enemy_file.asset.spacing)
+      this.load.text(enemy_file.name + "_mapper", enemy_file.asset.spritesheet_mapper_source)
+    }, this)
   }
 
   loadAssetFromJSON(assets) {

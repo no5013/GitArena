@@ -22,7 +22,6 @@ export default class RepoHero extends Phaser.Sprite {
     game.groups[properties.group].add(this);
 
     this.animation_mapping = properties.animation_mapping
-    console.log(this.animation_mapping)
 
     let self = this;
 
@@ -153,6 +152,7 @@ export default class RepoHero extends Phaser.Sprite {
   }
 
   die () {
+    this.game.removeUnitFromGame(this)
     this.kill();
   }
 
@@ -222,8 +222,6 @@ export default class RepoHero extends Phaser.Sprite {
 
     for (let animation_name in this.animation_mapping) { // load assets according to asset key
       if (this.animation_mapping.hasOwnProperty(animation_name)){
-        console.log(animation_name)
-        console.log(this.animation_mapping[animation_name].animations_sequence)
         this.animations.add(animation_name, this.animation_mapping[animation_name].animations_sequence, 5, true)
       }
     }

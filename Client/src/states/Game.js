@@ -75,7 +75,10 @@ export default class extends Phaser.State {
     this.player_units = this.extra_parameters.player_units
 
     this.animation_mapping_chara = this.extra_parameters.vx_chara01
-    this.animation_mapping_baddie = this.extra_parameters.baddie
+
+    var baddie_data = JSON.parse(this.game.cache.getText("baddie_mapper"));
+    this.animation_mapping_baddie = baddie_data
+
   }
 
   create () {
@@ -174,6 +177,13 @@ export default class extends Phaser.State {
     unit.moveTo(to_tile_x*tile_size_x, to_tile_y*tile_size_y, callback)
     from_tile.properties['owner'] = null
     to_tile.properties['owner'] = unit
+  }
+
+  removeUnitFromGame(unit){
+    var tile_x = this.layer.getTileX(unit.x);
+    var tile_y = this.layer.getTileY(unit.y);
+    let tile = this.map.getTile(tile_x, tile_y, this.layer)
+    tile.properties['owner'] = null
   }
 
   finishAction() {
@@ -359,13 +369,13 @@ export default class extends Phaser.State {
         game: this,
         x: enemy_unit_spawn_points[new_runner].x,
         y: enemy_unit_spawn_points[new_runner].y,
-        asset: 'baddie',
+        asset: enemy.name,
         name: enemy.name,
         health: 10,
         num: runner,
         properties: {
           group: "enemy_units",
-          animation_mapping: this.animation_mapping_baddie.sprite[`baddie`]
+          animation_mapping: JSON.parse(this.game.cache.getText(enemy.name + "_mapper")).sprite[enemy.name]
         }
       })
 

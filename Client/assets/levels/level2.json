@@ -15,19 +15,7 @@
 
   "enemy_encounters": [
     {
-      "name": "A",
-      "type": "enemy_unit",
-      "position": {"x": 100, "y": 100},
-      "properties": {
-        "texture": "lizard_spritesheet",
-        "group": "enemy_units",
-        "stats": {
-          "attack": 30,
-          "defense": 10,
-          "health": 50,
-          "speed": 15
-        }
-      }
+      "name": "baddie"
     }
   ],
 

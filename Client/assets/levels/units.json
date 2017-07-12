@@ -1,0 +1,96 @@
+{
+  "players": {
+    "hero_1": {
+      "name": "hero_1",
+      "asset": {
+        "spritesheet_source": "assets/images/vx_chara01.png",
+        "spritesheet_mapper_source": "assets/images/vx_chara01.json",
+        "frame_width": 32,
+        "frame_height": 32
+      }
+    },
+    "hero_2": {
+      "name": "hero_2",
+      "asset": {
+        "spritesheet_source": "assets/images/vx_chara01.png",
+        "spritesheet_mapper_source": "assets/images/vx_chara01.json",
+        "frame_width": 32,
+        "frame_height": 32
+      }
+    },
+    "hero_3": {
+      "name": "hero_3",
+      "asset": {
+        "spritesheet_source": "assets/images/vx_chara01.png",
+        "spritesheet_mapper_source": "assets/images/vx_chara01.json",
+        "frame_width": 32,
+        "frame_height": 32
+      }
+    },
+    "hero_4": {
+      "name": "hero_4",
+      "asset": {
+        "spritesheet_source": "assets/images/vx_chara01.png",
+        "spritesheet_mapper_source": "assets/images/vx_chara01.json",
+        "frame_width": 32,
+        "frame_height": 32
+      }
+    },
+    "hero_5": {
+      "name": "hero_5",
+      "asset": {
+        "spritesheet_source": "assets/images/vx_chara01.png",
+        "spritesheet_mapper_source": "assets/images/vx_chara01.json",
+        "frame_width": 32,
+        "frame_height": 32
+      }
+    },
+    "hero_6": {
+      "name": "hero_6",
+      "asset": {
+        "spritesheet_source": "assets/images/vx_chara01.png",
+        "spritesheet_mapper_source": "assets/images/vx_chara01.json",
+        "frame_width": 32,
+        "frame_height": 32
+      }
+    },
+    "hero_7": {
+      "name": "hero_7",
+      "asset": {
+        "spritesheet_source": "assets/images/vx_chara01.png",
+        "spritesheet_mapper_source": "assets/images/vx_chara01.json",
+        "frame_width": 32,
+        "frame_height": 32
+      }
+    },
+    "hero_8": {
+      "name": "hero_8",
+      "asset": {
+        "spritesheet_source": "assets/images/vx_chara01.png",
+        "spritesheet_mapper_source": "assets/images/vx_chara01.json",
+        "frame_width": 32,
+        "frame_height": 32
+      }
+    }
+  },
+  "enemies": {
+    "baddie": {
+      "name": "baddie",
+      "asset": {
+        "spritesheet_source": "assets/images/baddie.png",
+        "spritesheet_mapper_source": "assets/images/baddie.json",
+        "frame_width": 32,
+        "frame_height": 32
+      }
+    },
+    "dude": {
+      "name": "dude",
+      "asset": {
+        "spritesheet_source": "assets/images/dude.png",
+        "spritesheet_mapper_source": "assets/images/dude.json",
+        "frame_width": 32,
+        "frame_height": 48
+      }
+    }
+  }
+}

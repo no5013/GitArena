@@ -15,94 +15,10 @@
 
   "enemy_encounters": [
     {
-      "name": "A",
-      "type": "enemy_unit",
-      "position": {"x": 100, "y": 100},
-      "properties": {
-        "texture": "lizard_spritesheet",
-        "group": "enemy_units",
-        "stats": {
-          "attack": 30,
-          "defense": 10,
-          "health": 50,
-          "speed": 15
-        }
-      }
+      "name": "baddie"
     },
     {
-      "name": "B",
-      "type": "enemy_unit",
-      "position": {"x": 100, "y": 100},
-      "properties": {
-        "texture": "lizard_spritesheet",
-        "group": "enemy_units",
-        "stats": {
-          "attack": 30,
-          "defense": 10,
-          "health": 50,
-          "speed": 15
-        }
-      }
-    },
-    {
-      "name": "C",
-      "type": "enemy_unit",
-      "position": {"x": 100, "y": 100},
-      "properties": {
-        "texture": "lizard_spritesheet",
-        "group": "enemy_units",
-        "stats": {
-          "attack": 30,
-          "defense": 10,
-          "health": 50,
-          "speed": 15
-        }
-      }
-    },
-    {
-      "name": "D",
-      "type": "enemy_unit",
-      "position": {"x": 100, "y": 100},
-      "properties": {
-        "texture": "lizard_spritesheet",
-        "group": "enemy_units",
-        "stats": {
-          "attack": 30,
-          "defense": 10,
-          "health": 50,
-          "speed": 15
-        }
-      }
-    },
-    {
-      "name": "E",
-      "type": "enemy_unit",
-      "position": {"x": 100, "y": 100},
-      "properties": {
-        "texture": "lizard_spritesheet",
-        "group": "enemy_units",
-        "stats": {
-          "attack": 30,
-          "defense": 10,
-          "health": 50,
-          "speed": 15
-        }
-      }
-    },
-    {
-      "name": "F",
-      "type": "enemy_unit",
-      "position": {"x": 100, "y": 100},
-      "properties": {
-        "texture": "lizard_spritesheet",
-        "group": "enemy_units",
-        "stats": {
-          "attack": 30,
-          "defense": 10,
-          "health": 50,
-          "speed": 15
-        }
-      }
+      "name": "dude"
     }
   ],
 
