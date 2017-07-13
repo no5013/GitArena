@@ -12,6 +12,7 @@ export default class extends ActionState {
   }
 
   leaveState () {
+    this.game.removeMovingRange(this.unit)
     this.unit = this.game.properties.ActionStateVar['walked'] = true
   }
 
@@ -41,8 +42,12 @@ export default class extends ActionState {
       console.log(owner.name)
     }
     else if(!rangeTile){
-      console.log('exceed range')
+      this.cancel()
     }
+  }
+
+  cancel(){
+    this.game.setActionState(this.game.ActionState.ActionSelectState)
   }
 
   nextState () {

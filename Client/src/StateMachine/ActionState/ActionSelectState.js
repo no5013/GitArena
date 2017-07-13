@@ -14,6 +14,22 @@ export default class extends ActionState {
     this.game.disableActionCommandHud();
   }
 
+  selectTile (x, y) {
+    let tile = this.game.map.getTile(x, y, game.layer)
+    let unit = tile.properties['owner']
+    if(this.unit === unit){
+      console.log("Please select command")
+    }
+    else {
+      console.log("cancel")
+      this.cancel()
+    }
+  }
+
+  cancel(){
+    this.game.setActionState(this.game.ActionState.UnitSelectState)
+  }
+
   setNextState(state) {
     this.next_state = state
   }

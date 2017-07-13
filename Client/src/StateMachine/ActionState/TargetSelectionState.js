@@ -11,6 +11,10 @@ export default class extends ActionState {
     this.game.showAttackRange(this.unit)
   }
 
+  leaveState () {
+    this.game.removeMovingRange(this.unit)
+  }
+
   selectTile (x, y) {
     let tile = this.game.map.getTile(x, y, game.layer)
     var rangeTile = this.game.rangeMap.getTile(x, y, this.game.rangeLayer)
@@ -34,10 +38,17 @@ export default class extends ActionState {
       command.execute()
 
     }
-    else{
+    else if(rangeTile){
       console.log("Please select enemy")
     }
+    else {
+      this.cancel()
+    }
 
+  }
+
+  cancel(){
+    this.game.setActionState(this.game.ActionState.ActionSelectState)
   }
 
   nextState () {
