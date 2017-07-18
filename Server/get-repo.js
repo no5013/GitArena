@@ -67,6 +67,43 @@ function GitGetter() {
       callback(repos)
     })
   }
+
+  this.getGithubUserReposs = function(username, callback){
+    githubCli.fetchUserRepositories({handle: username})
+    .then(result => {
+      repos = []
+      var repos_length = result.length
+      result.forEach(function(repo, index, array){
+        repoData = {
+          repo_name: repo['name'],
+          fork: repo['fork'],
+          stargazers_count: repo['stargazers_count'],
+          watchers_count: repo['watchers_count'],
+          language: repo['language'],
+          open_issue_count: ['open_issue_count']
+        }
+
+        if(repo['language']!=null){
+          githubCli.fetchRepoStats({owner: username, repository: repo['name']})
+          .then(result => {
+            repos.push(result[0].total)
+            console.log(repos.length + " / " + repos_length)
+            if(repos.length == repos_length-1){
+              callback(repos)
+            }
+          })
+        }else{
+          console.log("ERROR")
+          repos_length-=1
+          if(repos.length == repos_length){
+            callback(repos)
+          }
+        }
+
+      })
+
+    })
+  }
 }
 
 module.exports = new GitGetter();

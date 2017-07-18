@@ -1,6 +1,7 @@
 var express = require('express')
 var app = express();
 var port = process.env.PORT || 8000
+var http = require('http')
 
 //libs
 var bodyParser = require('body-parser');
@@ -94,12 +95,21 @@ app.get('/auth/github/callback',
 //   });
 // })
 
-app.get('/users/:name/repos', function(req,res){
-  console.log(req.params.name)
-  gitRepo.getGithubUserRepos(req.params.name, function(data){
+// app.get('/users/:name/repos', function(req,res){
+//   console.log(req.params.name)
+//   gitRepo.getGithubUserRepos(req.params.name, function(data){
+//     res.send(data)
+//   });
+// })
+
+app.get('/test', function(req, res) {
+  http.get({
+    hostname: 'https://jsonplaceholder.typicode.com',
+    path: '/posts/1',
+  },  (data) => {
     res.send(data)
-  });
-})
+  })
+});
 
 app.listen(port, function() {
   console.log('Starting node.js on port ' + port);

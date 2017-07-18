@@ -30,10 +30,17 @@ router.post('/new', function(req, res) {
 
 router.get('/:id/repos', function(req,res){
   var user_id = req.params.id
-  units.getAllOUnitsOfUser(user_id, function(result){
+  units.getAllUnitsOfUser(user_id, function(result){
     res.send(result)
   })
+})
 
+router.get('/:id/update', function(req,res){
+  var user_id = req.params.id
+  console.log(user_id)
+  units.getAllUnitsOfUsers(user_id, function(result){
+    res.send(result)
+  })
 })
 
 router.post('/authenticate', function(req,res){

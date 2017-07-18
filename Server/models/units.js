@@ -1,4 +1,5 @@
 var connection = require('../libs/database.js');
+var gitRepo = require('../get-repo')
 
 function Unit() {
   this.getAllUnits = function(callback) {
@@ -20,7 +21,7 @@ function Unit() {
     });
   };
 
-  this.getAllOUnitsOfUser = function(user_id, callback) {
+  this.getAllUnitsOfUser = function(user_id, callback) {
     connection.connect(function(err, client, done) {
       if(err) {
         return console.error('error fetching client from pool', err);
@@ -37,6 +38,12 @@ function Unit() {
         callback(result.rows)
       });
     });
+  };
+
+  this.getAllUnitsOfUsers = function(username, callback) {
+    gitRepo.getGithubUserReposs(username, function(result){
+      callback(result)
+    })
   };
 
   this.getSingleUnit = function(id, callback) {

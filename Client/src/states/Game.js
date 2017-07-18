@@ -168,6 +168,10 @@ export default class extends Phaser.State {
     })
   }
 
+  initPlayerStatus(){
+
+  }
+
   findObjectsByType(type, map, layer) {
     var result = new Array();
     map.objects[layer].forEach(function(element){

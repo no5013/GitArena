@@ -33,7 +33,7 @@ function fetchStats({type}){
     });
 }
 
-function fetchUserStats({owner,repository}){
+function fetchRepoStats({owner,repository}){
   return this.getData({path:`/repos/${owner}/${repository}/stats/contributors`})
     .then(response => {
       return response.data;
@@ -42,5 +42,5 @@ function fetchUserStats({owner,repository}){
 
 module.exports = {
   fetchStats: fetchStats,
-  fetchUserStats: fetchUserStats
+  fetchRepoStats: fetchRepoStats
 };
