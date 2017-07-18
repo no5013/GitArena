@@ -16,7 +16,7 @@ function UnitUpdate() {
           return console.error('error running query', err);
         }
 
-        callback(result)
+        callback(result.rows)
       });
     });
   };
@@ -52,7 +52,7 @@ function UnitUpdate() {
         return console.error('error fetching client from pool', err);
       }
       //use the client for executing the query
-      client.query(`SELECT * FROM UNIT_UPDATES WHERE id = ${id}`, function(err, result) {
+      client.query(`SELECT * FROM UNIT_UPDATES WHERE unit_id = ${id}`, function(err, result) {
         //call `done(err)` to release the client back to the pool (or destroy it if there is an error)
         done(err);
 
@@ -60,19 +60,19 @@ function UnitUpdate() {
           return console.error('error running query', err);
         }
 
-        callback(result)
+        callback(result.rows)
       });
     });
   };
 
-  this.createNewUnitUpdate = function(owner_id, name, language, stargazers_count, watchers_count, callback) {
+  this.createNewUnitUpdate = function(unit_id, stargazers_count, watchers_count, open_issues_count, forks_count, commits_count, added_count, deleted_count, updated_at, callback) {
     connection.connect(function(err, client, done) {
       if(err) {
         return console.error('error fetching client from pool', err);
       }
 
       //use the client for executing the query
-      client.query(`INSERT INTO UNIT_UPDATES (owner_id, name, language, stargazers_count, watchers_count) VALUES (${owner_id}, '${name}', '${language}', ${stargazers_count}, ${watchers_count})`, function(err, result) {
+      client.query(`INSERT INTO UNIT_UPDATES (unit_id, stargazers_count, watchers_count, open_issues_count, forks_count, commits_count, added_count, deleted_count, updated_at) VALUES (${unit_id}, ${stargazers_count}, ${watchers_count}, ${open_issues_count}, ${forks_count}, ${commits_count}, ${added_count}, ${deleted_count}, '${updated_at}')`, function(err, result) {
         //call `done(err)` to release the client back to the pool (or destroy it if there is an error)
         done(err);
 

@@ -1,5 +1,7 @@
 var connection = require('../libs/database.js');
 var gitRepo = require('../get-repo')
+var unitUpdate = require('./unit_updates')
+var unit = require('./units')
 
 function User() {
   this.getAllUsers = function(callback) {
@@ -81,9 +83,50 @@ function User() {
   }
 
 
-  this.updateRepositories = function(username ,callback) {
-    gitRepo.getGithubUserReposs(username, function(result){
-      callback(result)
+  // this.updateRepositories = function(username ,callback) {
+  //   gitRepo.getGithubUserReposs(username, function(result){
+  //     callback(result)
+  //   })
+  // }
+
+  this.updateRepositories = function(id, username ,callback) {
+    gitRepo.getGithubUserReposs(username, function(updates){
+      unit.getAllUnitsOfUser(id, function(units){
+
+        var update_repo = []
+
+        for(let i=0; i<units.length; i++){
+          for(let j=0; j<updates.length; j++){
+            if(units[i].name == updates[j].repo_name){
+              unitUpdate.getAllUnitUpdatesOfUnit(units[i].id, function(unitUpdates){
+                if(unitUpdates.length <= 0){
+                  unitUpdate.createNewUnitUpdate(units[i].id, updates[j].stargazers_count, updates[j].watchers_count, updates[j].open_issues_count, updates[j].forks_count, updates[j].commits_count, updates[j].added_count, updates[j].deleted_count, updates[j].updated_at, function(result){
+                    update_repo.push(units[i])
+
+                    //recall when for is finish
+                    if(i == units.length-1){
+                      callback(update_repo)
+                    }
+                  })
+                }
+                else {
+                  if(updates[j].updated_at == unitUpdates[unitUpdates.length-1].updated_at){
+                    console.log("NO UPDATE")
+                  }else{
+                    console.log("UPDATE")
+                  }
+
+                  if(i == units.length-1){
+                    callback(update_repo)
+                  }
+                }
+                // we can't break in this section so we set j to the length to manully break it
+                j = updates.length
+              })
+            }
+          }
+        }
+      })
     })
   }
 }

@@ -78,7 +78,7 @@ function GitGetter() {
                   stargazers_count: repo['stargazers_count'],
                   watchers_count: repo['watchers_count'],
                   language: repo['language'],
-                  open_issue_count: repo['open_issues_count'],
+                  open_issues_count: repo['open_issues_count'],
                   forks_count: repo['forks_count'],
                   commits_count: result[i].total,
                   added_count: a,
@@ -88,7 +88,7 @@ function GitGetter() {
               }
 
               //if user doesn't collaborate in this repo
-              if(result.length == i+1){
+              if(i == result.length-1){
                 repos_length-=1
               }
             }

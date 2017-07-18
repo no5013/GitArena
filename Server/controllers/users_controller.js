@@ -47,7 +47,8 @@ router.post('/authenticate', function(req,res){
   var username = req.body.username
   var password = req.body.password
   users.authenticate(username, password, function(authenticate_result){
-    users.updateRepositories(username, function(updated_result){
+    console.log(authenticate_result.id)
+    users.updateRepositories(authenticate_result.id, username, function(updated_result){
       console.log(updated_result)
       res.send(authenticate_result)
     })
