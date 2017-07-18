@@ -18,6 +18,13 @@ router.get('/:id', function(req, res) {
   })
 });
 
+router.get('/:id/updated', function(req,res){
+  var user_id = req.params.id
+  units.getAllUnitUpdatesOfUser(unit_id, function(result){
+    res.send(result)
+  })
+})
+
 router.post('/register', function(req, res) {
   var user_id = req.body.user_id
   users.getSingleUser(user_id, function(user_data){

@@ -22,6 +22,7 @@ var API = require('./API')
 //Import from controllers folder
 var users = require('./controllers/users_controller');
 var units = require('./controllers/units_controller');
+var unit_updates = require('./controllers/unit_updates_controller');
 
 // parse application/json
 app.use(bodyParser.json());
@@ -77,6 +78,7 @@ app.use(cors())
 //Init Routes
 app.use('/users' , users);
 app.use('/units' , units);
+app.use('/unitupdates' , unit_updates);
 
 app.get('/', function(req,res){
   res.render('main', { user: req.user })
@@ -101,15 +103,6 @@ app.get('/auth/github/callback',
 //     res.send(data)
 //   });
 // })
-
-app.get('/test', function(req, res) {
-  http.get({
-    hostname: 'https://jsonplaceholder.typicode.com',
-    path: '/posts/1',
-  },  (data) => {
-    res.send(data)
-  })
-});
 
 app.listen(port, function() {
   console.log('Starting node.js on port ' + port);

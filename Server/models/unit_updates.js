@@ -1,14 +1,14 @@
 var connection = require('../libs/database.js');
 var gitRepo = require('../get-repo')
 
-function User() {
-  this.getAllUsers = function(callback) {
+function UnitUpdate() {
+  this.getAllUnitUpdates = function(callback) {
     connection.connect(function(err, client, done) {
       if(err) {
         return console.error('error fetching client from pool', err);
       }
       //use the client for executing the query
-      client.query('SELECT * FROM USERS', function(err, result) {
+      client.query('SELECT * FROM UNIT_UPDATES', function(err, result) {
         //call `done(err)` to release the client back to the pool (or destroy it if there is an error)
         done(err);
 
@@ -21,13 +21,13 @@ function User() {
     });
   };
 
-  this.getSingleUser = function(id, callback) {
+  this.getAllUnitUpdatesOfUnit = function(unit_id, callback) {
     connection.connect(function(err, client, done) {
       if(err) {
         return console.error('error fetching client from pool', err);
       }
       //use the client for executing the query
-      client.query(`SELECT * FROM USERS WHERE id = ${id}`, function(err, result) {
+      client.query(`SELECT * FROM UNIT_UPDATES WHERE unit_id = ${unit_id}`, function(err, result) {
         //call `done(err)` to release the client back to the pool (or destroy it if there is an error)
         done(err);
 
@@ -35,19 +35,24 @@ function User() {
           return console.error('error running query', err);
         }
 
-        callback(result.rows[0])
+        callback(result.rows)
       });
     });
   };
 
-  this.createNewUser = function(username, callback) {
+  // this.getAllUnitUpdatesOfUsers = function(username, callback) {
+  //   gitRepo.getGithubUserReposs(username, function(result){
+  //     callback(result)
+  //   })
+  // };
+
+  this.getSingleUnitUpdate = function(id, callback) {
     connection.connect(function(err, client, done) {
       if(err) {
         return console.error('error fetching client from pool', err);
       }
-
       //use the client for executing the query
-      client.query(`INSERT INTO users (name) VALUES ('${username}')`, function(err, result) {
+      client.query(`SELECT * FROM UNIT_UPDATES WHERE id = ${id}`, function(err, result) {
         //call `done(err)` to release the client back to the pool (or destroy it if there is an error)
         done(err);
 
@@ -60,14 +65,14 @@ function User() {
     });
   };
 
-  this.authenticate = function(username, password, callback) {
+  this.createNewUnitUpdate = function(owner_id, name, language, stargazers_count, watchers_count, callback) {
     connection.connect(function(err, client, done) {
       if(err) {
         return console.error('error fetching client from pool', err);
       }
 
       //use the client for executing the query
-      client.query(`select * from users where name = '${username}'`, function(err, result) {
+      client.query(`INSERT INTO UNIT_UPDATES (owner_id, name, language, stargazers_count, watchers_count) VALUES (${owner_id}, '${name}', '${language}', ${stargazers_count}, ${watchers_count})`, function(err, result) {
         //call `done(err)` to release the client back to the pool (or destroy it if there is an error)
         done(err);
 
@@ -75,17 +80,10 @@ function User() {
           return console.error('error running query', err);
         }
 
-        callback(result.rows[0])
+        callback(result)
       });
     });
-  }
-
-
-  this.updateRepositories = function(username ,callback) {
-    gitRepo.getGithubUserReposs(username, function(result){
-      callback(result)
-    })
-  }
+  };
 }
 
-module.exports = new User();
+module.exports = new UnitUpdate();

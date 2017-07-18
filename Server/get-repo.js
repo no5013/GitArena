@@ -54,17 +54,6 @@ function GitGetter() {
       repos = []
       var repos_length = result.length
       result.forEach(function(repo, index, array){
-        var repoData = {
-          repo_name: repo['name'],
-          fork: repo['fork'],
-          stargazers_count: repo['stargazers_count'],
-          watchers_count: repo['watchers_count'],
-          language: repo['language'],
-          open_issue_count: repo['open_issues_count'],
-          updated_at: repo['updated_at'],
-          forks_count: repo['forks_count']
-        }
-        console.log(repo)
 
         // check if repo is not empty
         if(repo['language']!=null){
@@ -74,7 +63,7 @@ function GitGetter() {
             for(let i=0; i<result.length; i++){
               if(result[i].author.login == username){
 
-                //format weeks
+                //calculate added and deleted
                 var a=0
                 var d=0
                 for(let j=0; j<result[i].weeks.length; j++){
@@ -82,6 +71,7 @@ function GitGetter() {
                   d += result[i].weeks[j].d
                 }
 
+                //format the update data
                 repos.push({
                   repo_name: repo['name'],
                   updated_at: repo['updated_at'],
@@ -94,7 +84,6 @@ function GitGetter() {
                   added_count: a,
                   deleted_count: d
                 })
-                console.log(repo['name'] + " " + result[i].total)
                 break;
               }
 
@@ -109,7 +98,7 @@ function GitGetter() {
             }
           })
         }else{
-          console.log(repoData.repo_name + " ERROR")
+          console.log(repo['name'] + " ERROR")
           repos_length-=1
           if(repos.length == repos_length){
             callback(repos)
