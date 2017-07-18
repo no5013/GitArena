@@ -5,6 +5,7 @@ var gitRepo = require('../get-repo')
 
 var units = require('../models/units');
 var users = require('../models/users');
+var unitUpdates = require('../models/unit_updates');
 
 router.get('/', function(req, res) {
   units.getAllUnits(function(result){
@@ -19,8 +20,8 @@ router.get('/:id', function(req, res) {
 });
 
 router.get('/:id/updated', function(req,res){
-  var user_id = req.params.id
-  units.getAllUnitUpdatesOfUser(unit_id, function(result){
+  var unit_id = req.params.id
+  unitUpdates.getAllUnitUpdatesOfUnit(unit_id, function(result){
     res.send(result)
   })
 })

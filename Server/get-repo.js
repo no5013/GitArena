@@ -74,7 +74,7 @@ function GitGetter() {
                 //format the update data
                 repos.push({
                   repo_name: repo['name'],
-                  updated_at: repo['updated_at'],
+                  updated_at: repo['pushed_at'],
                   stargazers_count: repo['stargazers_count'],
                   watchers_count: repo['watchers_count'],
                   language: repo['language'],

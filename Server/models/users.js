@@ -112,16 +112,21 @@ function User() {
                 else {
                   if(updates[j].updated_at == unitUpdates[unitUpdates.length-1].updated_at){
                     console.log("NO UPDATE")
-                  }else{
-                    console.log("UPDATE")
+                    if(i == units.length-1){
+                      callback(update_repo)
+                    }
                   }
-
-                  if(i == units.length-1){
-                    callback(update_repo)
+                  else{
+                    unitUpdate.createNewUnitUpdate(units[i].id, updates[j].stargazers_count, updates[j].watchers_count, updates[j].open_issues_count, updates[j].forks_count, updates[j].commits_count, updates[j].added_count, updates[j].deleted_count, updates[j].updated_at, function(result){
+                      update_repo.push(units[i])
+                      console.log("UPDATE")
+                      //recall when for is finish
+                      if(i == units.length-1){
+                        callback(update_repo)
+                      }
+                    })
                   }
                 }
-                // we can't break in this section so we set j to the length to manully break it
-                j = updates.length
               })
             }
           }

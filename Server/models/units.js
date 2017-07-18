@@ -16,7 +16,7 @@ function Unit() {
           return console.error('error running query', err);
         }
 
-        callback(result)
+        callback(result.rows)
       });
     });
   };
@@ -60,7 +60,7 @@ function Unit() {
           return console.error('error running query', err);
         }
 
-        callback(result)
+        callback(result.rows)
       });
     });
   };
