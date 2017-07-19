@@ -58,6 +58,26 @@ export default class extends Phaser.State {
 
     var actions, actions_menu_items, action_index, actions_menu
 
+    //debug mode
+    if(this.game.repos == null){
+      this.game.repos = [
+        {
+          name: "test1"
+        },
+        {
+          name: "test2"
+        },
+        {
+          name: "test3"
+        },
+        {
+          name: "test4"
+        },
+        {
+          name: "test5"
+        },
+      ]
+    }
     //Limit the unit to 5
     actions = this.game.repos.slice(0,5)
 

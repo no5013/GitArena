@@ -30,7 +30,7 @@ class Game extends Phaser.Game {
     this.state.add('Login', LoginState, false)
 
     // this.state.start('Boot', true, false, "assets/levels/battle.json", "assets/levels/level.json", "Game")
-    this.state.start('Login')
+    this.state.start('MainMenu')
   }
 }
 

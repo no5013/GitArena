@@ -19,6 +19,7 @@ import ResultState from '../StateMachine/ActionState/ResultState'
 import RewardState from '../StateMachine/ActionState/RewardState'
 
 import Menu from '../prefabs/huds/Menu'
+import PlayerStatus from '../prefabs/huds/PlayerStatus'
 import DamageText from '../prefabs/huds/DamageText'
 
 import AttackMenuItem from '../prefabs/huds/AttackMenuItem'
@@ -108,6 +109,7 @@ export default class extends Phaser.State {
 
     this.initSkillMenu({x:400, y:100})
     this.initActionMenu({x:400, y:100})
+    this.initPlayerStatusHud({x:600, y:0})
     this.disableActionCommandHud();
     this.disableUnitSkillCommandHud();
 
@@ -168,8 +170,8 @@ export default class extends Phaser.State {
     })
   }
 
-  initPlayerStatus(){
-
+  initPlayerStatusHud(position){
+    this.player_status = new PlayerStatus(this, "player_status", position, {group: "hud"})
   }
 
   findObjectsByType(type, map, layer) {
@@ -426,6 +428,10 @@ export default class extends Phaser.State {
     }, this)
   }
 
+  setPlayerStatusHud(){
+    this.player_status.setPlayer(this.current_unit)
+  }
+
   next_turn() {
     this.clearTurn();
 
@@ -433,6 +439,7 @@ export default class extends Phaser.State {
     console.log("HEALTH: " + this.current_unit.health)
     this.setSkillMenu()
     this.setActionMenu()
+    this.setPlayerStatusHud()
     this.resetTurn()
 
     if(this.current_unit.alive){
