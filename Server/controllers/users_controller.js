@@ -35,6 +35,13 @@ router.get('/:id/repos', function(req,res){
   })
 })
 
+router.get('/:id/units', function(req,res){
+  var user_id = req.params.id
+  units.getAllUnitsOfUserWithStatus(user_id, function(result){
+    res.send(result)
+  })
+})
+
 router.get('/:id/update', function(req,res){
   var user_id = req.params.id
   console.log(user_id)

@@ -40,11 +40,30 @@ function Unit() {
     });
   };
 
-  this.getAllUnitsOfUsers = function(username, callback) {
-    gitRepo.getGithubUserReposs(username, function(result){
-      callback(result)
-    })
+  this.getAllUnitsOfUserWithStatus = function(user_id, callback) {
+    connection.connect(function(err, client, done) {
+      if(err) {
+        return console.error('error fetching client from pool', err);
+      }
+      //use the client for executing the query
+      client.query(`select * from units, (select distinct on (unit_id) * from unit_updates) as last_unit_update where units.id = last_unit_update.unit_id and units.owner_id = ${user_id}`, function(err, result) {
+        //call `done(err)` to release the client back to the pool (or destroy it if there is an error)
+        done(err);
+
+        if(err) {
+          return console.error('error running query', err);
+        }
+
+        callback(result.rows)
+      });
+    });
   };
+
+  // this.getAllUnitsOfUsers = function(username, callback) {
+  //   gitRepo.getGithubUserReposs(username, function(result){
+  //     callback(result)
+  //   })
+  // };
 
   this.getSingleUnit = function(id, callback) {
     connection.connect(function(err, client, done) {

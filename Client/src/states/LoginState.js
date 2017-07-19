@@ -78,7 +78,8 @@ export default class extends Phaser.State {
       dataType: "json",
       success: function(data){
         game.user = data
-        $.get(`http://localhost:8000/users/${data.id}/repos`, function(data, status){
+        $.get(`http://localhost:8000/users/${data.id}/units`, function(data, status){
+          console.log(data)
           game.repos = data
           self.state.start('MainMenu', true, false)
         })
