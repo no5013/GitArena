@@ -27,6 +27,7 @@ import SkillMenuItem from '../prefabs/huds/SkillMenuItem'
 import WalkMenuItem from '../prefabs/huds/WalkMenuItem'
 import EndTurnMenuItem from '../prefabs/huds/EndTurnMenuItem'
 import SkillSelectionMenuItem from '../prefabs/huds/SkillSelectionMenuItem'
+import PlayerMenuItem from '../prefabs/huds/PlayerMenuItem'
 
 import PriorityQueue from '../Structure/PriorityQueue'
 
@@ -110,6 +111,7 @@ export default class extends Phaser.State {
     this.initSkillMenu({x:400, y:100})
     this.initActionMenu({x:400, y:100})
     this.initPlayerStatusHud({x:600, y:0})
+    this.initUnitQueue({x:0,y:0})
     this.disableActionCommandHud();
     this.disableUnitSkillCommandHud();
 
@@ -172,6 +174,10 @@ export default class extends Phaser.State {
 
   initPlayerStatusHud(position){
     this.player_status = new PlayerStatus(this, "player_status", position, {group: "hud"})
+  }
+
+  initUnitQueue(position){
+    this.unit_queue = new Menu(this, "unit_queue", position, {group: "hud", menu_items: []})
   }
 
   findObjectsByType(type, map, layer) {
@@ -441,6 +447,7 @@ export default class extends Phaser.State {
     this.setActionMenu()
     this.setPlayerStatusHud()
     this.resetTurn()
+    this.setUnitQueue()
 
     if(this.current_unit.alive){
       this.current_unit.setActive()
@@ -534,6 +541,35 @@ export default class extends Phaser.State {
     }, this);
     this.skills_menu.menu_items = actions_menu_items
     this.disableUnitSkillCommandHud()
+  }
+
+  setUnitQueue(){
+    this.prefabs['unit_queue'].enable();
+    this.prefabs['unit_queue'].hide();
+
+    var self = this
+
+    var actions, actions_menu_items, action_index, actions_menu
+
+    // Available Action
+    actions = this.units.priority_queue
+
+    actions_menu_items = []
+    action_index = 0;
+
+    // Create a menu item for each action
+    actions.forEach(function (action) {
+      actions_menu_items.push(new PlayerMenuItem(this, action.name+"_queue_item", {x: 0, y: 0 + action_index * 35}, {
+        group: "hud",
+        text: action.name,
+        style: Object.create(self.TEXT_STYLE)
+      }));
+      action_index++;
+    }, this);
+    this.unit_queue.menu_items = actions_menu_items
+
+    this.prefabs['unit_queue'].disable();
+    this.prefabs['unit_queue'].show();
   }
 
 
