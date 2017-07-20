@@ -8,7 +8,7 @@ import MenuItem from '../prefabs/huds/MenuItem'
 import LevelMenuItem from '../prefabs/huds/MainMenuHuds/LevelMenuItem'
 import StageSelectionMenuItem from '../prefabs/huds/MainMenuHuds/StageSelectionMenuItem'
 import MultiSelectionMenuItem from '../prefabs/huds/MultiSelectionMenuItem'
-import StartLevelMenuItem from '../prefabs/huds/MainMenuHuds/StartLevelMenuItem'
+import NextMenuItem from '../prefabs/huds/MainMenuHuds/NextMenuItem'
 
 import MainMenuSelectionState from '../StateMachine/MainMenuState/MainMenuSelectionState'
 import StageSelectionState from '../StateMachine/MainMenuState/StageSelectionState'
@@ -93,7 +93,7 @@ export default class extends Phaser.State {
       action_index++;
     }, this);
 
-    actions_menu_items.push(new StartLevelMenuItem(this, "start_level_menu_item", {x: position.x, y: position.y + action_index * 35}, {group: "hud", text: "start level", style: Object.create(this.TEXT_STYLE)}))
+    actions_menu_items.push(new NextMenuItem(this, "start_level_menu_item", {x: position.x, y: position.y + action_index * 35}, {group: "hud", text: "start level", style: Object.create(this.TEXT_STYLE)}))
     this.unit_selection_menu.menu_items = actions_menu_items
     this.disableUnitSelectionMenuHud()
   }
