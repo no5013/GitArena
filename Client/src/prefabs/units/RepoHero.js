@@ -133,7 +133,7 @@ export default class RepoHero extends Phaser.Sprite {
     else{
 
       // BUG when 2 tween run at the same time
-      // this.addQuake()
+      this.addQuake()
     }
   }
 
