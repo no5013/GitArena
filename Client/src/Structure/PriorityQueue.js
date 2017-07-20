@@ -32,4 +32,13 @@ export default class {
     let item = this.priority_queue.shift()
     return item
   }
+
+  removeObjectFromQueue(remove_object){
+    for(let i=0; i<this.priority_queue.length-1; i++){
+      if(this.priority_queue[i].equals(remove_object)){
+        this.priority_queue.splice(i,1)
+        break;
+      }
+    }
+  }
 }

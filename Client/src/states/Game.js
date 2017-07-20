@@ -19,6 +19,7 @@ import ResultState from '../StateMachine/ActionState/ResultState'
 import RewardState from '../StateMachine/ActionState/RewardState'
 
 import Menu from '../prefabs/huds/Menu'
+import UnitQueue from '../prefabs/huds/UnitQueue'
 import PlayerStatus from '../prefabs/huds/PlayerStatus'
 import DamageText from '../prefabs/huds/DamageText'
 
@@ -177,7 +178,7 @@ export default class extends Phaser.State {
   }
 
   initUnitQueue(position){
-    this.unit_queue = new Menu(this, "unit_queue", position, {group: "hud", menu_items: []})
+    this.unit_queue = new UnitQueue(this, "unit_queue", position, {group: "hud", menu_items: []})
   }
 
   findObjectsByType(type, map, layer) {
@@ -231,6 +232,8 @@ export default class extends Phaser.State {
     var tile_y = this.layer.getTileY(unit.y);
     let tile = this.map.getTile(tile_x, tile_y, this.layer)
     tile.properties['owner'] = null
+    this.units.removeObjectFromQueue(unit)
+    this.setUnitQueue()
   }
 
   finishAction() {
@@ -440,6 +443,7 @@ export default class extends Phaser.State {
 
   next_turn() {
     this.clearTurn();
+    this.setUnitQueue()
 
     this.current_unit = this.units.dequeue();
     console.log("HEALTH: " + this.current_unit.health)
@@ -447,7 +451,6 @@ export default class extends Phaser.State {
     this.setActionMenu()
     this.setPlayerStatusHud()
     this.resetTurn()
-    this.setUnitQueue()
 
     if(this.current_unit.alive){
       this.current_unit.setActive()
@@ -544,7 +547,6 @@ export default class extends Phaser.State {
   }
 
   setUnitQueue(){
-    this.prefabs['unit_queue'].enable();
     this.prefabs['unit_queue'].hide();
 
     var self = this
@@ -568,7 +570,6 @@ export default class extends Phaser.State {
     }, this);
     this.unit_queue.menu_items = actions_menu_items
 
-    this.prefabs['unit_queue'].disable();
     this.prefabs['unit_queue'].show();
   }
 

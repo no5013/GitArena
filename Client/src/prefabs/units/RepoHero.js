@@ -178,6 +178,13 @@ export default class RepoHero extends Phaser.Sprite {
 
   }
 
+  equals(other){
+    if(this === other){
+      return true
+    }
+    return false
+  }
+
   setDeactive () {
     this.animations.stop()
     this.status['active'] = false

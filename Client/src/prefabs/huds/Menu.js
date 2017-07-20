@@ -54,7 +54,9 @@ export default class extends Prefab{
 
   enable () {
     if(this.menu_items.length > 0) {
-      this.moveSelection(0)
+      this.menu_items[this.current_item_index].selectionOut()
+      this.current_item_index = 0
+      this.menu_items[this.current_item_index].selectionOver()
     }
     this.game_state.game.input.keyboard.addCallbacks(this, this.processInput)
   }
