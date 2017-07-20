@@ -7,7 +7,11 @@ export default class extends MenuItem{
     super(game_state, name, position, properties)
   }
 
-  select () {
+  selectionOut () {
+
+  }
+
+  selectionOver () {
 
   }
 }

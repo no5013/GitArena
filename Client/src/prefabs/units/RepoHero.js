@@ -104,8 +104,7 @@ export default class RepoHero extends Phaser.Sprite {
     this.isMoving = true;
     this.animations.play(direction)
 
-    var characterMovement = this.game.add.tween(this);
-    characterMovement.to({x: dest_x, y: dest_y}, distance/move_speed);
+    var characterMovement = this.game.add.tween(this).to({x: dest_x, y: dest_y}, distance/move_speed);
     characterMovement.onComplete.add(function(){
       this.isMoving = false
       callback()

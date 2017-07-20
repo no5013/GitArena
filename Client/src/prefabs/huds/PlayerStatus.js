@@ -6,8 +6,8 @@ export default class extends Prefab{
   constructor (game_state, name, position, properties) {
     super(game_state, name, position, properties)
 
-    this.HUD_TEXT_STYLE = {font: "16px Arial", fill: "#FFFFFF"}
-    this.space_between_text = 50;
+    this.HUD_TEXT_STYLE = {font: "24px Arial", fill: "#FFFFFF"}
+    this.space_between_text = 35;
     console.log(position)
 
     this.player_name = new TextPrefab(game_state, "player_name_text", {x: position.x, y: position.y}, {

@@ -9,15 +9,12 @@ export default class extends Prefab{
   }
 
   findItemIndex (text) {
-    var item_index = 0
-    this.menu_items.forEach(function(menu_item){
+    for(let i=0; i<this.menu_items.length; i++){
+      var menu_item = this.menu_items[i]
       if(menu_item.text === text){
-        return item_index
+        return i
       }
-      else{
-        item_index++;
-      }
-    })
+    }
   }
 
   removeItem (index) {
@@ -42,14 +39,21 @@ export default class extends Prefab{
   }
 
   updateQueue(list){
+    this.hide()
     var new_order = []
     var new_index = 0
     list.forEach(function(unit){
-      var old_index = this.findItemIndex(unit.name)
-      new_order.push({
-        old_index: old_index,
-        new_index: new_index++
-      })
+      var old_index = this.findItemIndex(unit.text)
+      if(old_index!=null){
+        new_order.push({
+          name: unit.text,
+          old_index: old_index,
+          new_index: new_index++
+        })
+      }
     },this)
+    this.menu_items = list
+    this.show()
+    console.log(new_order)
   }
 }

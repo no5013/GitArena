@@ -28,7 +28,7 @@ import SkillMenuItem from '../prefabs/huds/SkillMenuItem'
 import WalkMenuItem from '../prefabs/huds/WalkMenuItem'
 import EndTurnMenuItem from '../prefabs/huds/EndTurnMenuItem'
 import SkillSelectionMenuItem from '../prefabs/huds/SkillSelectionMenuItem'
-import PlayerMenuItem from '../prefabs/huds/PlayerMenuItem'
+import UnitMenuItem from '../prefabs/huds/UnitMenuItem'
 
 import PriorityQueue from '../Structure/PriorityQueue'
 
@@ -467,7 +467,6 @@ export default class extends Phaser.State {
   }
 
   setActionState(state) {
-    console.log(this.currentState)
     if(this.currentState){
       this.currentState.leaveState();
     }
@@ -547,8 +546,6 @@ export default class extends Phaser.State {
   }
 
   setUnitQueue(){
-    this.prefabs['unit_queue'].hide();
-
     var self = this
 
     var actions, actions_menu_items, action_index, actions_menu
@@ -561,16 +558,14 @@ export default class extends Phaser.State {
 
     // Create a menu item for each action
     actions.forEach(function (action) {
-      actions_menu_items.push(new PlayerMenuItem(this, action.name+"_queue_item", {x: 0, y: 0 + action_index * 35}, {
+      actions_menu_items.push(new UnitMenuItem(this, action.name+"_queue_item", {x: 0, y: 0 + action_index * 35}, {
         group: "hud",
         text: action.name,
         style: Object.create(self.TEXT_STYLE)
       }));
       action_index++;
     }, this);
-    this.unit_queue.menu_items = actions_menu_items
-
-    this.prefabs['unit_queue'].show();
+    this.unit_queue.updateQueue(actions_menu_items)
   }
 
 
