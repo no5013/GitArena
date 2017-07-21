@@ -46,7 +46,7 @@ const move_speed = 0.01
 
 export default class extends Phaser.State {
 
-  init (battle_data, level_data, extra_parameters) {
+  init (battle_data, extra_parameters) {
     let self = this;
     this.ActionState = {
       UnitSelectState: new UnitSelectState(self),
@@ -79,15 +79,29 @@ export default class extends Phaser.State {
     })
 
     this.battle_data = battle_data
-    this.level_data = level_data
     this.extra_parameters = extra_parameters
     this.player_units = this.extra_parameters.player_units
+    this.level = this.extra_parameters.level
+  }
 
-    this.animation_mapping_chara = this.extra_parameters.vx_chara01
+  preload () {
+    var file_text = this.game.cache.getText("units_file");
+    var file_data = JSON.parse(file_text);
+    this.extra_parameters.units = file_data
 
-    var baddie_data = JSON.parse(this.game.cache.getText("baddie_mapper"));
-    this.animation_mapping_baddie = baddie_data
+    var enemy_unit_keys = Object.keys(this.extra_parameters.units.enemies)
+    enemy_unit_keys.forEach(function(enemy_key){
+      var enemy_file = this.extra_parameters.units.enemies[enemy_key]
+      this.load.spritesheet(enemy_file.name, enemy_file.asset.spritesheet_source, enemy_file.asset.frame_width, enemy_file.asset.frame_height, enemy_file.asset.frames, enemy_file.asset.margin, enemy_file.asset.spacing)
+      this.load.text(enemy_file.name + "_mapper", enemy_file.asset.spritesheet_mapper_source)
+    }, this)
 
+    var player_unit_keys = Object.keys(this.extra_parameters.units.players)
+    player_unit_keys.forEach(function(player_key){
+      var player_file = this.extra_parameters.units.players[player_key]
+      this.load.spritesheet(player_file.name, player_file.asset.spritesheet_source, player_file.asset.frame_width, player_file.asset.frame_height, player_file.asset.frames, player_file.asset.margin, player_file.asset.spacing)
+      this.load.text(player_file.name + "_mapper", player_file.asset.spritesheet_mapper_source)
+    }, this)
   }
 
   create () {
@@ -161,13 +175,13 @@ export default class extends Phaser.State {
     })
 
     var exp_reward_text = new TextPrefab(this, "exp_reward_text", {x: 400, y: 300}, {
-      text: `EXP: ${this.level_data.reward.experience}` ,
+      text: `EXP: ${this.level.reward.experience}` ,
       style: Object.create(this.TEXT_STYLE),
       group: "hud"
     })
 
     var money_reward_text = new TextPrefab(this, "money_reward_text", {x: 400, y: 350}, {
-      text: `MONEY: ${this.level_data.reward.money}` ,
+      text: `MONEY: ${this.level.reward.money}` ,
       style: Object.create(this.TEXT_STYLE),
       group: "hud"
     })
@@ -362,10 +376,10 @@ export default class extends Phaser.State {
   }
 
   initMapJSON() {
-    this.map = this.game.add.tilemap(this.level_data.map.key);
+    this.map = this.game.add.tilemap(this.level.map.key);
     let tileset_index = 0;
     this.map.tilesets.forEach(function (tileset) {
-      this.map.addTilesetImage(tileset.name, this.level_data.map.tilesets[tileset_index++]);
+      this.map.addTilesetImage(tileset.name, this.level.map.tilesets[tileset_index++]);
     }, this);
 
     //create layer
@@ -402,7 +416,7 @@ export default class extends Phaser.State {
         num: runner,
         properties: {
           group: "player_units",
-          animation_mapping: this.animation_mapping_chara.sprite[`hero_${runner+1}`]
+          animation_mapping: JSON.parse(this.game.cache.getText(`hero_${runner+1}_mapper`)).sprite[`hero_${runner+1}`]
         }
       })
 
@@ -414,7 +428,7 @@ export default class extends Phaser.State {
     }, this)
 
     let new_runner = 0
-    this.level_data.enemy_encounters.forEach(function(enemy){
+    this.level.enemy_encounters.forEach(function(enemy){
       var enemy = new EnemyUnit({
         game: this,
         x: enemy_unit_spawn_points[new_runner].x,

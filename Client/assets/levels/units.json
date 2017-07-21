@@ -6,7 +6,7 @@
         "spritesheet_source": "assets/images/vx_chara01.png",
         "spritesheet_mapper_source": "assets/images/vx_chara01.json",
         "frame_width": 32,
-        "frame_height": 32
+        "frame_height": 48
       }
     },
     "hero_2": {
@@ -15,7 +15,7 @@
         "spritesheet_source": "assets/images/vx_chara01.png",
         "spritesheet_mapper_source": "assets/images/vx_chara01.json",
         "frame_width": 32,
-        "frame_height": 32
+        "frame_height": 48
       }
     },
     "hero_3": {
@@ -24,7 +24,7 @@
         "spritesheet_source": "assets/images/vx_chara01.png",
         "spritesheet_mapper_source": "assets/images/vx_chara01.json",
         "frame_width": 32,
-        "frame_height": 32
+        "frame_height": 48
       }
     },
     "hero_4": {
@@ -33,7 +33,7 @@
         "spritesheet_source": "assets/images/vx_chara01.png",
         "spritesheet_mapper_source": "assets/images/vx_chara01.json",
         "frame_width": 32,
-        "frame_height": 32
+        "frame_height": 48
       }
     },
     "hero_5": {
@@ -42,7 +42,7 @@
         "spritesheet_source": "assets/images/vx_chara01.png",
         "spritesheet_mapper_source": "assets/images/vx_chara01.json",
         "frame_width": 32,
-        "frame_height": 32
+        "frame_height": 48
       }
     },
     "hero_6": {
@@ -51,7 +51,7 @@
         "spritesheet_source": "assets/images/vx_chara01.png",
         "spritesheet_mapper_source": "assets/images/vx_chara01.json",
         "frame_width": 32,
-        "frame_height": 32
+        "frame_height": 48
       }
     },
     "hero_7": {
@@ -60,7 +60,7 @@
         "spritesheet_source": "assets/images/vx_chara01.png",
         "spritesheet_mapper_source": "assets/images/vx_chara01.json",
         "frame_width": 32,
-        "frame_height": 32
+        "frame_height": 48
       }
     },
     "hero_8": {
@@ -69,7 +69,7 @@
         "spritesheet_source": "assets/images/vx_chara01.png",
         "spritesheet_mapper_source": "assets/images/vx_chara01.json",
         "frame_width": 32,
-        "frame_height": 32
+        "frame_height": 48
       }
     }
   },

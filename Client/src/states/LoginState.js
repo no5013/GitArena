@@ -81,7 +81,7 @@ export default class extends Phaser.State {
         $.get(`http://localhost:8000/users/${data.id}/units`, function(data, status){
           console.log(data)
           game.repos = data
-          self.state.start('MainMenu', true, false)
+          self.state.start('Boot', true, false, "assets/levels/level.json", "MainMenu")
         })
       },
       error: function(err){

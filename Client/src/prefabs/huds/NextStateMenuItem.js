@@ -4,13 +4,11 @@ import MenuItem from '../MenuItem'
 export default class extends MenuItem{
   constructor (game_state, name, position, properties) {
     super(game_state, name, position, properties)
-    this.level = properties.level
+    this.next_state = properties.next_state
   }
 
   select () {
-    this.game_state.properties.ActionStateVar['level'] = this.level
-    console.log(this.level)
-    this.game_state.currentState.setNextState(this.game_state.MainMenuState.UnitSelectionState)
+    this.game_state.currentState.setNextState(this.next_state)
     this.game_state.currentState.nextState();
   }
 }

@@ -8,106 +8,90 @@
 
   ],
 
-  "map": {
-    "key": "level_tilemap",
-    "tilesets": ["map_tileset"]
-  },
+  "levels": {
+    "level_1": {
+      "level_name": "level_1",
+      "map": {
+        "key": "level_tilemap",
+        "tilesets": ["map_tileset"]
+      },
 
-  "enemy_encounters": [
-    {
-      "name": "A",
-      "type": "enemy_unit",
-      "position": {"x": 100, "y": 100},
-      "properties": {
-        "texture": "lizard_spritesheet",
-        "group": "enemy_units",
-        "stats": {
-          "attack": 30,
-          "defense": 10,
-          "health": 50,
-          "speed": 15
+      "enemy_encounters": [
+        {
+          "name": "baddie"
+        },
+        {
+          "name": "dude"
         }
+      ],
+
+      "reward": {
+        "experience": 100,
+        "money": 300
       }
     },
-    {
-      "name": "B",
-      "type": "enemy_unit",
-      "position": {"x": 100, "y": 100},
-      "properties": {
-        "texture": "lizard_spritesheet",
-        "group": "enemy_units",
-        "stats": {
-          "attack": 30,
-          "defense": 10,
-          "health": 50,
-          "speed": 15
+    "level_2": {
+      "level_name": "level_2",
+      "map": {
+        "key": "level_tilemap",
+        "tilesets": ["map_tileset"]
+      },
+
+      "enemy_encounters": [
+        {
+          "name": "baddie"
+        },
+        {
+          "name": "dude"
         }
+      ],
+
+      "reward": {
+        "experience": 100,
+        "money": 300
       }
     },
-    {
-      "name": "C",
-      "type": "enemy_unit",
-      "position": {"x": 100, "y": 100},
-      "properties": {
-        "texture": "lizard_spritesheet",
-        "group": "enemy_units",
-        "stats": {
-          "attack": 30,
-          "defense": 10,
-          "health": 50,
-          "speed": 15
+    "level_3": {
+      "level_name": "level_3",
+      "map": {
+        "key": "level_tilemap",
+        "tilesets": ["map_tileset"]
+      },
+
+      "enemy_encounters": [
+        {
+          "name": "baddie"
+        },
+        {
+          "name": "dude"
         }
+      ],
+
+      "reward": {
+        "experience": 100,
+        "money": 300
       }
     },
-    {
-      "name": "D",
-      "type": "enemy_unit",
-      "position": {"x": 100, "y": 100},
-      "properties": {
-        "texture": "lizard_spritesheet",
-        "group": "enemy_units",
-        "stats": {
-          "attack": 30,
-          "defense": 10,
-          "health": 50,
-          "speed": 15
+    "level_4": {
+      "level_name": "level_4",
+      "map": {
+        "key": "level_tilemap",
+        "tilesets": ["map_tileset"]
+      },
+
+      "enemy_encounters": [
+        {
+          "name": "baddie"
+        },
+        {
+          "name": "dude"
         }
-      }
-    },
-    {
-      "name": "E",
-      "type": "enemy_unit",
-      "position": {"x": 100, "y": 100},
-      "properties": {
-        "texture": "lizard_spritesheet",
-        "group": "enemy_units",
-        "stats": {
-          "attack": 30,
-          "defense": 10,
-          "health": 50,
-          "speed": 15
-        }
-      }
-    },
-    {
-      "name": "F",
-      "type": "enemy_unit",
-      "position": {"x": 100, "y": 100},
-      "properties": {
-        "texture": "lizard_spritesheet",
-        "group": "enemy_units",
-        "stats": {
-          "attack": 30,
-          "defense": 10,
-          "health": 50,
-          "speed": 15
-        }
+      ],
+
+      "reward": {
+        "experience": 100,
+        "money": 300
       }
     }
-  ],
-
-  "reward": {
-    "experience": 100,
-    "items": [{"type": "potion", "properties": {"group": "items", "health_power": 50}}]
   }
 }

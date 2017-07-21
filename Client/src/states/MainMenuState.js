@@ -16,7 +16,15 @@ import UnitSelectionState from '../StateMachine/MainMenuState/UnitSelectionState
 
 export default class extends Phaser.State {
 
-  init () {
+  init (level_data, extra_parameters) {
+    this.levels = []
+    var asset_key, asset;
+    for (asset_key in level_data.levels) { // load assets according to asset key
+      if (level_data.levels.hasOwnProperty(asset_key)) {
+        asset = level_data.levels[asset_key];
+        this.levels.push(asset)
+      }
+    }
 
     let self = this;
     this.MainMenuState = {
@@ -158,31 +166,14 @@ export default class extends Phaser.State {
     var actions, levels_selection_menu_items, action_index, levels_selection_menu
 
     // Available Action
-    actions = [
-      {
-        "level_name": "level1",
-        "level": 1
-      },
-      {
-        "level_name": "level2",
-        "level": 2
-      },
-      {
-        "level_name": "level3",
-        "level": 1
-      },
-      {
-        "level_name": "level4",
-        "level": 1
-      }
-    ]
+    actions = this.levels
 
     levels_selection_menu_items = []
     action_index = 0;
 
     // Create a menu item for each action
     actions.forEach(function (action) {
-      levels_selection_menu_items.push(new LevelMenuItem(this, action.level_name+"_menu_item", {x: position.x, y: position.y + action_index * 35}, {group: "hud", level: action.level, text: action.level_name, style: Object.create(self.TEXT_STYLE)}));
+      levels_selection_menu_items.push(new LevelMenuItem(this, action.level_name+"_menu_item", {x: position.x, y: position.y + action_index * 35}, {group: "hud", level: action, text: action.level_name, style: Object.create(self.TEXT_STYLE)}));
       action_index++;
     }, this);
     this.levels_selection_menu = new Menu(this, "levels_selection_menu", position, {group: "hud", menu_items: levels_selection_menu_items})
