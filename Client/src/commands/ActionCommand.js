@@ -5,7 +5,7 @@ export default class extends Prefab {
   constructor (game_state, name, position, properties) {
     super(game_state, name, position, properties)
 
-    this.owner = this.game_state.prefabs[properties.owner_name]
+    this.owner = properties.owner
 
     this.action_message_position = new Phaser.Point(400, this.game.world.height * 0.1)
     this.action_message_text = "Action Message"

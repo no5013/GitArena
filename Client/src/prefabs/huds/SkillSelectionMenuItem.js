@@ -25,7 +25,7 @@ export default class extends MenuItem{
       target: null,
       skill: skill,
       group: "hud",
-      owner_name: unit.name
+      owner: unit
     })
 
     game_state.currentState.setNextState(game_state.ActionState.TargetSelectionState)

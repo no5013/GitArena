@@ -14,9 +14,9 @@ export default class extends MenuItem{
     game_state.properties.ActionStateVar['command'] = new NormalAttackCommand(game_state, unit.name + "_attack", {x: 0,y: 0}, {
       target: null,
       group: "hud",
-      owner_name: unit.name
+      owner: unit
     })
-    
+
     game_state.currentState.setNextState(game_state.ActionState.TargetSelectionState)
     game_state.currentState.nextState();
   }

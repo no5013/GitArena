@@ -37,7 +37,7 @@ export default class extends RepoHero{
           y: next_move.y
         },
         group: "hud",
-        owner_name: this.name
+        owner: this
       })
       command_list.push(move_command)
 
@@ -57,7 +57,7 @@ export default class extends RepoHero{
             attack_command = new NormalAttackCommand(self.game, self.name+"_attack", {x: 0,y: 0}, {
               target: target,
               group: "hud",
-              owner_name: self.name
+              owner: self
             })
             command_list.push(attack_command)
           }
@@ -84,7 +84,7 @@ export default class extends RepoHero{
 
     var endTurn_command = new EndTurnCommand(this.game, this.name+"_endturn", {x: 0,y: 0}, {
       group: "hud",
-      owner_name: this.name
+      owner: this
     })
 
     command_list.push(endTurn_command)

@@ -34,7 +34,7 @@ export default class extends ActionState {
           y: y
         },
         group: "hud",
-        owner_name: this.unit.name
+        owner: this.unit
       })
       move_command.execute()
     }

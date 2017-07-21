@@ -14,7 +14,7 @@ export default class extends MenuItem{
     this.unit = this.game_state.current_unit
     var endTurn_command = new EndTurnCommand(this.game_state, this.unit.name+"_endturn", {x: 0,y: 0}, {
       group: "hud",
-      owner_name: this.unit.name
+      owner: this.unit
     })
     endTurn_command.execute()
   }

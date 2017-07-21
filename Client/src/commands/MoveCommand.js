@@ -14,6 +14,7 @@ export default class extends ActionCommand {
     this.game_state.used_commands["Move"] = true
 
     var unit = this.owner
+    console.log(unit)
 
     //make camera follow unit and unfollow when it finish action
     this.game_state.game.camera.follow(unit)
