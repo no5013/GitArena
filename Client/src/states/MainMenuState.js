@@ -9,10 +9,12 @@ import LevelMenuItem from '../prefabs/huds/MainMenuHuds/LevelMenuItem'
 import StageSelectionMenuItem from '../prefabs/huds/MainMenuHuds/StageSelectionMenuItem'
 import MultiSelectionMenuItem from '../prefabs/huds/MultiSelectionMenuItem'
 import NextMenuItem from '../prefabs/huds/MainMenuHuds/NextMenuItem'
+import UserMatchMenuItem from '../prefabs/huds/MainMenuHuds/UserMatchMenuItem'
 
 import MainMenuSelectionState from '../StateMachine/MainMenuState/MainMenuSelectionState'
 import StageSelectionState from '../StateMachine/MainMenuState/StageSelectionState'
 import UnitSelectionState from '../StateMachine/MainMenuState/UnitSelectionState'
+import LoadOtherUserState from '../StateMachine/MainMenuState/LoadOtherUserState'
 
 export default class extends Phaser.State {
 
@@ -30,7 +32,8 @@ export default class extends Phaser.State {
     this.MainMenuState = {
       MainMenuSelectionState: new MainMenuSelectionState(self),
       StageSelectionState: new StageSelectionState(self),
-      UnitSelectionState: new UnitSelectionState(self)
+      UnitSelectionState: new UnitSelectionState(self),
+      LoadOtherUserState: new LoadOtherUserState(self)
     }
 
     this.properties = {
@@ -143,6 +146,7 @@ export default class extends Phaser.State {
 
     // Available Action
     actions = [
+      {text: "User Match", item_constructor: UserMatchMenuItem.prototype.constructor},
       {text: "Stage Select", item_constructor: StageSelectionMenuItem.prototype.constructor},
       // {text: "Skill", item_constructor: SkillMenuItem.prototype.constructor},
       // {text: "Walk", item_constructor: WalkMenuItem.prototype.constructor},

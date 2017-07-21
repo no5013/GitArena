@@ -1,4 +1,6 @@
 import MainMenuState from './MainMenuState'
+import LevelFactory from '../../factories/LevelFactory'
+
 var $ = require("jquery");
 
 export default class extends MainMenuState{
@@ -7,10 +9,19 @@ export default class extends MainMenuState{
   }
 
   enterState(){
-    $.get(`http://localhost:8000/users/${data.id}/units`, function(data, status){
-      console.log(data)
-      game.repos = data
-      self.state.start('MainMenu', true, false)
+    var self = this
+    $.get(`http://localhost:8000/matchs/matchmaking`, function(data, status){
+      var enemies = [
+        {
+          "name": "baddie"
+        },
+        {
+          "name": "dude"
+        }
+      ]
+      // var enemies = data.units.slice(0,4)
+      self.game_state.properties.ActionStateVar['level'] = LevelFactory.generateLevelFromEnemies(enemies)
+      self.nextState()
     })
   }
 

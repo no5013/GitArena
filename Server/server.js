@@ -23,6 +23,7 @@ var API = require('./API')
 var users = require('./controllers/users_controller');
 var units = require('./controllers/units_controller');
 var unit_updates = require('./controllers/unit_updates_controller');
+var matchs = require('./controllers/matchs_controller');
 
 // parse application/json
 app.use(bodyParser.json());
@@ -79,6 +80,7 @@ app.use(cors())
 app.use('/users' , users);
 app.use('/units' , units);
 app.use('/unitupdates' , unit_updates);
+app.use('/matchs' , matchs);
 
 app.get('/', function(req,res){
   res.render('main', { user: req.user })

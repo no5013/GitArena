@@ -1,5 +1,6 @@
 import Phaser from 'phaser'
 import MenuItem from '../MenuItem'
+import LevelFactory from '../../../factories/LevelFactory'
 
 export default class extends MenuItem{
   constructor (game_state, name, position, properties) {
@@ -8,8 +9,7 @@ export default class extends MenuItem{
   }
 
   select () {
-    this.game_state.properties.ActionStateVar['level'] = this.level
-    console.log(this.level)
+    this.game_state.properties.ActionStateVar['level'] = LevelFactory.generateLevelFromEnemies(this.level.enemy_encounters)
     this.game_state.currentState.setNextState(this.game_state.MainMenuState.UnitSelectionState)
     this.game_state.currentState.nextState();
   }
