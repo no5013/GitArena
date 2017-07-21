@@ -9,7 +9,7 @@ export default class extends MenuItem{
   }
 
   select () {
-    this.game_state.properties.ActionStateVar['level'] = LevelFactory.generateLevelFromEnemies(this.level.enemy_encounters)
+    this.game_state.properties.ActionStateVar['level'] = LevelFactory.generateLevelFromLevelJSON(this.level)
     this.game_state.currentState.setNextState(this.game_state.MainMenuState.UnitSelectionState)
     this.game_state.currentState.nextState();
   }

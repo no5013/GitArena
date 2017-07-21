@@ -433,13 +433,13 @@ export default class extends Phaser.State {
         game: this,
         x: enemy_unit_spawn_points[new_runner].x,
         y: enemy_unit_spawn_points[new_runner].y,
-        asset: enemy.name,
+        asset: enemy.sprite_name,
         name: enemy.name,
         health: 10,
         num: runner,
         properties: {
           group: "enemy_units",
-          animation_mapping: JSON.parse(this.game.cache.getText(enemy.name + "_mapper")).sprite[enemy.name]
+          animation_mapping: JSON.parse(this.game.cache.getText(enemy.sprite_name + "_mapper")).sprite[enemy.sprite_name]
         }
       })
 

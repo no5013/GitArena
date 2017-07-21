@@ -76,6 +76,7 @@
   "enemies": {
     "baddie": {
       "name": "baddie",
+      "sprite_name": "baddie",
       "asset": {
         "spritesheet_source": "assets/images/baddie.png",
         "spritesheet_mapper_source": "assets/images/baddie.json",
@@ -85,6 +86,7 @@
     },
     "dude": {
       "name": "dude",
+      "sprite_name": "dude",
       "asset": {
         "spritesheet_source": "assets/images/dude.png",
         "spritesheet_mapper_source": "assets/images/dude.json",
