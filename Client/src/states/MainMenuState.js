@@ -16,6 +16,8 @@ import StageSelectionState from '../StateMachine/MainMenuState/StageSelectionSta
 import UnitSelectionState from '../StateMachine/MainMenuState/UnitSelectionState'
 import LoadOtherUserState from '../StateMachine/MainMenuState/LoadOtherUserState'
 
+import UnitFactory from '../factories/UnitFactory'
+
 export default class extends Phaser.State {
 
   init (level_data, extra_parameters) {
@@ -56,12 +58,18 @@ export default class extends Phaser.State {
 
     this.TEXT_STYLE = {font: "30px Arial", fill: "#FFFFFF"}
     this.HUD_TEXT_STYLE = {font: "16px Arial", fill: "#FFFFFF"}
-
+    this.createPlayerUnits()
     this.initMainMenu({x:400, y:100})
     this.initStageSelectionMenu({x:400, y:100})
     this.initUnitSelectionMenuHud({x:400, y:100})
-
     this.setMainMenuState(this.MainMenuState.MainMenuSelectionState)
+  }
+
+  createPlayerUnits () {
+    this.player_units = []
+    this.game.repos.slice(0,5).forEach(function(repo){
+      this.player_units.push(UnitFactory.generateUnitFromRepoData(repo))
+    },this)
   }
 
   initUnitSelectionMenuHud(position){
@@ -90,7 +98,7 @@ export default class extends Phaser.State {
       ]
     }
     //Limit the unit to 5
-    actions = this.game.repos.slice(0,5)
+    actions = this.player_units
 
     actions_menu_items = []
     action_index = 0;

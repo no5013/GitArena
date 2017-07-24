@@ -11,13 +11,13 @@ import LoginState from './states/LoginState'
 
 import Util from './util/Util'
 
-import config from './config'
+import {GameSetting} from './config'
 
 class Game extends Phaser.Game {
   constructor () {
     const docElement = document.documentElement
-    const width = docElement.clientWidth > config.gameWidth ? config.gameWidth : docElement.clientWidth
-    const height = docElement.clientHeight > config.gameHeight ? config.gameHeight : docElement.clientHeight
+    const width = docElement.clientWidth > GameSetting.gameWidth ? GameSetting.gameWidth : docElement.clientWidth
+    const height = docElement.clientHeight > GameSetting.gameHeight ? GameSetting.gameHeight : docElement.clientHeight
 
     super(width, height, Phaser.CANVAS, 'content', null)
 

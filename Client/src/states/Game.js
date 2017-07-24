@@ -416,7 +416,7 @@ export default class extends Phaser.State {
         num: runner,
         properties: {
           group: "player_units",
-          animation_mapping: JSON.parse(this.game.cache.getText(`hero_${runner+1}_mapper`)).sprite[`hero_${runner+1}`]
+          animation_mapping: JSON.parse(this.game.cache.getText(player_unit.sprite_name + "_mapper")).sprite[player_unit.sprite_name]
         }
       })
 
