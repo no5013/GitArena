@@ -146,8 +146,10 @@ function User() {
                     })
                   }
                 }
+
               })
             }
+            console.log(i+" / "+(units.length-1))
           }
         }
       })

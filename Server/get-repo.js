@@ -53,10 +53,10 @@ function GitGetter() {
     .then(result => {
       repos = []
       var repos_length = result.length
+      console.log(repos_length)
       result.forEach(function(repo, index, array){
-
         // check if repo is not empty
-        if(repo['language']!=null){
+        if(repo['language']!=null && !repo['fork']){
           githubCli.fetchRepoStats({owner: username, repository: repo['name']})
           .then(result => {
             //find match collaborator
@@ -89,10 +89,11 @@ function GitGetter() {
 
               //if user doesn't collaborate in this repo
               if(i == result.length-1){
+                console.log("HIHI")
                 repos_length-=1
               }
             }
-            // console.log(repos.length + " / " + repos_length)
+            console.log(repos.length + " / " + repos_length)
             if(repos.length == repos_length){
               callback(repos)
             }
