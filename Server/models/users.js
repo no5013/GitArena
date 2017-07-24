@@ -116,6 +116,7 @@ function User() {
         var update_repo = []
         if(updates.error){
           console.log("ERRORRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR")
+          console.log("SYSTEM RETRY")
           self.updateRepositories(id, username, callback)
         }
         else{
