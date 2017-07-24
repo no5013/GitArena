@@ -109,47 +109,56 @@ function User() {
   // }
 
   this.updateRepositories = function(id, username ,callback) {
+    var self = this
     gitRepo.getGithubUserReposs(username, function(updates){
       unit.getAllUnitsOfUser(id, function(units){
-
+        var runner = 0
         var update_repo = []
-
-        for(let i=0; i<units.length; i++){
-          for(let j=0; j<updates.length; j++){
-            if(units[i].name == updates[j].repo_name){
-              unitUpdate.getAllUnitUpdatesOfUnit(units[i].id, function(unitUpdates){
-                if(unitUpdates.length <= 0){
-                  unitUpdate.createNewUnitUpdate(units[i].id, updates[j].stargazers_count, updates[j].watchers_count, updates[j].open_issues_count, updates[j].forks_count, updates[j].commits_count, updates[j].added_count, updates[j].deleted_count, updates[j].updated_at, function(result){
-                    update_repo.push(units[i])
-
-                    //recall when for is finish
-                    if(i == units.length-1){
-                      callback(update_repo)
-                    }
-                  })
-                }
-                else {
-                  if(updates[j].updated_at == unitUpdates[unitUpdates.length-1].updated_at){
-                    console.log("NO UPDATE")
-                    if(i == units.length-1){
-                      callback(update_repo)
-                    }
-                  }
-                  else{
+        if(updates.error){
+          console.log("ERRORRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR")
+          self.updateRepositories(id, username, callback)
+        }
+        else{
+          updates = updates.repos
+          for(let i=0; i<units.length; i++){
+            for(let j=0; j<updates.length; j++){
+              if(units[i].name == updates[j].repo_name){
+                unitUpdate.getAllUnitUpdatesOfUnit(units[i].id, function(unitUpdates){
+                  if(unitUpdates.length <= 0){
                     unitUpdate.createNewUnitUpdate(units[i].id, updates[j].stargazers_count, updates[j].watchers_count, updates[j].open_issues_count, updates[j].forks_count, updates[j].commits_count, updates[j].added_count, updates[j].deleted_count, updates[j].updated_at, function(result){
                       update_repo.push(units[i])
-                      console.log("UPDATE")
+
                       //recall when for is finish
-                      if(i == units.length-1){
+                      if(++runner == updates.length){
+                        console.log("RECALL AT 1")
                         callback(update_repo)
                       }
                     })
                   }
-                }
+                  else {
+                    if(updates[j].updated_at == unitUpdates[unitUpdates.length-1].updated_at){
+                      console.log((runner+1)+"/"+(updates.length) + " NO UPDATE")
+                      if(++runner == updates.length){
+                        console.log("RECALL AT 2")
+                        callback(update_repo)
+                      }
+                    }
+                    else{
+                      unitUpdate.createNewUnitUpdate(units[i].id, updates[j].stargazers_count, updates[j].watchers_count, updates[j].open_issues_count, updates[j].forks_count, updates[j].commits_count, updates[j].added_count, updates[j].deleted_count, updates[j].updated_at, function(result){
+                        update_repo.push(units[i])
+                        console.log("UPDATE")
+                        //recall when for is finish
+                        if(++runner == updates.length){
+                          console.log("RECALL AT 3")
+                          callback(update_repo)
+                        }
+                      })
+                    }
+                  }
 
-              })
+                })
+              }
             }
-            console.log(i+" / "+(units.length-1))
           }
         }
       })

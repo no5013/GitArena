@@ -52,6 +52,8 @@ function GitGetter() {
     githubCli.fetchUserRepositories({handle: username})
     .then(result => {
       repos = []
+      re_repos = []
+      error = false
       var repos_length = result.length
       console.log(repos_length)
       result.forEach(function(repo, index, array){
@@ -59,6 +61,12 @@ function GitGetter() {
         if(repo['language']!=null && !repo['fork']){
           githubCli.fetchRepoStats({owner: username, repository: repo['name']})
           .then(result => {
+            if(!(result instanceof Array)){
+              console.log("GIT BUG")
+              error = true
+              repos_length-=1
+            }
+
             //find match collaborator
             for(let i=0; i<result.length; i++){
               if(result[i].author.login == username){
@@ -89,20 +97,27 @@ function GitGetter() {
 
               //if user doesn't collaborate in this repo
               if(i == result.length-1){
-                console.log("HIHI")
                 repos_length-=1
               }
             }
-            console.log(repos.length + " / " + repos_length)
+            console.log(repo['name']+": "+ repos.length + " / " + repos_length)
             if(repos.length == repos_length){
-              callback(repos)
+              callback({
+                repos: repos,
+                error: error
+              })
+              // callback(repos)
             }
           })
         }else{
           console.log(repo['name'] + " ERROR")
           repos_length-=1
           if(repos.length == repos_length){
-            callback(repos)
+            callback({
+              repos: repos,
+              error: error
+            })
+            // callback(repos)
           }
         }
 
