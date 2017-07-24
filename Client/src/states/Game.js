@@ -584,7 +584,7 @@ export default class extends Phaser.State {
 
 
   endBattle(){
-    this.state.start('MainMenu', true, false)
+    this.state.start('Boot', true, false, "assets/levels/level.json", "MainMenu")
   }
 
   gameOver(){
