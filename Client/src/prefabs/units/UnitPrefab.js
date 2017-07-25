@@ -23,6 +23,7 @@ export default class extends Prefab {
 
     this.animation_mapping = properties.animation_mapping
     this.unit = properties.unit
+    console.log(this.unit)
 
     this.name = name;
     this.health = 10;

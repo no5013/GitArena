@@ -410,6 +410,7 @@ export default class extends Phaser.State {
         {
           group: "player_units",
           texture: 'chara',
+          unit: player_unit,
           animation_mapping: JSON.parse(this.game.cache.getText(player_unit.sprite_name + "_mapper")).sprite[player_unit.sprite_name]
         }
       )
@@ -427,6 +428,7 @@ export default class extends Phaser.State {
         {
           group: "enemy_units",
           texture: enemy_unit.sprite_name,
+          unit: enemy_unit,
           animation_mapping: JSON.parse(this.game.cache.getText(enemy_unit.sprite_name + "_mapper")).sprite[enemy_unit.sprite_name]
         }
       )
