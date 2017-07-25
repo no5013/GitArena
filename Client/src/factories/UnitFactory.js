@@ -1,6 +1,8 @@
-import Unit from '../prefabs/unit/unit.js'
+import Unit from '../prefabs/unit/Unit'
+import MonsterUnit from '../prefabs/unit/MonsterUnit'
+import HeroUnit from '../prefabs/unit/HeroUnit'
 import {LanguageJobMapper} from '../config'
-import {Jobs} from '../GameData/Jobs' 
+import {Jobs} from '../GameData/Jobs'
 
 export default class {
   constructor(){
@@ -14,14 +16,16 @@ export default class {
     if(unit_job == null){
       unit_job = Jobs["secret"]
     }
-    var unit = new Unit(name, unit_job.sprite_name)
+    var unit = new HeroUnit(name, unit_job)
+    console.log("WTF IS GOING ON")
     return unit
   }
 
   static generateUnitFromJsonData(json_file){
     var name = json_file.name
+    var stats = json_file.stats
     var sprite_name = json_file.name
-    var unit = new Unit(name, sprite_name)
+    var unit = new MonsterUnit(name, stats, sprite_name)
     return unit
   }
 

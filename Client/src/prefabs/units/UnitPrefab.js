@@ -17,13 +17,10 @@ const move_speed = 0.25;
 export default class extends Prefab {
 
   constructor (game_state, name, position, properties) {
-    console.log("WTFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF")
-    console.log(game_state)
     super(game_state, name, position, properties)
 
     this.animation_mapping = properties.animation_mapping
     this.unit = properties.unit
-    console.log(this.unit)
 
     this.name = name;
     this.health = 10;

@@ -406,6 +406,7 @@ export default class extends Phaser.State {
     var enemy_unit_spawn_points = this.findObjectsByType("enemy_unit", this.map, "ObjectLayer")
 
     this.player_units.forEach(function(player_unit){
+      console.log(player_unit)
       var player = new PlayerUnit(this, player_unit.name, player_unit_spawn_points[runner],
         {
           group: "player_units",
