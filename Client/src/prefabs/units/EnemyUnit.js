@@ -1,14 +1,16 @@
 import Phaser from 'phaser'
-import RepoHero from './RepoHero'
+import UnitPrefab from './UnitPrefab'
 import Util from '../../util/Util'
 import MoveCommand from '../../commands/MoveCommand'
 import NormalAttackCommand from '../../commands/NormalAttackCommand'
 import EndTurnCommand from '../../commands/EndTurnCommand'
 import ActionCommand from '../../commands/ActionCommand'
 
-export default class extends RepoHero{
-  constructor (game, x, y, asset, name, health, num, properties) {
-    super(game, x, y, asset, name, health, num, properties)
+export default class extends UnitPrefab{
+  constructor (game, name, position, properties) {
+    // super(game, x, y, asset, name, health, num, properties)
+    super(game, name, position, properties)
+
   }
 
   act () {

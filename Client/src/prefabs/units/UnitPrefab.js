@@ -10,28 +10,26 @@ import SkillMenuItem from '../huds/SkillMenuItem'
 import WalkMenuItem from '../huds/WalkMenuItem'
 import EndTurnMenuItem from '../huds/EndTurnMenuItem'
 
+import Prefab from '../Prefab'
+
 const move_speed = 0.25;
 
-export default class RepoHero extends Phaser.Sprite {
+export default class extends Prefab {
 
-  constructor ({game, x, y, asset, name, health, num, properties}) {
-    super(game.game, x, y, properties.texture)
-    console.log("TEXTURE YOU KNOW: "+properties.texture)
-    this.game.add.existing(this)
-
-    game.prefabs[name] = this
-    game.groups[properties.group].add(this);
+  constructor (game_state, name, position, properties) {
+    console.log("WTFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF")
+    console.log(game_state)
+    super(game_state, name, position, properties)
 
     this.animation_mapping = properties.animation_mapping
+    this.unit = properties.unit
 
-    let self = this;
-
-    this.game = game;
     this.name = name;
-    this.health = health;
-    this.num = num;
+    this.health = 10;
     this.status = {};
     this.state = game
+
+
     this.movingRange = 10
     this.attackRange = 3
     this.move_speed = 0.25
@@ -59,10 +57,10 @@ export default class RepoHero extends Phaser.Sprite {
   }
 
   initInitialSkill(){
-    var super_attack = new Skill(this.game, "SUPER ATTACK!", {x:0, y:0}, {
+    var super_attack = new Skill(this.game_state, "SUPER ATTACK!", {x:0, y:0}, {
       group: "hud"
     })
-    var heal = new Heal(this.game, "Heal!", {x:0, y:0}, {
+    var heal = new Heal(this.game_state, "Heal!", {x:0, y:0}, {
       group: "hud"
     })
     this.skills.push(heal)
@@ -71,7 +69,7 @@ export default class RepoHero extends Phaser.Sprite {
   }
 
   initNameTag(){
-    this.textname = this.game.make.text(0, 40, this.name);
+    this.textname = this.game_state.make.text(0, 40, this.name);
     this.textname.fill = '#FFFFFF'
     this.textname.align = 'center'
     this.textname.font = '10px Barrio'
@@ -82,7 +80,7 @@ export default class RepoHero extends Phaser.Sprite {
   }
 
   initDamageText(){
-    this.damage_text = this.game.make.text(0, -40, "");
+    this.damage_text = this.game_state.make.text(0, -40, "");
     this.damage_text.fill = '#FF0000'
     this.damage_text.align = 'center'
     this.damage_text.stroke = '#000000';
@@ -105,7 +103,7 @@ export default class RepoHero extends Phaser.Sprite {
     this.isMoving = true;
     this.animations.play(direction)
 
-    var characterMovement = this.game.add.tween(this).to({x: dest_x, y: dest_y}, distance/move_speed);
+    var characterMovement = this.game_state.add.tween(this).to({x: dest_x, y: dest_y}, distance/move_speed);
     characterMovement.onComplete.add(function(){
       this.isMoving = false
       callback()
@@ -117,10 +115,10 @@ export default class RepoHero extends Phaser.Sprite {
     this.health-=damage
     console.log(`Receive ${damage}, remaining ${this.health}`)
 
-    var test_text = new DamageText(this.game, "test_text", {x:this.x, y:this.y}, {
+    var test_text = new DamageText(this.game_state, "test_text", {x:this.x, y:this.y}, {
       group: "hud",
       text: damage,
-      style: Object.create(this.game.HUD_TEXT_STYLE),
+      style: Object.create(this.game_state.HUD_TEXT_STYLE),
       distance: 30,
       duration: 500,
     })
@@ -152,7 +150,7 @@ export default class RepoHero extends Phaser.Sprite {
   }
 
   die () {
-    this.game.removeUnitFromGame(this)
+    this.game_state.removeUnitFromGame(this)
     this.kill();
   }
 
@@ -218,7 +216,7 @@ export default class RepoHero extends Phaser.Sprite {
     // we want to go back to the original position
     var yoyo = true;
 
-    var quake = this.game.add.tween(this)
+    var quake = this.game_state.add.tween(this)
     .to(properties, duration, ease, autoStart, delay, repeat, yoyo);
 
     // let the earthquake begins
@@ -234,14 +232,14 @@ export default class RepoHero extends Phaser.Sprite {
     }
 
     //attacked_animation
-    this.attacked_animation = this.game.add.tween(this);
+    this.attacked_animation = this.game_state.add.tween(this);
     this.attacked_animation.to({tint: 0xFF0000}, 200);
     this.attacked_animation.onComplete.add(function(){
       this.restoreTint();
     }, this)
 
     //healed_animation
-    this.healed_animation = this.game.add.tween(this);
+    this.healed_animation = this.game_state.add.tween(this);
     this.healed_animation.to({tint: 0x00FFFF}, 200);
     this.healed_animation.onComplete.add(function(){
       this.restoreTint();

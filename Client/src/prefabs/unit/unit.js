@@ -1,6 +1,7 @@
 export default class {
-  constructor(name, sprite_name){
+  constructor(name, job){
     this.name = name
-    this.sprite_name= sprite_name
+    this.job = job
+    this.sprite_name= job.sprite_name
   }
 }

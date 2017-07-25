@@ -10,7 +10,7 @@ export default class extends Phaser.Sprite {
 
     this.name = name;
 
-    this.fixedToCamera = true
+    // this.fixedToCamera = false
 
     this.game_state.groups[properties.group].add(this);
 

@@ -1,19 +1,4 @@
-import Job from './Jobs/Job'
-
-export const GameSetting = {
-  gameWidth: 800,
-  gameHeight: 600,
-  localStorageName: 'phaseres6webpack'
-}
-
-export const UnitStat = {
-  HEALTH: "health",
-  ATTACK: "attack",
-  MAGIC_ATTACK: "magic_attack",
-  DEFENCE: "defence",
-  SPEED: "speed",
-  ACCURACY: "accuracy"
-}
+import Job from '../Jobs/Job'
 
 export const Jobs = {
   swordman: new Job ({
@@ -52,11 +37,4 @@ export const Jobs = {
       accuracy: 1
     }
   })
-}
-
-export const LanguageJobMapper = {
-  ruby: "swordman",
-  html: "swordman",
-  javascript: "archer",
-  java: "swordman"
 }

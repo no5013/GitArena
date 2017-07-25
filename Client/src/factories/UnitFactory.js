@@ -1,5 +1,6 @@
 import Unit from '../prefabs/unit/unit.js'
-import {LanguageJobMapper, Job} from '../config'
+import {LanguageJobMapper} from '../config'
+import {Jobs} from '../GameData/Jobs' 
 
 export default class {
   constructor(){
@@ -7,12 +8,11 @@ export default class {
   }
 
   static generateUnitFromRepoData(repo){
-    console.log("FUCK")
     var name = repo.name
     var unit_class = LanguageJobMapper[repo.language.toLowerCase()]
-    var unit_job = Job[unit_class]
+    var unit_job = Jobs[unit_class]
     if(unit_job == null){
-      unit_job = Job["secret"]
+      unit_job = Jobs["secret"]
     }
     var unit = new Unit(name, unit_job.sprite_name)
     return unit

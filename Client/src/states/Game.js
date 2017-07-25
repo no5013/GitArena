@@ -406,19 +406,13 @@ export default class extends Phaser.State {
     var enemy_unit_spawn_points = this.findObjectsByType("enemy_unit", this.map, "ObjectLayer")
 
     this.player_units.forEach(function(player_unit){
-      var player = new PlayerUnit({
-        game: this,
-        x: player_unit_spawn_points[runner].x,
-        y: player_unit_spawn_points[runner].y,
-        asset: 'chara',
-        name: player_unit.name,
-        health: 10,
-        num: runner,
-        properties: {
+      var player = new PlayerUnit(this, player_unit.name, player_unit_spawn_points[runner],
+        {
           group: "player_units",
+          texture: 'chara',
           animation_mapping: JSON.parse(this.game.cache.getText(player_unit.sprite_name + "_mapper")).sprite[player_unit.sprite_name]
         }
-      })
+      )
 
       let tile = self.map.getTile(player_unit_spawn_points[runner].x/32, player_unit_spawn_points[runner++].y/32)
       tile.properties['owner'] = player
@@ -428,20 +422,14 @@ export default class extends Phaser.State {
     }, this)
 
     let new_runner = 0
-    this.level.enemy_encounters.forEach(function(enemy){
-      var enemy = new EnemyUnit({
-        game: this,
-        x: enemy_unit_spawn_points[new_runner].x,
-        y: enemy_unit_spawn_points[new_runner].y,
-        asset: enemy.sprite_name,
-        name: enemy.name,
-        health: 10,
-        num: runner,
-        properties: {
+    this.level.enemy_encounters.forEach(function(enemy_unit){
+      var enemy = new EnemyUnit(this, enemy_unit.name, enemy_unit_spawn_points[new_runner],
+        {
           group: "enemy_units",
-          animation_mapping: JSON.parse(this.game.cache.getText(enemy.sprite_name + "_mapper")).sprite[enemy.sprite_name]
+          texture: enemy_unit.sprite_name,
+          animation_mapping: JSON.parse(this.game.cache.getText(enemy_unit.sprite_name + "_mapper")).sprite[enemy_unit.sprite_name]
         }
-      })
+      )
 
       let tile = self.map.getTile(enemy_unit_spawn_points[new_runner].x/32, enemy_unit_spawn_points[new_runner++].y/32)
       tile.properties['owner'] = enemy
