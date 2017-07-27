@@ -16,6 +16,8 @@ export default class extends Phaser.State {
 
     // this.loadAssetFromJSON(this.level_data.assets)
     this.loadAssetFromJSON(this.battle_data.assets)
+
+    // this.load.spritesheet('slash', 'assets/effects/Sprite_FX_Slash_0004.png', 87, 94, 0, 0, 0)
   }
 
   loadAssetFromJSON(assets) {

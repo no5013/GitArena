@@ -2,6 +2,7 @@ import Phaser from 'phaser'
 import ActionMessage from '../huds/ActionMessage'
 import Util from '../../util/Util'
 import DamageText from '../huds/DamageText'
+import Effect from '../huds/Effect'
 
 import AttackMenuItem from '../huds/AttackMenuItem'
 import SkillMenuItem from '../huds/SkillMenuItem'
@@ -120,6 +121,11 @@ export default class extends Prefab {
       style: Object.create(this.game_state.HUD_TEXT_STYLE),
       distance: 30,
       duration: 500,
+    })
+
+    var effect = new Effect(this.game_state, "effect", {x:this.x, y:this.y}, {
+      group: "hud",
+      texture: "slash"
     })
 
     this.attacked_animation.start();
