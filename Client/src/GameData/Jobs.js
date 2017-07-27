@@ -33,7 +33,7 @@ export const Jobs = {
       attack_range: 5
     },
     skills: [
-      SkillData.super_hit,
+      SkillData.snipe,
       SkillData.heal
     ]
   }),

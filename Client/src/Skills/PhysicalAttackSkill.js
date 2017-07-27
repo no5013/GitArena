@@ -2,8 +2,8 @@ import Phaser from 'phaser'
 import Skill from '../skills/Skill'
 
 export default class extends Skill {
-  constructor({name}){
-    super({name})
+  constructor({name,range,damage}){
+    super({name,range,damage})
   }
 
   use (target){
