@@ -273,9 +273,14 @@ export default class extends Phaser.State {
     })
   }
 
-  showAttackRange(unit){
+  showAttackRange(unit, skill){
     let self = this
-    var tileToPush = this.getAttackRangeCoordinate(unit.x/tile_size_x, unit.y/tile_size_y, unit.attackRange);
+    var attackRange = unit.attackRange
+    if(skill!=null){
+      attackRange = skill.range
+    }
+
+    var tileToPush = this.getAttackRangeCoordinate(unit.x/tile_size_x, unit.y/tile_size_y, attackRange);
     tileToPush.forEach(function(coordinate){
       self.rangeMap.putTile(new Phaser.Tile(self.rangeLayer,104,0,0,tile_size_x,tile_size_y),coordinate.x, coordinate.y, self.rangeLayer)
     })
@@ -289,9 +294,13 @@ export default class extends Phaser.State {
     })
   }
 
-  removeAttackRange(unit){
+  removeAttackRange(unit, skill){
     let self = this
-    var tileToPush = this.getAttackRangeCoordinate(unit.x/tile_size_x, unit.y/tile_size_y, unit.attackRange);
+    var attackRange = unit.attackRange
+    if(skill!=null){
+      attackRange = skill.range
+    }
+    var tileToPush = this.getAttackRangeCoordinate(unit.x/tile_size_x, unit.y/tile_size_y, attackRange);
     tileToPush.forEach(function(coordinate){
       self.rangeMap.removeTile(coordinate.x, coordinate.y, self.rangeLayer)
     })

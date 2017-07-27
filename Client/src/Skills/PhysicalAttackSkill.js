@@ -1,9 +1,9 @@
 import Phaser from 'phaser'
+import Skill from '../skills/Skill'
 
-export default class {
+export default class extends Skill {
   constructor({name}){
-    this.name = name
-    this.range = 5
+    super({name})
   }
 
   use (target){

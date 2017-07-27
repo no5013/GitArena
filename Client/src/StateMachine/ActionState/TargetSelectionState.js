@@ -8,7 +8,15 @@ export default class extends ActionState {
 
   enterState () {
     this.unit = this.game.properties.ActionStateVar['unit']
-    this.game.showAttackRange(this.unit)
+
+
+    //check that use skill or not
+    if(this.game.properties.ActionStateVar['command'].properties.hasOwnProperty("skill")){
+      var skill = this.game.properties.ActionStateVar['command'].properties.skill
+      this.game.showAttackRange(this.unit, skill)
+    }else{
+      this.game.showAttackRange(this.unit)
+    }
   }
 
   leaveState () {
@@ -23,7 +31,12 @@ export default class extends ActionState {
     let command = this.game.properties.ActionStateVar['command']
 
     if(rangeTile && target && target!=this.unit){
-      this.game.removeAttackRange(this.unit)
+      if(this.game.properties.ActionStateVar['command'].properties.hasOwnProperty("skill")){
+        var skill = this.game.properties.ActionStateVar['command'].properties.skill
+        this.game.removeAttackRange(this.unit, skill)
+      }else{
+        this.game.removeAttackRange(this.unit)
+      }
       command.properties.target = target
       command.execute()
 

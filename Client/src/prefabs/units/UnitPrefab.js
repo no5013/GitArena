@@ -2,8 +2,6 @@ import Phaser from 'phaser'
 import ActionMessage from '../huds/ActionMessage'
 import Util from '../../util/Util'
 import DamageText from '../huds/DamageText'
-import Skill from '../../Skills/Skill'
-import Heal from '../../Skills/Heal'
 
 import AttackMenuItem from '../huds/AttackMenuItem'
 import SkillMenuItem from '../huds/SkillMenuItem'

@@ -1,11 +1,11 @@
-import Skill from '../Skills/Skill'
-import Heal from '../Skills/Heal'
+import PhysicalAttackSkill from '../Skills/PhysicalAttackSkill'
+import HealSkill from '../Skills/HealSkill'
 
 export const SkillData = {
-  super_hit: new Skill({
-    name: "super_hit"
+  super_hit: new PhysicalAttackSkill({
+    name: "LUCKY PUNCH"
   }),
-  heal: new Heal({
-    name: "heal"
+  heal: new HealSkill({
+    name: "HEAL"
   })
 }
