@@ -16,6 +16,7 @@ export default class {
     if(unit_job == null){
       unit_job = Jobs["secret"]
     }
+    console.log(unit_job)
     var unit = new HeroUnit(name, unit_job)
     console.log("WTF IS GOING ON")
     return unit

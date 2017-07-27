@@ -12,7 +12,7 @@ import EndTurnMenuItem from '../huds/EndTurnMenuItem'
 
 import Prefab from '../Prefab'
 
-import {Skills} from '../../GameData/SkillData'
+// import {Skills} from '../../GameData/SkillData'
 
 const move_speed = 0.25;
 
@@ -57,10 +57,15 @@ export default class extends Prefab {
   }
 
   initInitialSkill(){
-    var super_attack = Skills['super_hit']
-    var heal = Skills['heal']
-    this.skills.push(heal)
-    this.skills.push(super_attack)
+    if(this.unit.job!=null){
+      console.log("HEROOOOOOOOOOOOOOOOOOOOOOOOOO")
+      console.log(this.unit.job)
+      this.skills = this.unit.job.skills
+    }
+    // var super_attack = Skills['super_hit']
+    // var heal = Skills['heal']
+    // this.skills.push(heal)
+    // this.skills.push(super_attack)
 
   }
 

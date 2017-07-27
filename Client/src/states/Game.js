@@ -529,6 +529,9 @@ export default class extends Phaser.State {
   setSkillMenu(){
     var self = this
     var unit = this.current_unit
+    if(unit.skills == null){
+      return;
+    }
 
     var actions, actions_menu_items, action_index, actions_menu
 
