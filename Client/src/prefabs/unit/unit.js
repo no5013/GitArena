@@ -3,6 +3,5 @@ export default class {
     this.name = name
     this.stats = stats
     this.sprite_name = sprite_name
-    console.log("HEY WHAT THE FUCK MAN")
   }
 }

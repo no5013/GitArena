@@ -1,4 +1,5 @@
 import Job from '../Jobs/Job'
+import {UnitStat} from './UnitStat'
 
 export const Jobs = {
   swordman: new Job ({
@@ -10,7 +11,8 @@ export const Jobs = {
       magic_attack: 0,
       defence: 2,
       speed: 1,
-      accuracy: 1
+      accuracy: 1,
+      attack_range: 3
     }
   }),
   archer: new Job ({
@@ -22,7 +24,8 @@ export const Jobs = {
       magic_attack: 0,
       defence: 2,
       speed: 1,
-      accuracy: 1
+      accuracy: 1,
+      attack_range: 5
     }
   }),
   secret: new Job({
@@ -34,7 +37,8 @@ export const Jobs = {
       magic_attack: 0,
       defence: 2,
       speed: 1,
-      accuracy: 1
+      accuracy: 1,
+      attack_range: 3
     }
   })
 }

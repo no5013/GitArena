@@ -2,8 +2,8 @@ import Phaser from 'phaser'
 import ActionMessage from '../huds/ActionMessage'
 import Util from '../../util/Util'
 import DamageText from '../huds/DamageText'
-import Skill from '../skills/Skill'
-import Heal from '../skills/Heal'
+import Skill from '../../Skills/Skill'
+import Heal from '../../Skills/Heal'
 
 import AttackMenuItem from '../huds/AttackMenuItem'
 import SkillMenuItem from '../huds/SkillMenuItem'
@@ -11,6 +11,8 @@ import WalkMenuItem from '../huds/WalkMenuItem'
 import EndTurnMenuItem from '../huds/EndTurnMenuItem'
 
 import Prefab from '../Prefab'
+
+import {Skills} from '../../GameData/SkillData'
 
 const move_speed = 0.25;
 
@@ -23,13 +25,13 @@ export default class extends Prefab {
     this.unit = properties.unit
 
     this.name = name;
-    this.health = 10;
+    this.health = this.unit.stats.health;
     this.status = {};
     this.state = game
 
 
     this.movingRange = 10
-    this.attackRange = 3
+    this.attackRange = this.unit.stats.attack_range
     this.move_speed = 0.25
     this.speed = 20;
     this.act_turn = 0;
@@ -55,12 +57,8 @@ export default class extends Prefab {
   }
 
   initInitialSkill(){
-    var super_attack = new Skill(this.game_state, "SUPER ATTACK!", {x:0, y:0}, {
-      group: "hud"
-    })
-    var heal = new Heal(this.game_state, "Heal!", {x:0, y:0}, {
-      group: "hud"
-    })
+    var super_attack = Skills['super_hit']
+    var heal = Skills['heal']
     this.skills.push(heal)
     this.skills.push(super_attack)
 
