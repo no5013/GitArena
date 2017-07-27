@@ -7,6 +7,6 @@ export default class extends Skill {
   }
 
   use (target){
-    target.takeDamage(10)
+    target.takeDamage(this.damage)
   }
 }
