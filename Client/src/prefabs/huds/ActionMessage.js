@@ -7,6 +7,7 @@ export default class extends Prefab {
     super(game_state, name, position ,properties)
 
     this.anchor.setTo(0.5)
+    this.fixedToCamera = true
 
     // create message text
     this.message_text = new TextPrefab(this.game_state, this.name + "_message", position, {

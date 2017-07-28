@@ -69,7 +69,8 @@ export default class extends Phaser.State {
     this.groups = {
       hud: this.game.add.group(),
       player_units: this.game.add.group(),
-      enemy_units: this.game.add.group()
+      enemy_units: this.game.add.group(),
+      effect: this.game.add.group()
     }
     this.prefabs = {}
     this.used_commands = {}
@@ -135,6 +136,7 @@ export default class extends Phaser.State {
     game.world.bringToTop(this.groups.hud);
     game.world.bringToTop(this.groups.player_units);
     game.world.bringToTop(this.groups.enemy_units);
+    game.world.bringToTop(this.groups.effect);
 
     this.next_turn();
     this.setActionState(this.ActionState.UnitSelectState)

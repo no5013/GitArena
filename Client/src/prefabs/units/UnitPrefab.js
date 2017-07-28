@@ -47,7 +47,6 @@ export default class extends Prefab {
     this.anchor.setTo(0,0.5)
 
     this.initAnimations();
-    this.initDamageText();
     this.initNameTag();
     this.initInitialSkill();
 
@@ -79,16 +78,6 @@ export default class extends Prefab {
     this.addChild(this.textname);
   }
 
-  initDamageText(){
-    this.damage_text = this.game_state.make.text(0, -40, "");
-    this.damage_text.fill = '#FF0000'
-    this.damage_text.align = 'center'
-    this.damage_text.stroke = '#000000';
-    this.damage_text.strokeThickness = 5;
-    this.damage_text.anchor.setTo(0.25,0.5)
-    this.addChild(this.damage_text);
-  }
-
   calculateActTurn (current_turn) {
     this.act_turn = current_turn + Math.ceil(100/this.speed)
   }
@@ -115,8 +104,8 @@ export default class extends Prefab {
     this.health-=damage
     console.log(`Receive ${damage}, remaining ${this.health}`)
 
-    var test_text = new DamageText(this.game_state, "test_text", {x:this.x, y:this.y}, {
-      group: "hud",
+    var damage_text = new DamageText(this.game_state, "damage_text", {x:this.x, y:this.y}, {
+      group: "effect",
       text: damage,
       style: Object.create(this.game_state.HUD_TEXT_STYLE),
       distance: 30,
@@ -124,9 +113,11 @@ export default class extends Prefab {
     })
 
     var effect = new Effect(this.game_state, "effect", {x:this.x, y:this.y}, {
-      group: "hud",
+      group: "effect",
       texture: "slash"
     })
+    damage_text.anchor.setTo(0.25,0.5)
+    effect.anchor.setTo(0.25,0.5)
 
     this.attacked_animation.start();
 
@@ -161,16 +152,10 @@ export default class extends Prefab {
 
   attack (target) {
     target.takeDamage(2)
+  }
 
-    // var action_message_position = new Phaser.Point(400, this.game.world.height * 0.1)
-    // var action_message_text = this.name + " attacks " + target.name + " with 2 damage"
-    // var action_message = new ActionMessage(this.game, this.name + "_action_message", action_message_position, {
-    //   group: 'hud',
-    //   texture: 'rectangle_image',
-    //   scale: {x: 1.5, y: 0.5},
-    //   duration: 1,
-    //   message: action_message_text
-    // })
+  useSkill(skill, unit){
+    skill.use(unit)
   }
 
   selected () {

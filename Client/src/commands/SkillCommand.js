@@ -22,7 +22,7 @@ export default class extends ActionCommand {
     this.properties.finish_function = function(){
       this.game_state.game.camera.follow(null)
     }
-    skill.use(target)
+    unit.useSkill(skill, target)
 
     this.showMessage();
   }
