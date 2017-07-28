@@ -1,5 +1,6 @@
 import ActionState from './ActionState'
 import NormalAttackCommand from '../../commands/NormalAttackCommand'
+import Util from '../../util/Util'
 
 export default class extends ActionState {
   constructor (game) {
@@ -9,7 +10,6 @@ export default class extends ActionState {
   enterState () {
     this.unit = this.game.properties.ActionStateVar['unit']
 
-
     //check that use skill or not
     if(this.game.properties.ActionStateVar['command'].properties.hasOwnProperty("skill")){
       var skill = this.game.properties.ActionStateVar['command'].properties.skill
@@ -17,10 +17,16 @@ export default class extends ActionState {
     }else{
       this.game.showAttackRange(this.unit)
     }
+
+    this.game.input.addMoveCallback(this.moveDirection,this);
+  }
+
+  moveDirection (pointer){
+    this.unit.faceTo(pointer.x, pointer.y)
   }
 
   leaveState () {
-    this.game.removeMovingRange(this.unit)
+    // this.game.input.moveCallbacks = [this.game.input.moveCallbacks[0]]
   }
 
   selectTile (x, y) {
@@ -41,13 +47,10 @@ export default class extends ActionState {
       command.execute()
 
     }
-    else if(rangeTile){
-      console.log("Please select enemy")
-    }
     else {
       this.cancel()
     }
-
+    this.game.input.deleteMoveCallback(this.moveDirection,this)
   }
 
   cancel(){

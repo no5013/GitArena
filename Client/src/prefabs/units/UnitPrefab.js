@@ -34,6 +34,7 @@ export default class extends Prefab {
     this.move_speed = 0.25
     this.speed = 20;
     this.act_turn = 0;
+    this.direction = "down"
 
     this.skills = []
 
@@ -98,6 +99,15 @@ export default class extends Prefab {
       callback()
     }, this)
     characterMovement.start();
+  }
+
+  faceTo (dest_x, dest_y){
+    var direction = Util.directionOfVector(this.x, this.y, dest_x, dest_y)
+    if(this.direction != direction){
+      this.direction = direction
+      this.animations.stop()
+      this.animations.play(this.direction)
+    }
   }
 
   takeDamage (damage){
