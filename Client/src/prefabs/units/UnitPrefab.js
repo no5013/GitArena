@@ -111,13 +111,7 @@ export default class extends Prefab {
       distance: 30,
       duration: 500,
     })
-
-    var effect = new Effect(this.game_state, "effect", {x:this.x, y:this.y}, {
-      group: "effect",
-      texture: "slash"
-    })
     damage_text.anchor.setTo(0.25,0.5)
-    effect.anchor.setTo(0.25,0.5)
 
     this.attacked_animation.start();
 
@@ -152,10 +146,22 @@ export default class extends Prefab {
 
   attack (target) {
     target.takeDamage(2)
+    var effect = new Effect(this.game_state, "effect", {x:target.x, y:target.y}, {
+      group: "effect",
+      texture: "slash"
+    })
+    effect.anchor.setTo(0.25,0.5)
   }
 
-  useSkill(skill, unit){
-    skill.use(unit)
+  useSkill(skill, target){
+    skill.use(target)
+    if(skill.sprite_name != null){
+      var effect = new Effect(this.game_state, "effect", {x:target.x, y:target.y}, {
+        group: "effect",
+        texture: skill.sprite_name
+      })
+      effect.anchor.setTo(0.25,0.5)
+    }
   }
 
   selected () {

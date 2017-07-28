@@ -5,7 +5,8 @@ export const SkillData = {
   super_hit: new PhysicalAttackSkill({
     name: "LUCKY PUNCH",
     range: 2,
-    damage: 10
+    damage: 10,
+    sprite_name: "slash"
   }),
   heal: new HealSkill({
     name: "HEAL",
@@ -15,6 +16,7 @@ export const SkillData = {
   snipe: new PhysicalAttackSkill({
     name: "Snipe",
     range: 10,
-    damage: 20
+    damage: 20,
+    sprite_name: "slash"
   })
 }
