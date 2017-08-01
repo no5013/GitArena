@@ -280,7 +280,7 @@ export default class extends Phaser.State {
     var tileToPush = unit.getAttackRangeCoordinate()
     if(skill!=null){
       // var tileToPush = unit.getAttackRangeCoordinate()
-      var tileToPush = skill.getSkillRangeCoordinate()
+      var tileToPush = skill.getSkillRangeCoordinate(unit.direction)
     }
     tileToPush.forEach(function(coordinate){
       self.rangeMap.putTile(new Phaser.Tile(self.rangeLayer,104,0,0,tile_size_x,tile_size_y),(unit.x/tile_size_x)+coordinate.x, (unit.y/tile_size_y)+coordinate.y, self.rangeLayer)

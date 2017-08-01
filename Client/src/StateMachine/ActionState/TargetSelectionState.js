@@ -22,7 +22,9 @@ export default class extends ActionState {
   }
 
   moveDirection (pointer){
+    this.game.removeRange();
     this.unit.faceTo(pointer.x, pointer.y)
+    this.game.showAttackRange(this.unit, this.game.properties.ActionStateVar['command'].properties.skill);
   }
 
   leaveState () {
