@@ -9,6 +9,11 @@ export default class extends ActionState {
   enterState () {
     this.unit = this.game.properties.ActionStateVar['unit']
     this.game.showMovingRange(this.unit)
+    this.game.input.addMoveCallback(this.moveDirection,this);
+  }
+
+  moveDirection (pointer){
+    this.unit.faceTo(pointer.x, pointer.y)
   }
 
   leaveState () {
@@ -27,7 +32,6 @@ export default class extends ActionState {
 
     if(!owner && rangeTile){
       this.game.removeMovingRange(this.unit)
-      // this.game.moveCharacter(this.unit, currentTile, nextTile)
       var move_command = new MoveCommand(this.game, this.unit.name+"_move", {x: this.unit.x,y: this.unit.y}, {
         coordinate: {
           x: x,
@@ -44,6 +48,8 @@ export default class extends ActionState {
     else if(!rangeTile){
       this.cancel()
     }
+
+    this.game.input.deleteMoveCallback(this.moveDirection,this)
   }
 
   cancel(){

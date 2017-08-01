@@ -9,48 +9,32 @@ export default class extends TextPrefab{
     this.item = properties.item
     this.inputEnabled = true
     this.isSelected = false
+
+    this.events.onInputDown.add(this.select, this)
+    this.events.onInputOver.add(this.selectionOver, this)
+    this.events.onInputOut.add(this.selectionOut, this)
   }
 
-  selectionOver (item) {
+  selectionOver () {
     if(this.isSelected)
       return;
 
-    if(item){
-      item.fill = "#FFFF00"
-    }
-    else {
       this.fill = "#FFFF00"
-    }
   }
 
-  selectionOut (item) {
+  selectionOut () {
     if(this.isSelected)
       return;
 
-    if(item){
-      item.fill = "#FFFFFF"
-    }
-    else {
       this.fill ="#FFFFFF"
-    }
   }
 
   selected (item) {
-    if(item){
-      item.fill = "#FF0000"
-    }
-    else {
       this.fill = "#FF0000"
-    }
   }
 
   deSelected (item) {
-    if(item){
-      item.fill = "#FFFFFF"
-    }
-    else {
       this.fill ="#FFFFFF"
-    }
   }
 
   select(){
