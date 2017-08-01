@@ -110,6 +110,36 @@ export default class extends Prefab {
     }
   }
 
+  getAttackRangeCoordinate(){
+    var possibleAttack = []
+
+    for(let j=0; j<=this.attackRange; j++){
+      for(let i=0; i<=this.attackRange-j; i++){
+        if(i==0 && j==0)
+        continue;
+        possibleAttack.push(
+          {
+            x:+i,
+            y:+j
+          },
+          {
+            x:+i,
+            y:-j
+          },
+          {
+            x:-i,
+            y:+j
+          },
+          {
+            x:-i,
+            y:-j
+          }
+        )
+      }
+    }
+    return possibleAttack
+  }
+
   takeDamage (damage){
     this.health-=damage
     console.log(`Receive ${damage}, remaining ${this.health}`)

@@ -40,7 +40,6 @@ export default class extends ActionState {
       this.game.removeRange()
       command.properties.target = target
       command.execute()
-
     }
     else {
       this.cancel()

@@ -11,4 +11,34 @@ export default class {
   use (target){
     target.takeDamage(10)
   }
+
+  getSkillRangeCoordinate(){
+    var possibleAttack = []
+
+    for(let j=0; j<=this.range; j++){
+      for(let i=0; i<=this.range-j; i++){
+        if(i==0 && j==0)
+        continue;
+        possibleAttack.push(
+          {
+            x:+i,
+            y:+j
+          },
+          {
+            x:+i,
+            y:-j
+          },
+          {
+            x:-i,
+            y:+j
+          },
+          {
+            x:-i,
+            y:-j
+          }
+        )
+      }
+    }
+    return possibleAttack
+  }
 }
