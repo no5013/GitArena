@@ -82,14 +82,6 @@
         "spritesheet_mapper_source": "assets/images/baddie.json",
         "frame_width": 32,
         "frame_height": 32
-      },
-      "stats":{
-        "health": 5,
-        "attack": 2,
-        "magic_attack": 0,
-        "defence": 2,
-        "speed": 1,
-        "accuracy": 1
       }
     },
     "dude": {
@@ -100,14 +92,6 @@
         "spritesheet_mapper_source": "assets/images/dude.json",
         "frame_width": 32,
         "frame_height": 48
-      },
-      "stats":{
-        "health": 5,
-        "attack": 2,
-        "magic_attack": 0,
-        "defence": 2,
-        "speed": 1,
-        "accuracy": 1
       }
     }
   }
