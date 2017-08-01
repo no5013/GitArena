@@ -1,5 +1,6 @@
 import PhysicalAttackSkill from '../Skills/PhysicalAttackSkill'
 import HealSkill from '../Skills/HealSkill'
+import {SkillType} from '../Skills/SkillType'
 
 export const SkillData = {
   super_hit: new PhysicalAttackSkill({
@@ -32,17 +33,20 @@ export const SkillData = {
         x:-2,
         y:2
       }
-    ]
+    ],
+    type: SkillType.MAP
   }),
   heal: new HealSkill({
     name: "HEAL",
     range: 3,
-    damage: 5
+    damage: 5,
+    type: SkillType.NORMAL
   }),
   snipe: new PhysicalAttackSkill({
     name: "Snipe",
     range: 10,
     damage: 20,
-    sprite_name: "slash"
+    sprite_name: "slash",
+    type: SkillType.NORMAL
   })
 }

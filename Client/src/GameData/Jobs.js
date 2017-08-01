@@ -1,5 +1,4 @@
 import Job from '../Jobs/Job'
-import {UnitStat} from './UnitStat'
 import {SkillData} from './SkillData'
 
 export const Jobs = {

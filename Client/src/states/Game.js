@@ -34,8 +34,6 @@ import PriorityQueue from '../Structure/PriorityQueue'
 
 import { centerGameObjects } from '../utils'
 
-import { UnitStat } from '../GameData/UnitStat'
-
 const tile_size_x = 32
 const tile_size_y = 32
 

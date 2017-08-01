@@ -1,13 +1,14 @@
 import Phaser from 'phaser'
+import {SkillType} from './SkillType'
 
 export default class {
-  constructor({name, range, damage, sprite_name, special_range}){
+  constructor({name, range, damage, sprite_name, special_range, type}){
     this.name = name
     this.range = range
     this.damage = damage
     this.sprite_name = sprite_name
     this.special_range = special_range
-    console.log(this.special_range)
+    this.type = type
   }
 
   use (target){
