@@ -54,6 +54,7 @@ export default class extends ActionState {
   }
 
   cancel(){
+    this.game.removeAttackRange(this.unit)
     this.game.setActionState(this.game.ActionState.ActionSelectState)
   }
 
