@@ -17,7 +17,7 @@ export default class extends ActionState {
   }
 
   leaveState () {
-    this.game.removeMovingRange(this.unit)
+    this.game.removeRange()
     this.unit = this.game.properties.ActionStateVar['walked'] = true
   }
 
@@ -31,7 +31,7 @@ export default class extends ActionState {
     var owner = nextTile.properties['owner']
 
     if(!owner && rangeTile){
-      this.game.removeMovingRange(this.unit)
+      this.game.removeRange()
       var move_command = new MoveCommand(this.game, this.unit.name+"_move", {x: this.unit.x,y: this.unit.y}, {
         coordinate: {
           x: x,

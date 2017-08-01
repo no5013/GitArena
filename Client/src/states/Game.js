@@ -288,24 +288,13 @@ export default class extends Phaser.State {
     })
   }
 
-  removeMovingRange(unit){
-    let self = this
-    var tileToPush = this.getMovingRangeCoordinate(unit);
-    tileToPush.forEach(function(coordinate){
-      self.rangeMap.removeTile(coordinate.x, coordinate.y, self.rangeLayer)
-    })
-  }
-
-  removeAttackRange(unit, skill){
-    let self = this
-    var attackRange = unit.attackRange
-    if(skill!=null){
-      attackRange = skill.range
+  removeRange(){
+    for(let i=0; i<this.rangeMap.tileWidth; i++){
+      for(let j=0; j<this.rangeMap.tileHeight; j++){
+        this.rangeMap.removeTile(i, j, this.rangeLayer)
+      }
     }
-    var tileToPush = this.getAttackRangeCoordinate(unit.x/tile_size_x, unit.y/tile_size_y, attackRange);
-    tileToPush.forEach(function(coordinate){
-      self.rangeMap.removeTile(coordinate.x, coordinate.y, self.rangeLayer)
-    })
+
   }
 
   getMovingRangeCoordinate(unit){
