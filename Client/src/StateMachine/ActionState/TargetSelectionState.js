@@ -34,10 +34,9 @@ export default class extends ActionState {
 
   selectTile (x, y) {
     var skill = this.game.properties.ActionStateVar['command'].properties.skill
+    let command = this.game.properties.ActionStateVar['command']
 
-    console.log(skill)
     if(skill!=null && skill.type == SkillType.MAP){
-      console.log("WTF")
       var targets = []
       var attack_range_coordinate = skill.getSkillRangeCoordinate(this.unit.direction)
       attack_range_coordinate.forEach(function(attack){
@@ -48,15 +47,19 @@ export default class extends ActionState {
           targets.push(target)
         }
       },this)
-      console.log(targets)
-      this.cancel()
+
+      if(targets.length > 0){
+        this.game.removeRange()
+        command.properties.target = targets
+        command.execute()
+      }else{
+        this.cancel()
+      }
     }
     else{
-      console.log("WTF2")
       let tile = this.game.map.getTile(x, y, game.layer)
       var rangeTile = this.game.rangeMap.getTile(x, y, this.game.rangeLayer)
       let target = tile.properties['owner']
-      let command = this.game.properties.ActionStateVar['command']
 
       if(rangeTile && target && target!=this.unit){
         this.game.removeRange()

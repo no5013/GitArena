@@ -1,4 +1,5 @@
 import ActionCommand from './ActionCommand'
+import {SkillType} from '../Skills/SkillType'
 
 const tile_size_x = 32
 const tile_size_y = 32
@@ -15,14 +16,21 @@ export default class extends ActionCommand {
     var target = this.properties.target
     var skill = this.properties.skill
 
-    this.action_message_text = unit.name + " USE " + skill.name + " ON " + target.name
+    this.action_message_text = unit.name + " USE " + skill.name
 
     //make camera follow unit and unfollow when it finish action
     this.game_state.game.camera.follow(unit)
     this.properties.finish_function = function(){
       this.game_state.game.camera.follow(null)
     }
-    unit.useSkill(skill, target)
+
+    if(skill.type == SkillType.MAP){
+      target.forEach(function(t){
+        unit.useSkill(skill,t)
+      },this)
+    }else{
+      unit.useSkill(skill, target)
+    }
 
     this.showMessage();
   }
