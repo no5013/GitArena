@@ -1,0 +1,20 @@
+{
+  "assets": {
+    "bg_image": {"type": "image", "source": "assets/images/bg.png"}
+  },
+  "groups": [
+    "background",
+    "hud"
+  ],
+  "prefabs": {
+    "background": {
+      "type": "background",
+      "position": {"x": 0, "y": 20},
+      "properties": {
+        "texture": "bg_image",
+        "group": "background",
+        "scale": {"x": 2, "y": 1.9}
+      }
+    }
+  }
+}

@@ -1,24 +1,40 @@
 /* globals __DEV__ */
 import TextPrefab from '../prefabs/TextPrefab'
 import PhaserInput from '../libs/phaser-input'
+import Prefab from '../prefabs/Prefab'
 import { centerGameObjects } from '../utils'
 
 var $ = require("jquery");
 
 export default class extends Phaser.State {
 
-  init () {
+  init (login_data, extra_parameters) {
     this.game.add.plugin(PhaserInput.Plugin);
-    this.prefabs = {}
-    this.groups = {
-      hud: this.game.add.group()
-    }
+    this.login_data = login_data
+    console.log(login_data)
   }
 
   preload () {
   }
 
   create () {
+    // create groups
+    this.groups = {};
+    this.login_data.groups.forEach(function (group_name) {
+      this.groups[group_name] = this.game.add.group();
+    }, this);
+
+    // create prefabs
+    this.prefabs = {};
+    for (let prefab_name in this.login_data.prefabs) {
+      if (this.login_data.prefabs.hasOwnProperty(prefab_name)) {
+        console.log(prefab_name)
+        // create prefab
+        this.createPrefab(prefab_name, this.login_data.prefabs[prefab_name]);
+      }
+    }
+
+
     this.TEXT_STYLE = {font: "30px Arial", fill: "#FFFFFF"}
     this.HUD_TEXT_STYLE = {font: "16px Arial", fill: "#FFFFFF"}
 
@@ -53,6 +69,15 @@ export default class extends Phaser.State {
     login_button.events.onInputDown.add(this.login, this)
   }
 
+  createPrefab(prefab_name, prefab_data){
+    var prefab;
+    console.log("TEST")
+    // create object according to its type
+    //if (this.prefab_classes.hasOwnProperty(prefab_data.type)) {
+      prefab = new Prefab(this, prefab_name, prefab_data.position, Object.create(prefab_data.properties));
+    //}
+  }
+
   login(){
     let self = this
     var username = this.username.value
@@ -60,12 +85,12 @@ export default class extends Phaser.State {
     // $.get(`http://localhost:8000/users/${username}`, function(data, status){
     //   console.log(data)
     //   game.user = data
-      // $.get(`http://localhost:8000/users/${username}/repos`, function(data, status){
-      //   console.log(data)
-      //   game.repos = data
-      //
-      //   self.state.start('MainMenu')
-      // })
+    // $.get(`http://localhost:8000/users/${username}/repos`, function(data, status){
+    //   console.log(data)
+    //   game.repos = data
+    //
+    //   self.state.start('MainMenu')
+    // })
     // })
     $.ajax({
       type: "POST",
