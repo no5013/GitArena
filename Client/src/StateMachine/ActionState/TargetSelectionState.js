@@ -29,7 +29,7 @@ export default class extends ActionState {
   }
 
   leaveState () {
-    // this.game.input.moveCallbacks = [this.game.input.moveCallbacks[0]]
+    this.game.removeRange();
   }
 
   selectTile (x, y) {
@@ -49,7 +49,6 @@ export default class extends ActionState {
       },this)
 
       if(targets.length > 0){
-        this.game.removeRange()
         command.properties.target = targets
         command.execute()
       }else{
