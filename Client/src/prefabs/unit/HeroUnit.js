@@ -4,10 +4,12 @@ var exp_per_level = 4
 var exp_per_commit = 1000
 
 export default class extends Unit {
-  constructor(name, job, commits_count, added_count){
+  constructor(name, job, commits_count, added_count, open_issues_count){
     var level = Math.floor((commits_count*exp_per_commit+added_count)/exp_per_level)
+    var weak_level = Math.min(open_issues_count, 5)
+    console.log("WEAK:" + weak_level)
     var stats = {
-      health: job.stats.health*level,
+      health: job.stats.health*level * (1.0 - weak_level/10),
       attack: job.stats.attack*level,
       magic_attack: job.stats.magic_attack*level,
       defence: job.stats.defence*level,

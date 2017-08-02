@@ -17,7 +17,7 @@ export default class {
       unit_job = Jobs["secret"]
     }
     console.log(repo)
-    var unit = new HeroUnit(name, unit_job, repo.commits_count, repo.added_count)
+    var unit = new HeroUnit(name, unit_job, repo.commits_count, repo.added_count, repo.open_issues_count)
     return unit
   }
 
