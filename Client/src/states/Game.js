@@ -124,8 +124,8 @@ export default class extends Phaser.State {
     this.RESULT_TEXT_STYLE = {font: "40px Arial", fill: "#000000"}
     // this.init_player_actions({x:400, y:100});
 
-    this.initSkillMenu({x:400, y:100})
-    this.initActionMenu({x:400, y:100})
+    this.initSkillMenu({x:800, y:100})
+    this.initActionMenu({x:800, y:100})
     this.initPlayerStatusHud({x:600, y:0})
     this.initUnitQueue({x:0,y:0})
     this.disableActionCommandHud();
@@ -507,7 +507,7 @@ export default class extends Phaser.State {
 
     // Create a menu item for each action
     actions.forEach(function (action) {
-      actions_menu_items.push(new action.item_constructor(this, action.text+"_menu_item", {x: 400, y:100 + action_index * 35}, {group: "hud", text: action.text, style: Object.create(self.TEXT_STYLE)}));
+      actions_menu_items.push(new action.item_constructor(this, action.text+"_menu_item", {x: 800, y:100 + action_index * 60}, {group: "hud", text: action.text, style: Object.create(self.TEXT_STYLE), texture: "menu_item_image", width: 50, anchor: {x:0.5, y:0.5}, fixedToCamera: true}));
       action_index++;
     }, this);
     this.actions_menu.menu_items = actions_menu_items
@@ -539,11 +539,11 @@ export default class extends Phaser.State {
 
     // Create a menu item for each action
     actions.forEach(function (action) {
-      actions_menu_items.push(new SkillSelectionMenuItem(this, action.name+"_menu_item", {x: 400, y: 100 + action_index * 35}, {
+      actions_menu_items.push(new SkillSelectionMenuItem(this, action.name+"_menu_item", {x: 800, y: 100 + action_index * 60}, {
         skill: action,
         group: "hud",
         text: action.name,
-        style: Object.create(self.TEXT_STYLE)
+        style: Object.create(self.TEXT_STYLE), texture: "menu_item_image", width: 50, anchor: {x:0.5, y:0.5}, fixedToCamera: true
       }));
       action_index++;
     }, this);

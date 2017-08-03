@@ -32,6 +32,10 @@ export default class extends Phaser.Sprite {
         this.height = properties.width
     }
 
+    if(properties.fixedToCamera){
+      this.fixedToCamera = properties.fixedToCamera
+    }
+
     this.game_state.prefabs[name] = this
   }
 
