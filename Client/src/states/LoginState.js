@@ -34,12 +34,31 @@ export default class extends Phaser.State {
       }
     }
 
-    //bg animation
-    var tweenA = game.add.tween(this.prefabs['background']).to( { x: 0 }, 50000, "Quart.easeOut");
-    var tweenB = game.add.tween(this.prefabs['background']).to( { x: -450 }, 50000, "Quart.easeOut");
-    tweenA.chain(tweenB)
-    tweenB.chain(tweenA)
-    tweenA.start()
+    //bg layer1 animation
+    var bg1_tween_forth = game.add.tween(this.prefabs['background_layer1']).to( { x: -450 }, 50000, "Quart.easeOut");
+    var bg1_tween_back = game.add.tween(this.prefabs['background_layer1']).to( { x: 0 }, 50000, "Quart.easeOut");
+    //make bg1 go back and forth
+    bg1_tween_forth.chain(bg1_tween_back)
+    bg1_tween_back.chain(bg1_tween_forth)
+
+    //bg layer2 animation
+    var bg2_tween_forth = game.add.tween(this.prefabs['background_layer2']).to( { x: -300 }, 50000, "Quart.easeOut");
+    var bg2_tween_back = game.add.tween(this.prefabs['background_layer2']).to( { x: 0 }, 50000, "Quart.easeOut");
+    //make bg1 go back and forth
+    bg2_tween_forth.chain(bg2_tween_back)
+    bg2_tween_back.chain(bg2_tween_forth)
+
+    //bg layer3 animation
+    var bg3_tween_forth = game.add.tween(this.prefabs['background_layer3']).to( { x: -200 }, 50000, "Quart.easeOut");
+    var bg3_tween_back = game.add.tween(this.prefabs['background_layer3']).to( { x: 0 }, 50000, "Quart.easeOut");
+    //make bg1 go back and forth
+    bg3_tween_forth.chain(bg3_tween_back)
+    bg3_tween_back.chain(bg3_tween_forth)
+
+    //start animation
+    bg1_tween_forth.start()
+    bg2_tween_forth.start()
+    bg3_tween_forth.start()
 
     this.TEXT_STYLE = {font: "30px Arial", fill: "#FFFFFF"}
     this.HUD_TEXT_STYLE = {font: "16px Arial", fill: "#FFFFFF"}

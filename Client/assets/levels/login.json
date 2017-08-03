@@ -1,6 +1,8 @@
 {
   "assets": {
-    "login_bg_image": {"type": "image", "source": "assets/images/bg.png"},
+    "login_bg_layer1_image": {"type": "image", "source": "assets/images/forest_bg_layer1.png"},
+    "login_bg_layer2_image": {"type": "image", "source": "assets/images/forest_bg_layer2.png"},
+    "login_bg_layer3_image": {"type": "image", "source": "assets/images/dragon_bg.jpg"},
     "logo_image": {"type": "image", "source": "assets/images/logo.png"}
   },
   "groups": [
@@ -8,11 +10,29 @@
     "hud"
   ],
   "prefabs": {
-    "background": {
+    "background_layer3": {
       "type": "background",
-      "position": {"x": -450, "y": 12},
+      "position": {"x": 0, "y": 12},
       "properties": {
-        "texture": "login_bg_image",
+        "texture": "login_bg_layer3_image",
+        "group": "background",
+        "scale": {"x": 1, "y": 1}
+      }
+    },
+    "background_layer2": {
+      "type": "background",
+      "position": {"x": 0, "y": 12},
+      "properties": {
+        "texture": "login_bg_layer2_image",
+        "group": "background",
+        "scale": {"x": 2.5, "y": 2.5}
+      }
+    },
+    "background_layer1": {
+      "type": "background",
+      "position": {"x": 0, "y": 12},
+      "properties": {
+        "texture": "login_bg_layer1_image",
         "group": "background",
         "scale": {"x": 2.5, "y": 2.5}
       }
