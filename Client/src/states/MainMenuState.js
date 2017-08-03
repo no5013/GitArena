@@ -97,9 +97,9 @@ export default class extends Phaser.State {
     this.TEXT_STYLE = {font: "30px Arial", fill: "#FFFFFF"}
     this.HUD_TEXT_STYLE = {font: "16px Arial", fill: "#FFFFFF"}
     this.createPlayerUnits()
-    this.initMainMenu({x:400, y:100})
-    this.initStageSelectionMenu({x:400, y:100})
-    this.initUnitSelectionMenuHud({x:400, y:100})
+    this.initMainMenu({x:200, y:200})
+    this.initStageSelectionMenu({x:200, y:200})
+    this.initUnitSelectionMenuHud({x:200, y:200})
     this.setMainMenuState(this.MainMenuState.MainMenuSelectionState)
   }
 
@@ -124,26 +124,6 @@ export default class extends Phaser.State {
 
     var actions, actions_menu_items, action_index, actions_menu
 
-    //debug mode
-    if(this.game.repos == null){
-      this.game.repos = [
-        {
-          name: "test1"
-        },
-        {
-          name: "test2"
-        },
-        {
-          name: "test3"
-        },
-        {
-          name: "test4"
-        },
-        {
-          name: "test5"
-        },
-      ]
-    }
     //Limit the unit to 5
     actions = this.player_units
 
@@ -212,7 +192,7 @@ export default class extends Phaser.State {
 
     // Create a menu item for each action
     actions.forEach(function (action) {
-      actions_menu_items.push(new action.item_constructor(this, action.text+"_menu_item", {x: position.x, y: position.y + action_index * 35}, {group: "hud", text: action.text, style: Object.create(self.TEXT_STYLE)}));
+      actions_menu_items.push(new action.item_constructor(this, action.text+"_menu_item", {x: position.x, y: position.y + action_index * 100}, {group: "hud", text: action.text, style: Object.create(self.TEXT_STYLE), texture: "menu_item_image", width: 50, anchor: {x:0.5, y:0.5}}));
       action_index++;
     }, this);
     this.main_menu = new Menu(this, "main_menu", position, {group: "hud", menu_items: actions_menu_items})
@@ -232,7 +212,7 @@ export default class extends Phaser.State {
 
     // Create a menu item for each action
     actions.forEach(function (action) {
-      levels_selection_menu_items.push(new LevelMenuItem(this, action.level_name+"_menu_item", {x: position.x, y: position.y + action_index * 35}, {group: "hud", level: action, text: action.level_name, style: Object.create(self.TEXT_STYLE)}));
+      levels_selection_menu_items.push(new LevelMenuItem(this, action.level_name+"_menu_item", {x: position.x, y: position.y + action_index * 100}, {group: "hud", level: action, text: action.level_name, style: Object.create(self.TEXT_STYLE), texture: "menu_item_image", width: 50, anchor: {x:0.5, y:0.5}}));
       action_index++;
     }, this);
     this.levels_selection_menu = new Menu(this, "levels_selection_menu", position, {group: "hud", menu_items: levels_selection_menu_items})

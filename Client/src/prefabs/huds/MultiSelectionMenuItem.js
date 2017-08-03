@@ -48,4 +48,16 @@ export default class extends TextPrefab{
       this.owner.removeFromSelected(this)
     }
   }
+
+  show () {
+    this.menu_items.forEach(function(menu_item){
+      menu_item.visible = true
+    }, this)
+  }
+
+  hide () {
+    this.menu_items.forEach(function(menu_item){
+      menu_item.visible = false
+    }, this)
+  }
 }

@@ -3,7 +3,10 @@
     "menu_bg_image": {"type": "image", "source": "assets/images/menu_bg.jpg"},
     "login_bg_layer1_image": {"type": "image", "source": "assets/images/forest_bg_layer1.png"},
     "login_bg_layer2_image": {"type": "image", "source": "assets/images/forest_bg_layer2.png"},
-    "login_bg_layer3_image": {"type": "image", "source": "assets/images/dragon_bg.jpg"}
+    "login_bg_layer3_image": {"type": "image", "source": "assets/images/dragon_bg.jpg"},
+    "menu_item_image": {"type": "image", "source": "assets/huds/rectangle.png"},
+    "map_tileset": {"type": "image", "source": "assets/images/gametiles.png"},
+    "level_tilemap": {"type": "tilemap", "source": "assets/maps/map1.json"}
   },
   "groups": [
     "background",
@@ -35,6 +38,156 @@
         "texture": "login_bg_layer1_image",
         "group": "background",
         "scale": {"x": 2.5, "y": 2.5}
+      }
+    }
+  },
+  "levels": {
+    "level_1": {
+      "level_name": "level_1",
+      "map": {
+        "key": "level_tilemap",
+        "tilesets": ["map_tileset"]
+      },
+
+      "enemy_encounters": [
+        {
+          "name": "baddie",
+          "stats":{
+            "health": 5,
+            "attack": 2,
+            "magic_attack": 0,
+            "defence": 2,
+            "speed": 1,
+            "accuracy": 1
+          }
+        },
+        {
+          "name": "dude",
+          "stats":{
+            "health": 5,
+            "attack": 2,
+            "magic_attack": 0,
+            "defence": 2,
+            "speed": 1,
+            "accuracy": 1
+          }
+        }
+      ],
+
+      "reward": {
+        "experience": 100,
+        "money": 300
+      }
+    },
+    "level_2": {
+      "level_name": "level_2",
+      "map": {
+        "key": "level_tilemap",
+        "tilesets": ["map_tileset"]
+      },
+
+      "enemy_encounters": [
+        {
+          "name": "baddie",
+          "stats":{
+            "health": 5,
+            "attack": 2,
+            "magic_attack": 0,
+            "defence": 2,
+            "speed": 1,
+            "accuracy": 1
+          }
+        },
+        {
+          "name": "dude",
+          "stats":{
+            "health": 5,
+            "attack": 2,
+            "magic_attack": 0,
+            "defence": 2,
+            "speed": 1,
+            "accuracy": 1
+          }
+        }
+      ],
+
+      "reward": {
+        "experience": 100,
+        "money": 300
+      }
+    },
+    "level_3": {
+      "level_name": "level_3",
+      "map": {
+        "key": "level_tilemap",
+        "tilesets": ["map_tileset"]
+      },
+
+      "enemy_encounters": [
+        {
+          "name": "baddie",
+          "stats":{
+            "health": 5,
+            "attack": 2,
+            "magic_attack": 0,
+            "defence": 2,
+            "speed": 1,
+            "accuracy": 1
+          }
+        },
+        {
+          "name": "dude",
+          "stats":{
+            "health": 5,
+            "attack": 2,
+            "magic_attack": 0,
+            "defence": 2,
+            "speed": 1,
+            "accuracy": 1
+          }
+        }
+      ],
+
+      "reward": {
+        "experience": 100,
+        "money": 300
+      }
+    },
+    "level_4": {
+      "level_name": "level_4",
+      "map": {
+        "key": "level_tilemap",
+        "tilesets": ["map_tileset"]
+      },
+
+      "enemy_encounters": [
+        {
+          "name": "baddie",
+          "stats":{
+            "health": 5,
+            "attack": 2,
+            "magic_attack": 0,
+            "defence": 2,
+            "speed": 1,
+            "accuracy": 1
+          }
+        },
+        {
+          "name": "dude",
+          "stats":{
+            "health": 5,
+            "attack": 2,
+            "magic_attack": 0,
+            "defence": 2,
+            "speed": 1,
+            "accuracy": 1
+          }
+        }
+      ],
+
+      "reward": {
+        "experience": 100,
+        "money": 300
       }
     }
   }

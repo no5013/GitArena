@@ -70,13 +70,13 @@ export default class extends Prefab{
 
   show () {
     this.menu_items.forEach(function(menu_item){
-      menu_item.visible = true
+      menu_item.setVisible(true)
     }, this)
   }
 
   hide () {
     this.menu_items.forEach(function(menu_item){
-      menu_item.visible = false
+      menu_item.setVisible(false)
     }, this)
   }
 

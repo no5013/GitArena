@@ -15,5 +15,13 @@ export default class extends Phaser.Text {
     this.game_state.prefabs[name] = this
 
     this.fixedToCamera = true;
+
+    if (properties.anchor) {
+      this.anchor.setTo(properties.anchor.x, properties.anchor.y)
+    }
+  }
+
+  setVisible(bool){
+    this.visible = bool
   }
 }

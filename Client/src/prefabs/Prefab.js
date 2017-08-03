@@ -24,6 +24,18 @@ export default class extends Phaser.Sprite {
       this.anchor.setTo(properties.anchor.x, properties.anchor.y)
     }
 
+    if(properties.height){
+        this.height = properties.height
+    }
+
+    if(properties.width){
+        this.height = properties.width
+    }
+
     this.game_state.prefabs[name] = this
+  }
+
+  setVisible(bool){
+    this.visible = bool
   }
 }

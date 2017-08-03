@@ -1,25 +1,34 @@
 import Phaser from 'phaser'
 import TextPrefab from '../TextPrefab'
+import Prefab from '../Prefab'
 
-export default class extends TextPrefab{
+export default class extends Prefab{
   constructor (game_state, name, position, properties) {
     super(game_state, name, position, properties)
     this.inputEnabled = true
+
+    this.text = new TextPrefab(game_state, name, position, properties)
+
     this.events.onInputDown.add(this.select, this)
     this.events.onInputOver.add(this.selectionOver, this)
     this.events.onInputOut.add(this.selectionOut, this)
   }
 
   selectionOver () {
-      this.fill = "#FFFF00"
+      this.text.fill = "#FFFF00"
   }
 
   selectionOut () {
-      this.fill ="#FFFFFF"
+      this.text.fill ="#FFFFFF"
   }
 
   select(){
 
+  }
+
+  setVisible(bool){
+    this.visible = bool
+    this.text.visible = bool
   }
 
 }
