@@ -1,8 +1,8 @@
 import Job from './Jobs/Job'
 
 export const GameSetting = {
-  gameWidth: 800,
-  gameHeight: 600,
+  gameWidth: 1024,
+  gameHeight: 768,
   localStorageName: 'phaseres6webpack'
 }
 

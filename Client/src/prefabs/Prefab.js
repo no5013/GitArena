@@ -20,6 +20,10 @@ export default class extends Phaser.Sprite {
       this.scale.setTo(properties.scale.x, properties.scale.y)
     }
 
+    if (properties.anchor) {
+      this.anchor.setTo(properties.anchor.x, properties.anchor.y)
+    }
+
     this.game_state.prefabs[name] = this
   }
 }

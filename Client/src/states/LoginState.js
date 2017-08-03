@@ -34,6 +34,12 @@ export default class extends Phaser.State {
       }
     }
 
+    //bg animation
+    var tweenA = game.add.tween(this.prefabs['background']).to( { x: 0 }, 50000, "Quart.easeOut");
+    var tweenB = game.add.tween(this.prefabs['background']).to( { x: -450 }, 50000, "Quart.easeOut");
+    tweenA.chain(tweenB)
+    tweenB.chain(tweenA)
+    tweenA.start()
 
     this.TEXT_STYLE = {font: "30px Arial", fill: "#FFFFFF"}
     this.HUD_TEXT_STYLE = {font: "16px Arial", fill: "#FFFFFF"}
@@ -106,7 +112,7 @@ export default class extends Phaser.State {
         $.get(`http://localhost:8000/users/${data.id}/units`, function(data, status){
           console.log(data)
           game.repos = data
-          self.state.start('Boot', true, false, "assets/levels/level.json", "MainMenu")
+          self.state.start('Boot', true, false, "assets/levels/menu.json", "MainMenu")
         })
       },
       error: function(err){

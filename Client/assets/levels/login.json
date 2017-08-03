@@ -1,6 +1,7 @@
 {
   "assets": {
-    "bg_image": {"type": "image", "source": "assets/images/bg.png"}
+    "login_bg_image": {"type": "image", "source": "assets/images/bg.png"},
+    "logo_image": {"type": "image", "source": "assets/images/logo.png"}
   },
   "groups": [
     "background",
@@ -9,11 +10,21 @@
   "prefabs": {
     "background": {
       "type": "background",
-      "position": {"x": 0, "y": 20},
+      "position": {"x": -450, "y": 12},
       "properties": {
-        "texture": "bg_image",
+        "texture": "login_bg_image",
         "group": "background",
-        "scale": {"x": 2, "y": 1.9}
+        "scale": {"x": 2.5, "y": 2.5}
+      }
+    },
+    "logo": {
+      "type": "background",
+      "position": {"x": 512, "y": 200},
+      "properties": {
+        "texture": "logo_image",
+        "group": "background",
+        "scale": {"x": 1, "y": 1},
+        "anchor": {"x": 0.5, "y": 0.5}
       }
     }
   }

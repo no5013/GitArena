@@ -1,0 +1,20 @@
+{
+  "assets": {
+    "menu_bg_image": {"type": "image", "source": "assets/images/menu_bg.jpg"}
+  },
+  "groups": [
+    "background",
+    "hud"
+  ],
+  "prefabs": {
+    "background": {
+      "type": "background",
+      "position": {"x": 0, "y": 0},
+      "properties": {
+        "texture": "menu_bg_image",
+        "group": "background",
+        "scale": {"x": 0.5, "y": 0.5}
+      }
+    }
+  }
+}

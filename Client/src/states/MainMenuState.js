@@ -18,6 +18,8 @@ import LoadOtherUserState from '../StateMachine/MainMenuState/LoadOtherUserState
 
 import UnitFactory from '../factories/UnitFactory'
 
+import Prefab from '../prefabs/Prefab'
+
 export default class extends Phaser.State {
 
   init (level_data, extra_parameters) {
@@ -42,10 +44,7 @@ export default class extends Phaser.State {
       ActionStateVar: {}
     }
 
-    this.prefabs = {}
-    this.groups = {
-      hud: this.game.add.group()
-    }
+    this.menu_data = level_data
   }
 
   preload () {
@@ -53,8 +52,21 @@ export default class extends Phaser.State {
   }
 
   create () {
-    var self = this
+    // create groups
+    this.groups = {};
+    this.menu_data.groups.forEach(function (group_name) {
+      this.groups[group_name] = this.game.add.group();
+    }, this);
 
+    // create prefabs
+    this.prefabs = {};
+    for (let prefab_name in this.menu_data.prefabs) {
+      if (this.menu_data.prefabs.hasOwnProperty(prefab_name)) {
+        console.log(prefab_name)
+        // create prefab
+        this.createPrefab(prefab_name, this.menu_data.prefabs[prefab_name]);
+      }
+    }
 
     this.TEXT_STYLE = {font: "30px Arial", fill: "#FFFFFF"}
     this.HUD_TEXT_STYLE = {font: "16px Arial", fill: "#FFFFFF"}
@@ -63,6 +75,15 @@ export default class extends Phaser.State {
     this.initStageSelectionMenu({x:400, y:100})
     this.initUnitSelectionMenuHud({x:400, y:100})
     this.setMainMenuState(this.MainMenuState.MainMenuSelectionState)
+  }
+
+  createPrefab(prefab_name, prefab_data){
+    var prefab;
+    console.log("TEST")
+    // create object according to its type
+    //if (this.prefab_classes.hasOwnProperty(prefab_data.type)) {
+      prefab = new Prefab(this, prefab_name, prefab_data.position, Object.create(prefab_data.properties));
+    //}
   }
 
   createPlayerUnits () {
