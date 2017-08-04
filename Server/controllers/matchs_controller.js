@@ -15,7 +15,7 @@ router.get('/matchmaking', function(req, res) {
         res.send(
           {
             user: user,
-            units: units 
+            units: units
           }
         )
       })

@@ -6,7 +6,8 @@
     "login_bg_layer3_image": {"type": "image", "source": "assets/images/dragon_bg.jpg"},
     "menu_item_image": {"type": "image", "source": "assets/huds/rectangle.png"},
     "map_tileset": {"type": "image", "source": "assets/images/gametiles.png"},
-    "level_tilemap": {"type": "tilemap", "source": "assets/maps/map1.json"}
+    "level_tilemap": {"type": "tilemap", "source": "assets/maps/map1.json"},
+    "load": {"type": "spritesheet", "source": "assets/effects/load.png", "frame_width": 128, "frame_height": 128}
   },
   "groups": [
     "background",

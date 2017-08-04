@@ -63,7 +63,7 @@ export default class extends Phaser.State {
     this.TEXT_STYLE = {font: "30px Arial", fill: "#FFFFFF"}
     this.HUD_TEXT_STYLE = {font: "16px Arial", fill: "#FFFFFF"}
 
-    this.username = game.add.inputField(this.game.world.centerX-75, this.game.world.centerY, {
+    this.username = game.add.inputField(this.game.world.centerX-80, this.game.world.centerY+100, {
       font: '18px Arial',
       fill: '#212121',
       fontWeight: 'bold',
@@ -75,7 +75,7 @@ export default class extends Phaser.State {
       placeHolder: 'Username',
     });
 
-    this.password = game.add.inputField(this.game.world.centerX-75, this.game.world.centerY + 50, {
+    this.password = game.add.inputField(this.game.world.centerX-80, this.game.world.centerY + 150, {
       font: '18px Arial',
       fill: '#212121',
       fontWeight: 'bold',
@@ -88,7 +88,7 @@ export default class extends Phaser.State {
       type: PhaserInput.InputType.password
     });
 
-    var login_button = new TextPrefab(this, "login_button", {x: this.game.world.centerX ,y: this.game.world.centerY + 120},  {group: "hud", text: "LOGIN", style: Object.create(this.TEXT_STYLE)})
+    var login_button = new TextPrefab(this, "login_button", {x: this.game.world.centerX ,y: this.game.world.centerY + 220},  {group: "hud", text: "LOGIN", style: Object.create(this.TEXT_STYLE)})
     login_button.anchor.setTo(0.5)
     login_button.inputEnabled = true
     login_button.events.onInputDown.add(this.login, this)
@@ -117,6 +117,14 @@ export default class extends Phaser.State {
     //   self.state.start('MainMenu')
     // })
     // })
+    var loading_prefab = new Prefab(this, "load", {x:this.game.world.centerX, y:this.game.world.centerY}, {
+      group: "hud",
+      texture: "load"
+    })
+    loading_prefab.anchor.setTo(0.5,0.5)
+    loading_prefab.animations.add("loading")
+    loading_prefab.animations.play("loading", 10, true)
+
     $.ajax({
       type: "POST",
       url: "http://localhost:8000/users/authenticate",

@@ -1,5 +1,5 @@
 import Phaser from 'phaser'
-import Skill from '../skills/Skill'
+import Skill from '../Skills/Skill'
 
 export default class extends Skill {
   constructor({name,range,damage,sprite_name,special_range, type}){

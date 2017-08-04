@@ -3,7 +3,9 @@
     "login_bg_layer1_image": {"type": "image", "source": "assets/images/forest_bg_layer1.png"},
     "login_bg_layer2_image": {"type": "image", "source": "assets/images/forest_bg_layer2.png"},
     "login_bg_layer3_image": {"type": "image", "source": "assets/images/dragon_bg.jpg"},
-    "logo_image": {"type": "image", "source": "assets/images/logo.png"}
+    "logo_image": {"type": "image", "source": "assets/images/logo.png"},
+    "git_image": {"type": "image", "source": "https://avatars2.githubusercontent.com/u/13929612?v=4"},
+    "load": {"type": "spritesheet", "source": "assets/effects/load.png", "frame_width": 128, "frame_height": 128}
   },
   "groups": [
     "background",

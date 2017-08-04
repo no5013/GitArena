@@ -92,12 +92,12 @@ app.get('/auth/github/callback',
     res.redirect('/');
   });
 
-// app.get('/users/:name', function(req,res){
-//   console.log(req.params.name)
-//   gitRepo.getGithubUser(req.params.name, function(data){
-//     res.send(data)
-//   });
-// })
+app.get('/git/:name', function(req,res){
+  console.log(req.params.name)
+  gitRepo.getGithubUser(req.params.name, function(data){
+    res.send(data)
+  });
+})
 
 // app.get('/users/:name/repos', function(req,res){
 //   console.log(req.params.name)
