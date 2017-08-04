@@ -100,7 +100,7 @@ export default class extends Phaser.State {
     this.initMainMenu({x:200, y:200})
     this.initStageSelectionMenu({x:200, y:200})
     this.initUnitSelectionMenuHud({x:200, y:200})
-    this.initPlayerData({x:500,y:100})
+    this.initPlayerData({x:700,y:20})
     this.setMainMenuState(this.MainMenuState.MainMenuSelectionState)
 
 
@@ -115,11 +115,31 @@ export default class extends Phaser.State {
   }
 
   initPlayerData(position){
-    console.log("FUCK YOU")
     var player_avatar = new Prefab(this, "player_avatar", position, {
       group: "hud",
       texture: 'player_avatar',
-      anchor: {x:0.5,y:0.5}
+      scale: {
+        x:0.2,
+        y:0.2
+      }
+    })
+
+    var player_name = new TextPrefab(this, "player_name", {x: position.x+100, y: position.y}, {
+      group: "hud",
+      text: "NAME: " + game.user.user.name,
+      style: Object.create(this.HUD_TEXT_STYLE)
+    })
+
+    var player_units = new TextPrefab(this, "player_units", {x: position.x+100, y: position.y +33}, {
+      group: "hud",
+      text: "UNITS: " + game.user.user_data_from_git.public_repos,
+      style: Object.create(this.HUD_TEXT_STYLE)
+    })
+
+    var player_follower = new TextPrefab(this, "player_follower", {x: position.x+100, y: position.y +66}, {
+      group: "hud",
+      text: "FOLLOWER: " + game.user.user_data_from_git.followers,
+      style: Object.create(this.HUD_TEXT_STYLE)
     })
   }
 
