@@ -61,7 +61,14 @@ router.post('/authenticate', function(req,res){
       //   console.log(updated_result2)
       //   res.send(authenticate_result)
       // })
-      res.send(authenticate_result)
+      gitRepo.getGithubUser(authenticate_result.name, function(user_data_from_git){
+        res.send(
+          {
+            user: authenticate_result,
+            user_data_from_git: user_data_from_git,
+          }
+        )
+      });
     })
   })
 })

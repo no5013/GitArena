@@ -26,7 +26,7 @@ export default class extends MainMenuState{
       console.log(data)
 
       //load avatar
-      self.game_state.load.image("git", "https://avatars2.githubusercontent.com/u/13929612?v=4")
+      self.game_state.load.image("enemy_avatar", data.user_data_from_git.avatar_url)
       self.game_state.load.start()
 
       data.units.forEach(function(repo){
@@ -36,10 +36,6 @@ export default class extends MainMenuState{
       // wait for second after load finished
       game.time.events.add(Phaser.Timer.SECOND, function(){
         loading_prefab.kill()
-        var git_avatar = new Prefab(self.game_state, "git_avatar", {x:self.game_state.game.world.centerX, y:self.game_state.game.world.centerY}, {
-          group: "hud",
-          texture: "git"
-        })
         self.nextState()
       }, this);
     })

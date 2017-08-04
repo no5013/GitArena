@@ -12,12 +12,15 @@ router.get('/matchmaking', function(req, res) {
     random = 1
     users.getSingleUser(random, function(user){
       units.getAllUnitsOfUserWithStatus(random, function(units){
-        res.send(
-          {
-            user: user,
-            units: units
-          }
-        )
+        gitRepo.getGithubUser(user.name, function(user_data_from_git){
+          res.send(
+            {
+              user: user,
+              user_data_from_git: user_data_from_git,
+              units: units
+            }
+          )
+        });
       })
     })
   })

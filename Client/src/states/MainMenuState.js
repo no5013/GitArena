@@ -48,7 +48,7 @@ export default class extends Phaser.State {
   }
 
   preload () {
-
+    this.load.image("player_avatar", game.user.user_data_from_git.avatar_url)
   }
 
   create () {
@@ -100,16 +100,27 @@ export default class extends Phaser.State {
     this.initMainMenu({x:200, y:200})
     this.initStageSelectionMenu({x:200, y:200})
     this.initUnitSelectionMenuHud({x:200, y:200})
+    this.initPlayerData({x:500,y:100})
     this.setMainMenuState(this.MainMenuState.MainMenuSelectionState)
+
+
   }
 
   createPrefab(prefab_name, prefab_data){
     var prefab;
-    console.log("TEST")
     // create object according to its type
     //if (this.prefab_classes.hasOwnProperty(prefab_data.type)) {
       prefab = new Prefab(this, prefab_name, prefab_data.position, Object.create(prefab_data.properties));
     //}
+  }
+
+  initPlayerData(position){
+    console.log("FUCK YOU")
+    var player_avatar = new Prefab(this, "player_avatar", position, {
+      group: "hud",
+      texture: 'player_avatar',
+      anchor: {x:0.5,y:0.5}
+    })
   }
 
   createPlayerUnits () {
