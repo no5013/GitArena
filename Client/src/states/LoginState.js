@@ -136,6 +136,7 @@ export default class extends Phaser.State {
       dataType: "json",
       success: function(data){
         game.user = data
+        self.load.image("player_avatar", data.user_data_from_git.avatar_url)
         $.get(`http://localhost:8000/users/${data.user.id}/units`, function(data, status){
           console.log(data)
           game.repos = data
