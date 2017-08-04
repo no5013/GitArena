@@ -7,7 +7,6 @@ export default class extends Unit {
   constructor(name, job, commits_count, added_count, open_issues_count){
     var level = Math.floor((commits_count*exp_per_commit+added_count)/exp_per_level)
     var weak_level = Math.min(open_issues_count, 5)
-    console.log("WEAK:" + weak_level)
     var stats = {
       health: job.stats.health*level * (1.0 - weak_level/10),
       attack: job.stats.attack*level,
@@ -19,5 +18,6 @@ export default class extends Unit {
     }
     super(name, stats, job.sprite_name)
     this.job = job
+    this.level = level
   }
 }

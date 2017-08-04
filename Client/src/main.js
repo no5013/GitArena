@@ -16,8 +16,10 @@ import {GameSetting} from './config'
 class Game extends Phaser.Game {
   constructor () {
     const docElement = document.documentElement
-    const width = docElement.clientWidth > GameSetting.gameWidth ? GameSetting.gameWidth : docElement.clientWidth
-    const height = docElement.clientHeight > GameSetting.gameHeight ? GameSetting.gameHeight : docElement.clientHeight
+    // const width = docElement.clientWidth > GameSetting.gameWidth ? GameSetting.gameWidth : docElement.clientWidth
+    // const height = docElement.clientHeight > GameSetting.gameHeight ? GameSetting.gameHeight : docElement.clientHeight
+    const width = GameSetting.gameWidth
+    const height = GameSetting.gameHeight
 
     super(width, height, Phaser.CANVAS, 'content', null)
 

@@ -29,7 +29,7 @@ export default class extends Phaser.Sprite {
     }
 
     if(properties.width){
-        this.height = properties.width
+        this.width = properties.width
     }
 
     if(properties.fixedToCamera){

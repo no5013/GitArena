@@ -1,14 +1,23 @@
 import Phaser from 'phaser'
 import TextPrefab from '../TextPrefab'
+import Prefab from '../Prefab'
 
-export default class extends TextPrefab{
+export default class extends Prefab{
   constructor (game_state, name, position, properties) {
     super(game_state, name, position, properties)
-    this.menu_items = properties.menu_items
     this.owner = properties.owner
     this.item = properties.item
     this.inputEnabled = true
     this.isSelected = false
+    this.texts = []
+
+    if(properties.text!=null){
+      this.text = new TextPrefab(game_state, name, position, properties)
+      this.texts.push(this.text)
+    }
+    // var text = new TextPrefab(game_state, name, {x: 0,y: 0}, properties)
+    // this.addChild(text)
+
 
     this.events.onInputDown.add(this.select, this)
     this.events.onInputOver.add(this.selectionOver, this)
@@ -17,24 +26,24 @@ export default class extends TextPrefab{
 
   selectionOver () {
     if(this.isSelected)
-      return;
+    return;
 
-      this.fill = "#FFFF00"
+    this.text.fill = "#FFFF00"
   }
 
   selectionOut () {
     if(this.isSelected)
-      return;
+    return;
 
-      this.fill ="#FFFFFF"
+    this.text.fill ="#FFFFFF"
   }
 
   selected (item) {
-      this.fill = "#FF0000"
+    this.text.fill = "#FF0000"
   }
 
   deSelected (item) {
-      this.fill ="#FFFFFF"
+    this.text.fill ="#FFFFFF"
   }
 
   select(){
@@ -49,15 +58,10 @@ export default class extends TextPrefab{
     }
   }
 
-  show () {
-    this.menu_items.forEach(function(menu_item){
-      menu_item.visible = true
-    }, this)
-  }
-
-  hide () {
-    this.menu_items.forEach(function(menu_item){
-      menu_item.visible = false
-    }, this)
+  setVisible(bool){
+    this.visible = bool
+    this.texts.forEach(function(text){
+      text.visible = bool
+    },this)
   }
 }

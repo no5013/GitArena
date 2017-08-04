@@ -96,10 +96,9 @@ export default class extends Phaser.State {
 
   createPrefab(prefab_name, prefab_data){
     var prefab;
-    console.log("TEST")
     // create object according to its type
     //if (this.prefab_classes.hasOwnProperty(prefab_data.type)) {
-      prefab = new Prefab(this, prefab_name, prefab_data.position, Object.create(prefab_data.properties));
+    prefab = new Prefab(this, prefab_name, prefab_data.position, Object.create(prefab_data.properties));
     //}
   }
 
@@ -125,28 +124,64 @@ export default class extends Phaser.State {
     loading_prefab.animations.add("loading")
     loading_prefab.animations.play("loading", 10, true)
 
-    $.ajax({
-      type: "POST",
-      url: "http://localhost:8000/users/authenticate",
-      data: JSON.stringify({
-        username: username,
-        password: password
-      }),
-      contentType: "application/json; charset=utf-8",
-      dataType: "json",
-      success: function(data){
-        game.user = data
-        self.load.image("player_avatar", data.user_data_from_git.avatar_url)
-        $.get(`http://localhost:8000/users/${data.user.id}/units`, function(data, status){
-          console.log(data)
-          game.repos = data
-          self.state.start('Boot', true, false, "assets/levels/menu.json", "MainMenu")
-        })
-      },
-      error: function(err){
-        console.log(err)
+    // $.ajax({
+    //   type: "POST",
+    //   url: "http://localhost:8000/users/authenticate",
+    //   data: JSON.stringify({
+    //     username: username,
+    //     password: password
+    //   }),
+    //   contentType: "application/json; charset=utf-8",
+    //   dataType: "json",
+    //   success: function(data){
+    //     game.user = data
+    //     self.load.image("player_avatar", data.user_data_from_git.avatar_url)
+    //     $.get(`http://localhost:8000/users/${data.user.id}/units`, function(data, status){
+    //       console.log(data)
+    //       game.repos = data
+    //       self.state.start('Boot', true, false, "assets/levels/menu.json", "MainMenu")
+    //     })
+    //   },
+    //   error: function(err){
+    //     console.log(err)
+    //   }
+    // })
+
+    game.user = {
+      user_data_from_git: {
+        username: "NET_LOOT",
+        public_repos: 99,
+        followers: 99,
+        avatar_url: "https://avatars2.githubusercontent.com/u/13929612?v=4"
       }
-    })
+    }
+    game.repos = [
+      {
+        name:"test1",
+        language: "ruby"
+      },
+      {
+        name:"test2",
+        language: "ruby"
+      },
+      {
+        name:"test3",
+        language: "ruby"
+      },
+      {
+        name:"test4",
+        language: "ruby"
+      },
+      {
+        name:"test5",
+        language: "ruby"
+      },
+      {
+        name:"test6",
+        language: "ruby"
+      }
+    ]
+    self.state.start('Boot', true, false, "assets/levels/menu.json", "MainMenu")
   }
 
   render () {
