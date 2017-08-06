@@ -17,6 +17,7 @@ import MainMenuSelectionState from '../StateMachine/MainMenuState/MainMenuSelect
 import StageSelectionState from '../StateMachine/MainMenuState/StageSelectionState'
 import UnitSelectionState from '../StateMachine/MainMenuState/UnitSelectionState'
 import LoadOtherUserState from '../StateMachine/MainMenuState/LoadOtherUserState'
+import StartMatchState from '../StateMachine/MainMenuState/StartMatchState'
 
 import UnitFactory from '../factories/UnitFactory'
 
@@ -39,7 +40,8 @@ export default class extends Phaser.State {
       MainMenuSelectionState: new MainMenuSelectionState(self),
       StageSelectionState: new StageSelectionState(self),
       UnitSelectionState: new UnitSelectionState(self),
-      LoadOtherUserState: new LoadOtherUserState(self)
+      LoadOtherUserState: new LoadOtherUserState(self),
+      StartMatchState: new StartMatchState(self)
     }
 
     this.properties = {
