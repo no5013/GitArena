@@ -18,6 +18,7 @@ import StageSelectionState from '../StateMachine/MainMenuState/StageSelectionSta
 import UnitSelectionState from '../StateMachine/MainMenuState/UnitSelectionState'
 import LoadOtherUserState from '../StateMachine/MainMenuState/LoadOtherUserState'
 import StartMatchState from '../StateMachine/MainMenuState/StartMatchState'
+import MatchSummaryState from '../StateMachine/MainMenuState/MatchSummaryState'
 
 import UnitFactory from '../factories/UnitFactory'
 
@@ -33,15 +34,6 @@ export default class extends Phaser.State {
         asset = level_data.levels[asset_key];
         this.levels.push(asset)
       }
-    }
-
-    let self = this;
-    this.MainMenuState = {
-      MainMenuSelectionState: new MainMenuSelectionState(self),
-      StageSelectionState: new StageSelectionState(self),
-      UnitSelectionState: new UnitSelectionState(self),
-      LoadOtherUserState: new LoadOtherUserState(self),
-      StartMatchState: new StartMatchState(self)
     }
 
     this.properties = {
@@ -70,6 +62,16 @@ export default class extends Phaser.State {
         // create prefab
         this.createPrefab(prefab_name, this.menu_data.prefabs[prefab_name]);
       }
+    }
+
+    let self = this;
+    this.MainMenuState = {
+      MainMenuSelectionState: new MainMenuSelectionState(self),
+      StageSelectionState: new StageSelectionState(self),
+      UnitSelectionState: new UnitSelectionState(self),
+      LoadOtherUserState: new LoadOtherUserState(self),
+      StartMatchState: new StartMatchState(self),
+      MatchSummaryState: new MatchSummaryState(self)
     }
 
     //bg layer1 animation

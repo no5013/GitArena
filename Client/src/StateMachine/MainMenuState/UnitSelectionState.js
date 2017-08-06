@@ -9,13 +9,21 @@ export default class extends MainMenuState{
   enterState(){
     console.log("UNIT SELECTION")
     this.game_state.enableUnitSelectionMenuHud()
-    this.setNextState(this.game_state.MainMenuState.StartMatchState)
   }
 
   leaveState(){
     this.game_state.disableUnitSelectionMenuHud()
   }
 
+  nextState(){
+    this.game_state.properties.ActionStateVar['selected_unit'] = []
+    this.game_state.prefabs['unit_selection_menu'].current_selected.forEach(function(item){
+      this.game_state.properties.ActionStateVar['selected_unit'].push(item.item)
+    },this)
+
+    this.setNextState(this.game_state.MainMenuState.MatchSummaryState)
+    super.nextState()
+  }
   // nextState(){
   //   var level = this.game_state.properties.ActionStateVar['level']
   //   var selected_unit = []

@@ -507,7 +507,7 @@ export default class extends Phaser.State {
 
     // Create a menu item for each action
     actions.forEach(function (action) {
-      actions_menu_items.push(new action.item_constructor(this, action.text+"_menu_item", {x: 800, y:100 + action_index * 60}, {group: "hud", text: action.text, style: Object.create(self.TEXT_STYLE), texture: "menu_item_image", width: 50, anchor: {x:0.5, y:0.5}, fixedToCamera: true}));
+      actions_menu_items.push(new action.item_constructor(this, action.text+"_menu_item", {x: 800, y:100 + action_index * 60}, {group: "hud", text: action.text, style: Object.create(self.TEXT_STYLE), texture: "menu_item_image", height: 50, anchor: {x:0.5, y:0.5}, fixedToCamera: true}));
       action_index++;
     }, this);
     this.actions_menu.menu_items = actions_menu_items
@@ -543,7 +543,7 @@ export default class extends Phaser.State {
         skill: action,
         group: "hud",
         text: action.name,
-        style: Object.create(self.TEXT_STYLE), texture: "menu_item_image", width: 50, anchor: {x:0.5, y:0.5}, fixedToCamera: true
+        style: Object.create(self.TEXT_STYLE), texture: "menu_item_image", height: 50, anchor: {x:0.5, y:0.5}, fixedToCamera: true
       }));
       action_index++;
     }, this);
