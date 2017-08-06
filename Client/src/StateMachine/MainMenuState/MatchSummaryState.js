@@ -9,7 +9,11 @@ export default class extends MainMenuState{
     super(game_state)
     this.player_units_list = new Menu(this.game_state, "player_units_list", {x:200,y: this.game_state.game.world.centerY}, {group: "hud", menu_items: null})
     this.enemies_units_list = new Menu(this.game_state, "enemies_units_list", {x:1024-200,y: this.game_state.game.world.centerY}, {group: "hud", menu_items: null})
+
     this.TEXT_STYLE = {font: "16px Arial", fill: "#FFFFFF"}
+    this.MENU_TEXT_STYLE = {font: "32px Arial", fill: "#FFFFFF"}
+
+    this.initMenu({x:this.game_state.game.world.centerX, y:this.game_state.game.world.centerY+300})
 
     this.vs_text = new TextPrefab(this.game_state, "vs_text", {x: this.game_state.game.world.centerX, y: this.game_state.game.world.centerY}, {
       group: "hud",
@@ -23,10 +27,45 @@ export default class extends MainMenuState{
     this.vs_text.visible = false
   }
 
+  initMenu (position) {
+    var self = this
+
+    var actions, actions_menu_items, action_index, actions_menu
+
+    // Available Action
+    actions = [
+      {text: "Start Match", item_constructor: NextMenuItem.prototype.constructor},
+      // {text: "Skill", item_constructor: SkillMenuItem.prototype.constructor},
+      // {text: "Walk", item_constructor: WalkMenuItem.prototype.constructor},
+      // {text: "Endturn", item_constructor: EndTurnMenuItem.prototype.constructor}
+    ]
+    actions_menu_items = []
+    action_index = 0;
+
+    // Create a menu item for each action
+    actions.forEach(function (action) {
+      actions_menu_items.push(new action.item_constructor(this.game_state, action.text+"_menu_item", {x: position.x, y: position.y + action_index * 100}, {group: "hud", text: action.text, style: Object.create(self.MENU_TEXT_STYLE), texture: "menu_item_image", height: 50, anchor: {x:0.5, y:0.5}}));
+      action_index++;
+    }, this);
+    this.menu = new Menu(this.game_state, "match_summary_menu", position, {group: "hud", menu_items: actions_menu_items})
+    this.disableMenuHud()
+  }
+
+  enableMenuHud(){
+    this.menu.enable();
+    this.menu.show();
+  }
+
+  disableMenuHud(){
+    this.menu.disable();
+    this.menu.hide();
+  }
+
   enterState(){
     this.vs_text.visible = true
     this.setUnitList(this.player_units_list, this.game_state.properties.ActionStateVar['selected_unit'])
     this.setUnitList(this.enemies_units_list, this.game_state.properties.ActionStateVar['level'].enemy_encounters)
+    this.enableMenuHud()
   }
 
   setUnitList(menu, units){
@@ -50,8 +89,6 @@ export default class extends MainMenuState{
       }));
       action_index++;
     }, this);
-
-    actions_menu_items.push(new NextMenuItem(this.game_state, "math_summary_next_menu_item", {x: 800, y: 100 + action_index * 60}, {group: "hud", text: "Start Level", style: Object.create(this.TEXT_STYLE)}))
 
     menu.menu_items = actions_menu_items
     menu.hide()
