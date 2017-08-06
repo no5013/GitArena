@@ -11,12 +11,12 @@ export default class extends Prefab{
     console.log(position)
 
     this.player_name = new TextPrefab(game_state, "player_name_text", {x: position.x, y: position.y}, {
-      text: "NAME: ",
+      text: "",
       style: Object.create(this.HUD_TEXT_STYLE),
       group: "hud"
     })
     this.player_hp = new TextPrefab(game_state, "player_hp_text", {x: position.x, y: position.y + this.space_between_text}, {
-      text: "HP: ",
+      text: "",
       style: Object.create(this.HUD_TEXT_STYLE),
       group: "hud"
     })

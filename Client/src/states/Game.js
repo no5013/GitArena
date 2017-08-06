@@ -33,6 +33,7 @@ import UnitMenuItem from '../prefabs/huds/UnitMenuItem'
 import PriorityQueue from '../Structure/PriorityQueue'
 
 import { centerGameObjects } from '../utils'
+import {GameSetting} from '../config'
 
 const tile_size_x = 32
 const tile_size_y = 32
@@ -136,8 +137,27 @@ export default class extends Phaser.State {
     game.world.bringToTop(this.groups.enemy_units);
     game.world.bringToTop(this.groups.effect);
 
-    this.next_turn();
-    this.setActionState(this.ActionState.UnitSelectState)
+    var battle_text = new TextPrefab(this, "battle_text", {x: GameSetting.gameWidth/2, y: GameSetting.gameHeight/2}, {
+      group: "hud",
+      text: "BATTLE START",
+      style: {font: "50px Arial", fill: "#FFFFFF"},
+      anchor: {
+        x:0.5,
+        y:0.5
+      },
+      fixedToCamera: true
+    })
+
+
+    var battle_start_tween = game.add.tween(battle_text).to( { y: 1000}, 3000);
+    battle_start_tween.onComplete.add(function(){
+      this.next_turn();
+      this.setActionState(this.ActionState.UnitSelectState)
+      battle_text.kill()
+    }, this)
+    battle_start_tween.start()
+    // this.next_turn();
+    // this.setActionState(this.ActionState.UnitSelectState)
   }
 
   enableActionCommandHud(){
