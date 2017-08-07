@@ -9,6 +9,7 @@ export default class extends MainMenuState{
   enterState(){
     console.log("UNIT SELECTION")
     this.game_state.enableUnitSelectionMenuHud()
+    this.previous_state = this.game_state.MainMenuState.MainMenuSelectionState
   }
 
   leaveState(){

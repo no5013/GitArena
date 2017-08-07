@@ -2,6 +2,7 @@ import MainMenuState from './MainMenuState'
 import Menu from '../../prefabs/huds/Menu'
 import UnitMenuItem from '../../prefabs/huds/UnitMenuItem'
 import NextMenuItem from '../../prefabs/huds/MainMenuHuds/NextMenuItem'
+import BackMenuItem from '../../prefabs/huds/MainMenuHuds/BackMenuItem'
 import TextPrefab from '../../prefabs/TextPrefab'
 
 export default class extends MainMenuState{
@@ -43,10 +44,9 @@ export default class extends MainMenuState{
     action_index = 0;
 
     // Create a menu item for each action
-    actions.forEach(function (action) {
-      actions_menu_items.push(new action.item_constructor(this.game_state, action.text+"_menu_item", {x: position.x, y: position.y + action_index * 100}, {group: "hud", text: action.text, style: Object.create(self.MENU_TEXT_STYLE), texture: "menu_item_image", height: 50, anchor: {x:0.5, y:0.5}}));
-      action_index++;
-    }, this);
+    actions_menu_items.push(new NextMenuItem(this.game_state, "match_summary_next_menu_item", {x:this.game_state.game.world.centerX+300, y:this.game_state.game.world.centerY+300}, {group: "hud", text: "Start Match", style: Object.create(this.MENU_TEXT_STYLE), texture: 'menu_item_image', height: 50, anchor: {x:0.5, y:0.5}}))
+    actions_menu_items.push(new BackMenuItem(this.game_state, "match_summary_back_menu_item", {x:this.game_state.game.world.centerX-300, y:this.game_state.game.world.centerY+300}, {group: "hud", text: "Back", style: Object.create(this.MENU_TEXT_STYLE), texture: 'menu_item_image', height: 50, anchor: {x:0.5, y:0.5}}))
+
     this.menu = new Menu(this.game_state, "match_summary_menu", position, {group: "hud", menu_items: actions_menu_items})
     this.disableMenuHud()
   }
@@ -66,6 +66,7 @@ export default class extends MainMenuState{
     this.setUnitList(this.player_units_list, this.game_state.properties.ActionStateVar['selected_unit'])
     this.setUnitList(this.enemies_units_list, this.game_state.properties.ActionStateVar['level'].enemy_encounters)
     this.enableMenuHud()
+    this.previous_state = this.game_state.MainMenuState.UnitSelectionState
   }
 
   setUnitList(menu, units){

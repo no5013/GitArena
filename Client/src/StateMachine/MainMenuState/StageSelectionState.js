@@ -7,6 +7,7 @@ export default class extends MainMenuState{
 
   enterState(){
     this.game_state.enableStageSelectionMenuHud()
+    this.previous_state = this.game_state.MainMenuState.MainMenuSelectionState
   }
 
   leaveState(){

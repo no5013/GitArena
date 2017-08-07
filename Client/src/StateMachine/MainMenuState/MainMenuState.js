@@ -2,6 +2,7 @@ export default class {
   constructor (game_state) {
     this.game_state = game_state;
     this.next_state = this
+    this.previous_state = this
   }
 
   enterState () {
@@ -18,5 +19,13 @@ export default class {
 
   nextState () {
     this.game_state.setMainMenuState(this.next_state)
+  }
+
+  backState () {
+    this.game_state.setMainMenuState(this.previous_state)
+  }
+
+  setPreviousState(state) {
+    this.previous_state = state
   }
 }

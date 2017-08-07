@@ -11,6 +11,7 @@ import MultiSelectionMenuItem from '../prefabs/huds/MultiSelectionMenuItem'
 import UnitMultiSelectionMenuItem from '../prefabs/huds/MainMenuHuds/UnitMultiSelectionMenuItem'
 
 import NextMenuItem from '../prefabs/huds/MainMenuHuds/NextMenuItem'
+import BackMenuItem from '../prefabs/huds/MainMenuHuds/BackMenuItem'
 import UserMatchMenuItem from '../prefabs/huds/MainMenuHuds/UserMatchMenuItem'
 
 import MainMenuSelectionState from '../StateMachine/MainMenuState/MainMenuSelectionState'
@@ -178,7 +179,8 @@ export default class extends Phaser.State {
       action_index++;
     }, this);
 
-    actions_menu_items.push(new NextMenuItem(this, "start_level_menu_item", {x:this.game.world.centerX, y:this.game.world.centerY+300}, {group: "hud", text: "Next", style: Object.create(this.MENU_TEXT_STYLE), texture: 'menu_item_image', height: 50, anchor: {x:0.5, y:0.5}}))
+    actions_menu_items.push(new NextMenuItem(this, "level_selection_next_menu_item", {x:this.game.world.centerX+300, y:this.game.world.centerY+300}, {group: "hud", text: "Next", style: Object.create(this.MENU_TEXT_STYLE), texture: 'menu_item_image', height: 50, anchor: {x:0.5, y:0.5}}))
+    actions_menu_items.push(new BackMenuItem(this, "level_selection_back_menu_item", {x:this.game.world.centerX-300, y:this.game.world.centerY+300}, {group: "hud", text: "Back", style: Object.create(this.MENU_TEXT_STYLE), texture: 'menu_item_image', height: 50, anchor: {x:0.5, y:0.5}}))
     this.unit_selection_menu.menu_items = actions_menu_items
     this.disableUnitSelectionMenuHud()
   }
@@ -254,11 +256,13 @@ export default class extends Phaser.State {
       levels_selection_menu_items.push(new LevelMenuItem(this, action.level_name+"_menu_item", {x: position.x, y: position.y + action_index * 100}, {group: "hud", level: action, text: action.level_name, style: Object.create(self.TEXT_STYLE), texture: "menu_item_image", height: 50, anchor: {x:0.5, y:0.5}}));
       action_index++;
     }, this);
+    levels_selection_menu_items.push(new BackMenuItem(this, "level_selection_back_menu_item", {x:this.game.world.centerX, y:this.game.world.centerY+300}, {group: "hud", text: "Back", style: Object.create(this.MENU_TEXT_STYLE), texture: 'menu_item_image', height: 50, anchor: {x:0.5, y:0.5}}))
     this.levels_selection_menu = new Menu(this, "levels_selection_menu", position, {group: "hud", menu_items: levels_selection_menu_items})
     this.disableStageSelectionMenuHud()
   }
 
   setMainMenuState(state) {
+    var old_state
     if(this.currentState){
       this.currentState.leaveState();
     }
