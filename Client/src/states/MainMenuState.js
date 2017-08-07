@@ -102,6 +102,8 @@ export default class extends Phaser.State {
 
     this.TEXT_STYLE = {font: "30px Arial", fill: "#FFFFFF"}
     this.HUD_TEXT_STYLE = {font: "16px Arial", fill: "#FFFFFF"}
+    this.MENU_TEXT_STYLE = {font: "32px Arial", fill: "#FFFFFF"}
+
     this.createPlayerUnits()
     this.initMainMenu({x:200, y:200})
     this.initStageSelectionMenu({x:200, y:200})
@@ -176,7 +178,7 @@ export default class extends Phaser.State {
       action_index++;
     }, this);
 
-    actions_menu_items.push(new NextMenuItem(this, "start_level_menu_item", {x: position.x, y: position.y + action_index * 50}, {group: "hud", text: "start level", style: Object.create(this.TEXT_STYLE)}))
+    actions_menu_items.push(new NextMenuItem(this, "start_level_menu_item", {x:this.game.world.centerX, y:this.game.world.centerY+300}, {group: "hud", text: "Next", style: Object.create(this.MENU_TEXT_STYLE), texture: 'menu_item_image', height: 50, anchor: {x:0.5, y:0.5}}))
     this.unit_selection_menu.menu_items = actions_menu_items
     this.disableUnitSelectionMenuHud()
   }
