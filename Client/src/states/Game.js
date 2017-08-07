@@ -230,6 +230,7 @@ export default class extends Phaser.State {
 
   initPlayerStatusHud(position){
     this.player_status = new PlayerStatus(this, "player_status", position, {group: "hud", texture: "menu_item_image", anchor: {x:0.5, y:0.5}, height: 100, fixedToCamera: true})
+    this.player_status.hide()
   }
 
   initUnitQueue(position){

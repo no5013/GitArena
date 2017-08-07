@@ -35,16 +35,20 @@ export default class extends Prefab{
   show () {
     this.player_name.visible = true
     this.player_hp.visible = true
+    this.visible = true
   }
 
   hide () {
     this.player_name.visible = false
     this.player_hp.visible = false
+    this.visible = false
   }
 
   setPlayer (unit){
     this.player_name.setText(`NAME: ${unit.name}`)
     this.player_hp.setText(`HP: ${unit.health}`)
+    this.hide()
+    this.show()
   }
 
 }
