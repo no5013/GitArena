@@ -44,7 +44,7 @@
   },
   "levels": {
     "level_1": {
-      "level_name": "level_1",
+      "level_name": "Level 1",
       "map": {
         "key": "level_tilemap",
         "tilesets": ["map_tileset"]
@@ -81,7 +81,7 @@
       }
     },
     "level_2": {
-      "level_name": "level_2",
+      "level_name": "Level 2",
       "map": {
         "key": "level_tilemap",
         "tilesets": ["map_tileset"]
@@ -118,7 +118,7 @@
       }
     },
     "level_3": {
-      "level_name": "level_3",
+      "level_name": "Level 3",
       "map": {
         "key": "level_tilemap",
         "tilesets": ["map_tileset"]
@@ -155,7 +155,7 @@
       }
     },
     "level_4": {
-      "level_name": "level_4",
+      "level_name": "Level 4",
       "map": {
         "key": "level_tilemap",
         "tilesets": ["map_tileset"]
