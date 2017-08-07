@@ -149,7 +149,7 @@ export default class extends Phaser.State {
     })
 
 
-    var battle_start_tween = game.add.tween(battle_text).to( { y: 1000}, 3000);
+    var battle_start_tween = game.add.tween(battle_text).to( { width: 800, height: 200, alpha: 0}, 3000);
     battle_start_tween.onComplete.add(function(){
       this.next_turn();
       this.setActionState(this.ActionState.UnitSelectState)
