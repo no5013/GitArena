@@ -7,19 +7,29 @@ export default class extends Prefab{
     super(game_state, name, position, properties)
 
     this.HUD_TEXT_STYLE = {font: "24px Arial", fill: "#FFFFFF"}
-    this.space_between_text = 35;
+    this.y_offset = 25
+    this.x_offset = 80
     console.log(position)
 
-    this.player_name = new TextPrefab(game_state, "player_name_text", {x: position.x, y: position.y}, {
+    this.player_name = new TextPrefab(game_state, "player_name_text", {x: position.x - this.x_offset, y: position.y - this.y_offset}, {
       text: "",
       style: Object.create(this.HUD_TEXT_STYLE),
-      group: "hud"
+      group: "hud",
+      anchor: {
+        x: 0,
+        y: 0.5
+      }
     })
-    this.player_hp = new TextPrefab(game_state, "player_hp_text", {x: position.x, y: position.y + this.space_between_text}, {
+    this.player_hp = new TextPrefab(game_state, "player_hp_text", {x: position.x - this.x_offset, y: position.y + this.y_offset}, {
       text: "",
       style: Object.create(this.HUD_TEXT_STYLE),
-      group: "hud"
+      group: "hud",
+      anchor: {
+        x: 0,
+        y: 0.5
+      }
     })
+
   }
 
   show () {

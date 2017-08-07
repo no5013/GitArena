@@ -125,10 +125,10 @@ export default class extends Phaser.State {
     this.RESULT_TEXT_STYLE = {font: "40px Arial", fill: "#000000"}
     // this.init_player_actions({x:400, y:100});
 
-    this.initSkillMenu({x:800, y:100})
-    this.initActionMenu({x:800, y:100})
-    this.initPlayerStatusHud({x:600, y:0})
-    this.initUnitQueue({x:0,y:0})
+    this.initSkillMenu({x:850, y:150})
+    this.initActionMenu({x:850, y:150})
+    this.initPlayerStatusHud({x:850, y: 50})
+    this.initUnitQueue({x:100,y:0})
     this.disableActionCommandHud();
     this.disableUnitSkillCommandHud();
 
@@ -210,7 +210,7 @@ export default class extends Phaser.State {
   }
 
   initPlayerStatusHud(position){
-    this.player_status = new PlayerStatus(this, "player_status", position, {group: "hud"})
+    this.player_status = new PlayerStatus(this, "player_status", position, {group: "hud", texture: "menu_item_image", anchor: {x:0.5, y:0.5}, height: 100, fixedToCamera: true})
   }
 
   initUnitQueue(position){
@@ -527,7 +527,7 @@ export default class extends Phaser.State {
 
     // Create a menu item for each action
     actions.forEach(function (action) {
-      actions_menu_items.push(new action.item_constructor(this, action.text+"_menu_item", {x: 800, y:100 + action_index * 60}, {group: "hud", text: action.text, style: Object.create(self.TEXT_STYLE), texture: "menu_item_image", height: 50, anchor: {x:0.5, y:0.5}, fixedToCamera: true}));
+      actions_menu_items.push(new action.item_constructor(this, action.text+"_menu_item", {x: this.actions_menu.x, y:this.actions_menu.y + action_index * 60}, {group: "hud", text: action.text, style: Object.create(self.TEXT_STYLE), texture: "menu_item_image", height: 50, width: 250, anchor: {x:0.5, y:0.5}, fixedToCamera: true}));
       action_index++;
     }, this);
     this.actions_menu.menu_items = actions_menu_items
@@ -559,11 +559,11 @@ export default class extends Phaser.State {
 
     // Create a menu item for each action
     actions.forEach(function (action) {
-      actions_menu_items.push(new SkillSelectionMenuItem(this, action.name+"_menu_item", {x: 800, y: 100 + action_index * 60}, {
+      actions_menu_items.push(new SkillSelectionMenuItem(this, action.name+"_menu_item", {x: this.skills_menu.x, y: this.skills_menu.y + action_index * 60}, {
         skill: action,
         group: "hud",
         text: action.name,
-        style: Object.create(self.TEXT_STYLE), texture: "menu_item_image", height: 50, anchor: {x:0.5, y:0.5}, fixedToCamera: true
+        style: Object.create(self.TEXT_STYLE), texture: "menu_item_image", height: 50, width: 250, anchor: {x:0.5, y:0.5}, fixedToCamera: true
       }));
       action_index++;
     }, this);
@@ -584,10 +584,18 @@ export default class extends Phaser.State {
 
     // Create a menu item for each action
     actions.forEach(function (action) {
-      actions_menu_items.push(new UnitMenuItem(this, action.name+"_queue_item", {x: 0, y: 0 + action_index * 35}, {
+      actions_menu_items.push(new UnitMenuItem(this, action.name+"_queue_item", {x: this.unit_queue.x, y: this.unit_queue.y + action_index * 35}, {
         group: "hud",
         text: action.name,
-        style: Object.create(self.TEXT_STYLE)
+        style: Object.create(self.HUD_TEXT_STYLE),
+        texture: "menu_item_image",
+        anchor: {
+          x: 0.5,
+          y: 0
+        },
+        height: 30,
+        width: 150,
+        fixedToCamera: true
       }));
       action_index++;
     }, this);
