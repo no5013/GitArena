@@ -4,12 +4,14 @@ import UnitMenuItem from '../../prefabs/huds/UnitMenuItem'
 import NextMenuItem from '../../prefabs/huds/MainMenuHuds/NextMenuItem'
 import BackMenuItem from '../../prefabs/huds/MainMenuHuds/BackMenuItem'
 import TextPrefab from '../../prefabs/TextPrefab'
+import Prefab from '../../prefabs/Prefab'
+
 
 export default class extends MainMenuState{
   constructor(game_state){
     super(game_state)
     this.player_units_list = new Menu(this.game_state, "player_units_list", {x:200,y: this.game_state.game.world.centerY}, {group: "hud", menu_items: null})
-    this.enemies_units_list = new Menu(this.game_state, "enemies_units_list", {x:1024-200,y: this.game_state.game.world.centerY}, {group: "hud", menu_items: null})
+    this.enemy_units_list = new Menu(this.game_state, "enemies_units_list", {x:1024-200,y: this.game_state.game.world.centerY}, {group: "hud", menu_items: null})
 
     this.TEXT_STYLE = {font: "16px Arial", fill: "#FFFFFF"}
     this.MENU_TEXT_STYLE = {font: "32px Arial", fill: "#FFFFFF"}
@@ -25,7 +27,31 @@ export default class extends MainMenuState{
         y:0.5
       }
     })
-    this.vs_text.visible = false
+    this.prefabs.push(this.vs_text)
+
+    this.title_background = new Prefab(this.game_state, "stage_selection_title_background",{x:200,y:100}, {
+      group: "hud",
+      texture: "menu_item_image",
+      anchor: {
+        x:0.5,
+        y:0.5
+      },
+      width: 400,
+      height: 75
+    })
+    this.title = new TextPrefab(this.game_state, "stage_selection_title_text",{x:200,y:100}, {
+      group: "hud",
+      text: "MATCH SUMMARY",
+      style: Object.create(this.game_state.MENU_TEXT_STYLE),
+      anchor: {
+        x:0.5,
+        y:0.5
+      }
+    })
+    this.title_background.tint = 0x000000
+    this.prefabs.push(this.title)
+    this.prefabs.push(this.title_background)
+    this.hidePrefabs()
   }
 
   initMenu (position) {
@@ -61,10 +87,21 @@ export default class extends MainMenuState{
     this.menu.hide();
   }
 
+  enableUnitList(){
+    this.player_units_list.show()
+    this.enemy_units_list.show()
+  }
+
+  disableUnitList(){
+    this.player_units_list.hide()
+    this.enemy_units_list.hide()
+  }
+
   enterState(){
+    this.showPrefabs()
     this.vs_text.visible = true
     this.setUnitList(this.player_units_list, this.game_state.properties.ActionStateVar['selected_unit'])
-    this.setUnitList(this.enemies_units_list, this.game_state.properties.ActionStateVar['level'].enemy_encounters)
+    this.setUnitList(this.enemy_units_list, this.game_state.properties.ActionStateVar['level'].enemy_encounters)
     this.enableMenuHud()
     this.previous_state = this.game_state.MainMenuState.UnitSelectionState
   }
@@ -97,6 +134,9 @@ export default class extends MainMenuState{
   }
 
   leaveState(){
+    this.disableMenuHud()
+    this.disableUnitList()
+    this.hidePrefabs()
   }
 
   nextState(){

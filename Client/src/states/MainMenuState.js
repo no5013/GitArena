@@ -49,6 +49,11 @@ export default class extends Phaser.State {
   }
 
   create () {
+    //Define Text style
+    this.TEXT_STYLE = {font: "30px Arial", fill: "#FFFFFF"}
+    this.HUD_TEXT_STYLE = {font: "16px Arial", fill: "#FFFFFF"}
+    this.MENU_TEXT_STYLE = {font: "32px Arial", fill: "#FFFFFF"}
+
     // create groups
     this.groups = {};
     this.menu_data.groups.forEach(function (group_name) {
@@ -100,10 +105,6 @@ export default class extends Phaser.State {
     bg1_tween_forth.start()
     bg2_tween_forth.start()
     bg3_tween_forth.start()
-
-    this.TEXT_STYLE = {font: "30px Arial", fill: "#FFFFFF"}
-    this.HUD_TEXT_STYLE = {font: "16px Arial", fill: "#FFFFFF"}
-    this.MENU_TEXT_STYLE = {font: "32px Arial", fill: "#FFFFFF"}
 
     this.createPlayerUnits()
     this.initMainMenu({x:200, y:200})

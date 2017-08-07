@@ -3,14 +3,27 @@ export default class {
     this.game_state = game_state;
     this.next_state = this
     this.previous_state = this
+    this.prefabs = []
   }
 
   enterState () {
-    console.log("enter state")
+
   }
 
   leaveState () {
-    console.log("leave state")
+
+  }
+
+  showPrefabs(){
+    this.prefabs.forEach(function(prefab){
+      prefab.visible = true
+    },this)
+  }
+
+  hidePrefabs(){
+    this.prefabs.forEach(function(prefab){
+      prefab.visible = false
+    },this)
   }
 
   setNextState(state) {
