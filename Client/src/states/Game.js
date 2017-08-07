@@ -170,8 +170,6 @@ export default class extends Phaser.State {
 
     var battle_background_start_tween = game.add.tween(battle_text_background).to( { width: 1000, height: 300, alpha: 0}, 3000);
     battle_start_tween.onComplete.add(function(){
-      this.next_turn();
-      this.setActionState(this.ActionState.UnitSelectState)
       battle_text_background.kill()
     }, this)
     battle_background_start_tween.start()
