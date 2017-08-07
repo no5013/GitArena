@@ -6,6 +6,7 @@ import PlayerUnit from '../prefabs/units/PlayerUnit'
 import EnemyUnit from '../prefabs/units/EnemyUnit'
 
 import TextPrefab from '../prefabs/TextPrefab'
+import Prefab from '../prefabs/Prefab'
 
 import UnitSelectState from '../StateMachine/ActionState/UnitSelectState'
 import WalkState from '../StateMachine/ActionState/WalkState'
@@ -137,7 +138,18 @@ export default class extends Phaser.State {
     game.world.bringToTop(this.groups.enemy_units);
     game.world.bringToTop(this.groups.effect);
 
-    var battle_text = new TextPrefab(this, "battle_text", {x: GameSetting.gameWidth/2, y: GameSetting.gameHeight/2}, {
+    var battle_text_background = new Prefab(this, 'battle_text_background', {x:GameSetting.gameWidth/2, y:GameSetting.gameHeight/2},{
+      group: "hud",
+      texture: "menu_item_image",
+      anchor: {
+        x:0.5,
+        y:0.5
+      },
+      width: 500,
+      height: 150
+    })
+
+    var battle_text = new TextPrefab(this, "battle_text", {x:GameSetting.gameWidth/2, y:GameSetting.gameHeight/2}, {
       group: "hud",
       text: "BATTLE START",
       style: {font: "50px Arial", fill: "#FFFFFF"},
@@ -148,7 +160,6 @@ export default class extends Phaser.State {
       fixedToCamera: true
     })
 
-
     var battle_start_tween = game.add.tween(battle_text).to( { width: 800, height: 200, alpha: 0}, 3000);
     battle_start_tween.onComplete.add(function(){
       this.next_turn();
@@ -156,6 +167,14 @@ export default class extends Phaser.State {
       battle_text.kill()
     }, this)
     battle_start_tween.start()
+
+    var battle_background_start_tween = game.add.tween(battle_text_background).to( { width: 1000, height: 300, alpha: 0}, 3000);
+    battle_start_tween.onComplete.add(function(){
+      this.next_turn();
+      this.setActionState(this.ActionState.UnitSelectState)
+      battle_text_background.kill()
+    }, this)
+    battle_background_start_tween.start()
     // this.next_turn();
     // this.setActionState(this.ActionState.UnitSelectState)
   }
