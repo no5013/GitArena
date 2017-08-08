@@ -16,7 +16,7 @@ export default class {
       "key": "level_tilemap",
       "tilesets": ["map_tileset"]
     }
-    var max_enemies = 6
+    var max_enemies = 4
     var level = new Level(name, map, enemies.slice(0,max_enemies), reward)
     return level
   }

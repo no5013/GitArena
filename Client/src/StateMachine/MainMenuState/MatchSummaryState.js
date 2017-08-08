@@ -70,8 +70,8 @@ export default class extends MainMenuState{
     action_index = 0;
 
     // Create a menu item for each action
-    actions_menu_items.push(new NextMenuItem(this.game_state, "match_summary_next_menu_item", {x:this.game_state.game.world.centerX+300, y:this.game_state.game.world.centerY+300}, {group: "hud", text: "Start Match", style: Object.create(this.MENU_TEXT_STYLE), texture: 'menu_item_image', height: 50, anchor: {x:0.5, y:0.5}}))
-    actions_menu_items.push(new BackMenuItem(this.game_state, "match_summary_back_menu_item", {x:this.game_state.game.world.centerX-300, y:this.game_state.game.world.centerY+300}, {group: "hud", text: "Back", style: Object.create(this.MENU_TEXT_STYLE), texture: 'menu_item_image', height: 50, anchor: {x:0.5, y:0.5}}))
+    actions_menu_items.push(new NextMenuItem(this.game_state, "match_summary_next_menu_item", {x:this.game_state.game.world.centerX+312, y:this.game_state.game.world.centerY+300}, {group: "hud", text: "Start Match", style: Object.create(this.MENU_TEXT_STYLE), texture: 'menu_item_image', height: 50, anchor: {x:0.5, y:0.5}}))
+    actions_menu_items.push(new BackMenuItem(this.game_state, "match_summary_back_menu_item", {x:this.game_state.game.world.centerX-312, y:this.game_state.game.world.centerY+300}, {group: "hud", text: "Back", style: Object.create(this.MENU_TEXT_STYLE), texture: 'menu_item_image', height: 50, anchor: {x:0.5, y:0.5}}))
 
     this.menu = new Menu(this.game_state, "match_summary_menu", position, {group: "hud", menu_items: actions_menu_items})
     this.disableMenuHud()
@@ -85,6 +85,62 @@ export default class extends MainMenuState{
   disableMenuHud(){
     this.menu.disable();
     this.menu.hide();
+  }
+
+  enableNameAndAvatar(position){
+    this.player_avatar = new Prefab(this.game_state, "player_avatar", {x: position.x-312, y:position.y}, {
+      group: "hud",
+      texture: 'player_avatar',
+      anchor: {
+        x:0.5,
+        y:0.5
+      },
+      width: 120,
+      height: 120
+    })
+    this.player_name = new TextPrefab(this.game_state, "player_name", {x: position.x-312, y:position.y+100}, {
+      group: "hud",
+      text: game.user.user_data_from_git.username,
+      anchor: {
+        x:0.5,
+        y:0.5
+      },
+      style: Object.create(this.MENU_TEXT_STYLE)
+    })
+
+    var enemy_avatar = "enemy_avatar"
+    if(this.game_state.enemy == null){
+      this.game_state.enemy = {
+        user_data_from_git: {
+          username: "Enemy",
+        }
+      }
+      enemy_avatar = "ai_avatar"
+    }
+
+    this.enemy_avatar = new Prefab(this.game_state, "enemy_avatar", {x: position.x+312, y:position.y}, {
+      group: "hud",
+      texture: enemy_avatar,
+      anchor: {
+        x:0.5,
+        y:0.5
+      },
+      width: 120,
+      height: 120
+    })
+    this.enemy_name = new TextPrefab(this.game_state, "enemy_name", {x: position.x+312, y:position.y+100}, {
+      group: "hud",
+      text: this.game_state.enemy.user_data_from_git.username,
+      anchor: {
+        x:0.5,
+        y:0.5
+      },
+      style: Object.create(this.MENU_TEXT_STYLE)
+    })
+    this.prefabs.push(this.player_avatar)
+    this.prefabs.push(this.player_name)
+    this.prefabs.push(this.enemy_avatar)
+    this.prefabs.push(this.enemy_name)
   }
 
   enableUnitList(){
@@ -103,6 +159,7 @@ export default class extends MainMenuState{
     this.setUnitList(this.player_units_list, this.game_state.properties.ActionStateVar['selected_unit'])
     this.setUnitList(this.enemy_units_list, this.game_state.properties.ActionStateVar['level'].enemy_encounters)
     this.enableMenuHud()
+    this.enableNameAndAvatar({x: this.game_state.world.centerX, y: 225})
     this.previous_state = this.game_state.MainMenuState.UnitSelectionState
   }
 

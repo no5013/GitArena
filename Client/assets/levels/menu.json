@@ -7,7 +7,8 @@
     "menu_item_image": {"type": "image", "source": "assets/huds/rectangle.png"},
     "map_tileset": {"type": "image", "source": "assets/images/gametiles.png"},
     "level_tilemap": {"type": "tilemap", "source": "assets/maps/map1.json"},
-    "load": {"type": "spritesheet", "source": "assets/effects/load.png", "frame_width": 128, "frame_height": 128}
+    "load": {"type": "spritesheet", "source": "assets/effects/load.png", "frame_width": 128, "frame_height": 128},
+    "ai_avatar": {"type": "image", "source": "assets/images/ai.jpg"}
   },
   "groups": [
     "background",

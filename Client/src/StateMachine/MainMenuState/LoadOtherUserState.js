@@ -29,6 +29,9 @@ export default class extends MainMenuState{
       self.game_state.load.image("enemy_avatar", data.user_data_from_git.avatar_url)
       self.game_state.load.start()
 
+      //save enemy
+      self.game_state.enemy = data
+
       data.units.forEach(function(repo){
         enemies.push(UnitFactory.generateUnitFromRepoData(repo))
       },this)

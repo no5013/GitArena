@@ -180,8 +180,8 @@ export default class extends Phaser.State {
       action_index++;
     }, this);
 
-    actions_menu_items.push(new NextMenuItem(this, "level_selection_next_menu_item", {x:this.game.world.centerX+300, y:this.game.world.centerY+300}, {group: "hud", text: "Next", style: Object.create(this.MENU_TEXT_STYLE), texture: 'menu_item_image', height: 50, anchor: {x:0.5, y:0.5}}))
-    actions_menu_items.push(new BackMenuItem(this, "level_selection_back_menu_item", {x:this.game.world.centerX-300, y:this.game.world.centerY+300}, {group: "hud", text: "Back", style: Object.create(this.MENU_TEXT_STYLE), texture: 'menu_item_image', height: 50, anchor: {x:0.5, y:0.5}}))
+    actions_menu_items.push(new NextMenuItem(this, "level_selection_next_menu_item", {x:this.game.world.centerX+312, y:this.game.world.centerY+300}, {group: "hud", text: "Next", style: Object.create(this.MENU_TEXT_STYLE), texture: 'menu_item_image', height: 50, anchor: {x:0.5, y:0.5}}))
+    actions_menu_items.push(new BackMenuItem(this, "level_selection_back_menu_item", {x:this.game.world.centerX-312, y:this.game.world.centerY+300}, {group: "hud", text: "Back", style: Object.create(this.MENU_TEXT_STYLE), texture: 'menu_item_image', height: 50, anchor: {x:0.5, y:0.5}}))
     this.unit_selection_menu.menu_items = actions_menu_items
     this.disableUnitSelectionMenuHud()
   }
