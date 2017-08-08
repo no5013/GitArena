@@ -146,7 +146,8 @@ export default class extends Phaser.State {
         y:0.5
       },
       width: 500,
-      height: 150
+      height: 150,
+      fixedToCamera: true
     })
 
     var battle_text = new TextPrefab(this, "battle_text", {x:GameSetting.gameWidth/2, y:GameSetting.gameHeight/2}, {
