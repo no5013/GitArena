@@ -8,7 +8,7 @@ export default class extends MultiSelectionMenuItem {
     this.unit = properties.item
 
     this.level = new TextPrefab(game_state, name, {x: position.x-200, y: position.y}, {
-      text: "LV: 99",
+      text: "LV: " + this.unit.level,
       group: "hud",
       style: properties.style,
       anchor: {

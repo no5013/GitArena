@@ -2,7 +2,7 @@
   "assets": {
     "rectangle_image": {"type": "image", "source": "assets/huds/rectangle.png"},
     "tiles": {"type": "image", "source": "assets/tiles/gridtiles.png"},
-    "chara": {"type": "spritesheet", "source": "assets/images/vx_chara01.png", "frame_width": 32, "frame_height": 48},
+    "chara": {"type": "spritesheet", "source": "assets/images/remakertp01.png", "frame_width": 32, "frame_height": 48},
     "units_file": {"type": "json", "source": "./assets/levels/units.json"},
     "slash": {"type": "spritesheet", "source": "assets/effects/Sprite_FX_Slash_0001.png", "frame_width": 87, "frame_height": 94}
   },
