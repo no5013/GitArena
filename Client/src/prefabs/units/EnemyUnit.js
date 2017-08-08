@@ -26,6 +26,7 @@ export default class extends UnitPrefab{
 
     let target_index = Math.floor(Math.random() * this.game_state.groups.player_units.countLiving())
     let target = this.game_state.groups.player_units.children[target_index];
+    console.log(target)
 
     if(target){
       let target_tile_x = this.game_state.layer.getTileX(target.x);
