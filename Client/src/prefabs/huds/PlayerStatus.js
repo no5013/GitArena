@@ -8,7 +8,7 @@ export default class extends Prefab{
 
     this.HUD_TEXT_STYLE = {font: "24px Arial", fill: "#FFFFFF"}
     this.y_offset = 25
-    this.x_offset = 80
+    this.x_offset = 140
     console.log(position)
 
     this.player_name = new TextPrefab(game_state, "player_name_text", {x: position.x - this.x_offset, y: position.y - this.y_offset}, {
