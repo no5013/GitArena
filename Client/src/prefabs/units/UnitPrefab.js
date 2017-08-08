@@ -185,7 +185,7 @@ export default class extends Prefab {
   }
 
   attack (target) {
-    target.takeDamage(2)
+    target.takeDamage(this.unit.stats.attack)
     var effect = new Effect(this.game_state, "effect", {x:target.x, y:target.y}, {
       group: "effect",
       texture: "slash"
