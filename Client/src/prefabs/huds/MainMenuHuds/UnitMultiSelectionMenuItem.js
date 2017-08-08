@@ -7,34 +7,34 @@ export default class extends MultiSelectionMenuItem {
     super(game_state, name, position, properties)
     this.unit = properties.item
 
-    this.level = new TextPrefab(game_state, name, {x: position.x-100, y: position.y}, {
+    this.level = new TextPrefab(game_state, name, {x: position.x-200, y: position.y}, {
       text: "LV: 99",
       group: "hud",
       style: properties.style,
       anchor: {
-        x: 0.5,
+        x: 0,
         y: 0.5
       }
     })
     this.texts.push(this.level)
 
-    this.name = new TextPrefab(game_state, name, {x: position.x, y: position.y}, {
+    this.name = new TextPrefab(game_state, name, {x: position.x-100, y: position.y}, {
       text: "NAME: " + this.unit.name,
       group: "hud",
       style: properties.style,
       anchor: {
-        x: 0.5,
+        x: 0,
         y: 0.5
       }
     })
     this.texts.push(this.name)
 
-    this.job = new TextPrefab(game_state, name, {x: position.x+150, y: position.y}, {
+    this.job = new TextPrefab(game_state, name, {x: position.x+110, y: position.y}, {
       text: "CLASS: " + this.unit.job.name,
       group: "hud",
       style: properties.style,
       anchor: {
-        x: 0.5,
+        x: 0,
         y: 0.5
       }
     })
