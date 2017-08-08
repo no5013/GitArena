@@ -109,8 +109,9 @@ export default class extends MainMenuState{
     })
 
     var enemy_avatar = "enemy_avatar"
-    if(this.game_state.enemy == null){
-      this.game_state.enemy = {
+    var enemy_profile = this.game_state.enemy
+    if(enemy_profile == null){
+      enemy_profile = {
         user_data_from_git: {
           username: "Enemy",
         }
@@ -130,7 +131,7 @@ export default class extends MainMenuState{
     })
     this.enemy_name = new TextPrefab(this.game_state, "enemy_name", {x: position.x+312, y:position.y+100}, {
       group: "hud",
-      text: this.game_state.enemy.user_data_from_git.username,
+      text: enemy_profile.user_data_from_git.username,
       anchor: {
         x:0.5,
         y:0.5
