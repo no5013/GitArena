@@ -57,9 +57,12 @@ export default class extends Prefab {
 
   initInitialSkill(){
     if(this.unit.job!=null){
-      console.log("HEROOOOOOOOOOOOOOOOOOOOOOOOOO")
-      console.log(this.unit.job)
-      this.skills = this.unit.job.skills
+      // this.skills = this.unit.job.skills
+      this.unit.job.skills.forEach(function(skill){
+        if(this.unit.level>=skill.acquire_level){
+          this.skills.push(skill.skill)
+        }
+      },this)
     }
     // var super_attack = Skills['super_hit']
     // var heal = Skills['heal']

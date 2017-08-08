@@ -4,7 +4,7 @@ import {SkillType} from '../Skills/SkillType'
 
 export const SkillData = {
   super_hit: new PhysicalAttackSkill({
-    name: "LUCKY PUNCH",
+    name: "Wide slash",
     range: 2,
     damage: 10,
     sprite_name: "slash",
@@ -45,8 +45,89 @@ export const SkillData = {
   snipe: new PhysicalAttackSkill({
     name: "Snipe",
     range: 10,
-    damage: 20,
+    damage: 10,
     sprite_name: "slash",
     type: SkillType.NORMAL
+  }),
+  getter_beam: new PhysicalAttackSkill({
+    name: "GETTER BEAM",
+    range: 10,
+    damage: 15,
+    sprite_name: "slash",
+    special_range: [
+      {
+        x:0,
+        y:1
+      },
+      {
+        x:0,
+        y:2
+      },
+      {
+        x:0,
+        y:3
+      },
+      {
+        x:0,
+        y:4
+      },
+      {
+        x:0,
+        y:5
+      },
+      {
+        x:0,
+        y:6
+      },
+      {
+        x:1,
+        y:1
+      },
+      {
+        x:1,
+        y:2
+      },
+      {
+        x:1,
+        y:3
+      },
+      {
+        x:1,
+        y:4
+      },
+      {
+        x:1,
+        y:5
+      },
+      {
+        x:1,
+        y:6
+      },
+      {
+        x:-1,
+        y:1
+      },
+      {
+        x:-1,
+        y:2
+      },
+      {
+        x:-1,
+        y:3
+      },
+      {
+        x:-1,
+        y:4
+      },
+      {
+        x:-1,
+        y:5
+      },
+      {
+        x:-1,
+        y:6
+      },
+    ],
+    type: SkillType.MAP
   })
 }

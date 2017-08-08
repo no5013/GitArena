@@ -15,8 +15,14 @@ export const Jobs = {
       attack_range: 3
     },
     skills: [
-      SkillData.super_hit,
-      SkillData.heal
+      {
+        acquire_level: 1,
+        skill: SkillData.super_hit
+      },
+      {
+        acquire_level: 3,
+        skill: SkillData.heal
+      }
     ]
   }),
   archer: new Job ({
@@ -32,8 +38,18 @@ export const Jobs = {
       attack_range: 5
     },
     skills: [
-      SkillData.snipe,
-      SkillData.heal
+      {
+        acquire_level: 1,
+        skill: SkillData.snipe
+      },
+      {
+        acquire_level: 3,
+        skill: SkillData.heal
+      },
+      {
+        acquire_level: 9,
+        skill: SkillData.getter_beam
+      }
     ]
   }),
   secret: new Job({
@@ -49,8 +65,18 @@ export const Jobs = {
       attack_range: 3
     },
     skills: [
-      SkillData.super_hit,
-      SkillData.heal
+      {
+        acquire_level: 1,
+        skill: SkillData.snipe
+      },
+      {
+        acquire_level: 3,
+        skill: SkillData.super_hit
+      },
+      {
+        acquire_level: 9,
+        skill: SkillData.getter_beam
+      }
     ]
   })
 }
